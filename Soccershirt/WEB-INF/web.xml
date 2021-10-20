@@ -49,6 +49,31 @@
       <servlet-name>Selecionar_Noticias</servlet-name>
       <servlet-class>SelecionarAllNoticiasServlet</servlet-class>
   </servlet>
+    <servlet>
+        <servlet-name>Selecionar_Marca</servlet-name>
+        <servlet-class>SelecionarMarcaServlet</servlet-class>
+      </servlet>
+    <servlet>
+        <servlet-name>Selecionar_Marcas</servlet-name>
+        <servlet-class>SelecionarAllMarcasServlet</servlet-class>
+      </servlet>
+    <servlet>
+        <servlet-name>Selecionar_Liga</servlet-name>
+        <servlet-class>SelecionarLigaServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>Selecionar_Ligas</servlet-name>
+        <servlet-class>SelecionarAllLigasServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>Selecionar_Time</servlet-name>
+        <servlet-class>SelecionarTimeServlet</servlet-class>
+      </servlet>
+    <servlet>
+        <servlet-name>Selecionar_Times</servlet-name>
+        <servlet-class>SelecionarAllTimesServlet</servlet-class>
+    </servlet>
+
     <servlet-mapping>
         <servlet-name>Cadastrar_Noticia</servlet-name>
         <url-pattern>/CadastrarNoticia</url-pattern>
