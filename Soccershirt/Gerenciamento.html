@@ -52,6 +52,13 @@
                     ans = JSON.parse(json);
                 }
             });
+            request.done(function (msg) {
+                $("#log").html(msg);
+            });
+            request.fail(function (jqXHR, textStatus) {
+                alert("Request failed: " + textStatus);
+            });
+            console.log(request);
             return ans;
         }
 
@@ -192,13 +199,17 @@
 
             //buscando todos os times
             let json = await buscaJson("time");
+            console.log("json: " + json);
+
             for (let i = 0; i < json.length; i++) {
+                console.log("buscar times for")
                 $("#slcTimes").append(`
                     <option value="${json[i].id}">${json[i].id} - ${json[i].nome}</option>`);
             }
             //buscando todas as marcas
             json = await buscaJson("marca");
             for (let i = 0; i < json.length; i++) {
+                console.log("buscar marcas for")
                 $("#slcMarcas").append(`
                     <option value="${json[i].id}">${json[i].id} - ${json[i].nome}</option>`);
             }
@@ -369,6 +380,8 @@
                 let json = await buscaJson(categoria);
                 if (json != null) {
                     if (categoria == "noticia") {
+                        console.log("json de notícias para editar/excluir")
+                        console.log(json)
                         for (let i = 0; i < json.length; i++) {
                             $("#formCorpo select").append(`
                         <option value="${json[i].id}">${json[i].id} - ${json[i].titulo}</option>`);
@@ -379,7 +392,7 @@
                         <option value="${json[i].id}">${json[i].id} - ${json[i].nome}</option>`);
                         }
                     }
-                } else{
+                } else {
                     $("#formCorpo select").append(`<option value="0">Não há ${categoria}s cadastrados</option>`);
                 }
 
@@ -388,7 +401,7 @@
                 cadastrar();
             }
         }
-        
+
         $(document).ready(function () {
             //exibe o login
             /*$("section").text(`<div class="exibe" id="login">
