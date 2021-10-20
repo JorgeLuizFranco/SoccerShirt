@@ -3,7 +3,6 @@
 //de gerenciamento será feita, para facilitar
 let acao = "";
 let categoria = "";
-
 //BUSCA DE DADOS ESPECIFICOS************************************************
 async function buscaJsonEx(id) {
     var ans = null
@@ -19,7 +18,6 @@ async function buscaJsonEx(id) {
     });
     return ans;
 }
-
 //BUSCA DE DADOS GERAIS*****************************************************
 async function buscaJson(categ) {
     var ans = null
@@ -34,7 +32,6 @@ async function buscaJson(categ) {
     });
     return ans;
 }
-
 //VERIFICA ADMINISTRADOR******************************************************
 function verificaAdm() {
     if ($("#txtUsername").val() == "") {
@@ -74,7 +71,6 @@ function verificaAdm() {
             });*/
     }
 }
-
 //EDITAR************************************************************************
 //chamada da função para editar
 async function editar() {
@@ -101,7 +97,6 @@ async function editar() {
         $("#customFile").val(json.img);
     }
 };
-
 //CADASTRAR********************************************************************
 //chamada da função para cadastrar
 function cadastrar() {
@@ -117,7 +112,6 @@ function cadastrar() {
         camposGerais("Cadastrando uma nova liga", "da", "Símbolo", 0);
     }
 }
-
 //CAMPOS DE NOTÍCIA******************************************************************
 //a função 'camposNoticia()' será chamada no cadastro de notícia ou na edição dela
 //terá todos os campos para o usuário inserir sobre a notícia
@@ -169,12 +163,10 @@ async function camposNoticia(textH4, textOnclick) {
                             cadastro</button>
                     </div>
                 </div>`)
-
     var paramentro = "time";
     //buscando todos os times
     let json = await buscaJson("time");
     console.log("json: " + json);
-
     for (let i = 0; i < json.length; i++) {
         console.log("buscar times for")
         $("#slcTimes").append(`
@@ -189,7 +181,6 @@ async function camposNoticia(textH4, textOnclick) {
                     <option value="${json[i].id}">${json[i].id} - ${json[i].nome}</option>`);
     }
 }
-
 //ENVIA NOTÍCIA********************************************************************
 //a função 'enviaNoticia()' vai ser chamada quando for
 //finalizar um cadastro de notícia ou finalizar edição de notícia
@@ -202,13 +193,15 @@ function enviaNoticia(id) {
     } else if ($("#conteudoNoticia").val() == "") {
         $("#conteudoNoticia").focus();
     } else {
-        let noticiaCompleta = { "id": id, "titulo": $("#tituloNoticia").val(), "subtitulo": $("#subtituloNoticia").val(), "conteudo": $("#conteudoNoticia").val(), "times": $("#slcTimes").val(), "marcas": $("#slcMarcas").val() }
+        let noticiaCompleta = "";
         let msg = "";
         //vamos passar o id para usar quando for editar
         //uma notícia, portanto verificamos qual é a ação
         if (acao == "cadastrar") {
+            noticiaCompleta = { "titulo": $("#tituloNoticia").val(), "subtitulo": $("#subtituloNoticia").val(), "conteudo": $("#conteudoNoticia").val(), "times": $("#slcTimes").val(), "marcas": $("#slcMarcas").val() }
             msg = "Notícia cadastrada com sucesso!!!";
         } else {
+            noticiaCompleta = { "id": id, "titulo": $("#tituloNoticia").val(), "subtitulo": $("#subtituloNoticia").val(), "conteudo": $("#conteudoNoticia").val(), "times": $("#slcTimes").val(), "marcas": $("#slcMarcas").val() }
             msg = "Notícia editada com sucesso!!!";
         }
         var request = $.ajax({
@@ -219,6 +212,7 @@ function enviaNoticia(id) {
             async: true,
             success: function (response) {
                 alert(msg)
+                //limpamos os campos
                 $("#formCorpo input, textarea, #customFile").val("");
             }
         })
@@ -245,7 +239,6 @@ function camposGerais(texth4, textCon, txtImg, textOnclick) {
                             placeholder="Insira o nome ${textCon} ${categoria}">
                     </div>
                 </div>`);
-
     // se for liga terá uns campos a mais
     if (categoria == "liga") {
         textCon = "do";
@@ -255,9 +248,7 @@ function camposGerais(texth4, textCon, txtImg, textOnclick) {
                         <input id="paisLiga" class="form-control"
                             placeholder="Insira o país de origem da liga">
                     </div>`)
-
     }
-
     $("#formCorpo").append(`
                     <label class="form-label ">${txtImg}</label>
                     <label style = "color: red;">* - Em construção</label>
@@ -273,7 +264,6 @@ function camposGerais(texth4, textCon, txtImg, textOnclick) {
                     </div>
                 `)
 }
-
 //ENVIA TIME/MARCA/LIGA****************************************************************
 function enviaGeral(id) {
     //verifica os campos obrigatórios
@@ -301,11 +291,9 @@ function enviaGeral(id) {
             data: geralCompleto,
             async: true,
             success: function (mensagem) {
-
                 if (categoria == "time") {
                     msg = " cadastrado com sucesso!!!";
                 }
-
                 alert(categoria.charAt(0).toUpperCase() + categoria.slice(1) + msg)
                 $("#formCorpo input, textarea, #customFile").val("");
             }
@@ -319,14 +307,12 @@ function enviaGeral(id) {
         console.log(request);
     }
 }
-
 //FUNÇÃO DE DIRECIONA PARA A AÇÃO ESCOLHIDA****************************************************************
 //cliques nos botões do menu
 async function funcao(param) {
     acao = param;
     //guardamos a categoria selecionada
     categoria = $("#opcSelect option:selected").val();
-
     //caso a ação selecionada não seja uma cadastrar
     //vamos exibir um select para o administrador selecionar
     //qual das cadastradas vão ser editada ou excluida
@@ -344,11 +330,9 @@ async function funcao(param) {
                     <br>
                     <button id="prosseguir" type="submit" class="btn btn-outline-light" onclick="${acao}('${categoria}')" >Prosseguir</button></div>
                     </form>`);
-
         if (categoria == "notícia") {
             categoria = "noticia";
         }
-
         let json = await buscaJson(categoria);
         if (json != null) {
             if (categoria == "noticia") {
@@ -367,8 +351,6 @@ async function funcao(param) {
         } else {
             $("#formCorpo select").append(`<option value="0">Não há ${categoria}s cadastrados</option>`);
         }
-
-
     } else {
         cadastrar();
     }

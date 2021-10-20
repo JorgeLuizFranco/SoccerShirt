@@ -16,7 +16,7 @@ public class SelecionarAllMarcasServlet extends HttpServlet {
             pw.print("[");
             int cont=0;
             for(Marca marca: marcas){
-              pw.print(js.enviaMarca(Marca));
+              pw.print(js.enviaMarca(marca));
               if(cont==marcas.size()-1) continue;
               pw.print(",");
               ++cont;
