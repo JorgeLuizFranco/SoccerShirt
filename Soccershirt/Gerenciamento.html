@@ -23,7 +23,7 @@
         //de gerenciamento será feita, para facilitar
         let acao = "";
         let categoria = "";
-        
+
         //BUSCA DE DADOS ESPECIFICOS************************************************
         async function buscaJsonEx(id) {
             var ans = null
@@ -39,7 +39,7 @@
             });
             return ans;
         }
-        
+
         //BUSCA DE DADOS GERAIS*****************************************************
         async function buscaJson(categ) {
             var ans = null
@@ -54,7 +54,7 @@
             });
             return ans;
         }
-        
+
         //VERIFICA ADMINISTRADOR******************************************************
         function verificaAdm() {
             if ($("#txtUsername").val() == "") {
@@ -121,7 +121,7 @@
                 $("#customFile").val(json.img);
             }
         };
-        
+
         //CADASTRAR********************************************************************
         //chamada da função para cadastrar
         function cadastrar() {
@@ -137,7 +137,7 @@
                 camposGerais("Cadastrando uma nova liga", "da", "Símbolo", 0);
             }
         }
-        
+
         //CAMPOS DE NOTÍCIA******************************************************************
         //a função 'camposNoticia()' será chamada no cadastro de notícia ou na edição dela
         //terá todos os campos para o usuário inserir sobre a notícia
@@ -203,7 +203,7 @@
                     <option value="${json[i].id}">${json[i].id} - ${json[i].nome}</option>`);
             }
         }
-        
+
         //ENVIA NOTÍCIA********************************************************************
         //a função 'enviaNoticia()' vai ser chamada quando for
         //finalizar um cadastro de notícia ou finalizar edição de notícia
@@ -290,7 +290,7 @@
                     </div>
                 `)
         }
-        
+
         //ENVIA TIME/MARCA/LIGA****************************************************************
         function enviaGeral(id) {
             //verifica os campos obrigatórios
@@ -336,7 +336,7 @@
                 console.log(request);
             }
         }
-        
+
         //FUNÇÃO DE DIRECIONA PARA A AÇÃO ESCOLHIDA****************************************************************
         //cliques nos botões do menu
         async function funcao(param) {
@@ -367,18 +367,22 @@
                 }
 
                 let json = await buscaJson(categoria);
-
-                if (categoria == "noticia") {
-                    for (let i = 0; i < json.length; i++) {
-                        $("#formCorpo select").append(`
+                if (json != null) {
+                    if (categoria == "noticia") {
+                        for (let i = 0; i < json.length; i++) {
+                            $("#formCorpo select").append(`
                         <option value="${json[i].id}">${json[i].id} - ${json[i].titulo}</option>`);
-                    }
-                } else {
-                    for (let i = 0; i < json.length; i++) {
-                        $("#formCorpo select").append(`
+                        }
+                    } else {
+                        for (let i = 0; i < json.length; i++) {
+                            $("#formCorpo select").append(`
                         <option value="${json[i].id}">${json[i].id} - ${json[i].nome}</option>`);
+                        }
                     }
+                } else{
+                    $("#formCorpo select").append(`<option value="0">Não há ${categoria}s cadastrados</option>`);
                 }
+
 
             } else {
                 cadastrar();
