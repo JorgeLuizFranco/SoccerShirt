@@ -13,8 +13,7 @@ public class Time{
       private int id;
       private String nome;
       private String camiseta;
-      //private int idMarca;
-       ///////////*************************************************************************
+     
     // métodos get e set
     public String getNome() {
       return this.nome;

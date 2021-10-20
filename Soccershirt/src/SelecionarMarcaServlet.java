@@ -5,17 +5,17 @@ import java.util.stream.Collectors;
 import java.util.Map;
 import java.util.HashMap;
 
-public class SelecionarNoticiaServlet extends HttpServlet {
+public class SelecionarMarcaServlet extends HttpServlet {
   //@Consumes(MediaType.APPLICATION_JSON)
       public  void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
             response.setContentType("text/html");
             PrintWriter pw=response.getWriter();//get the stream to write the data
             String requestData = request.getReader().lines().collect(Collectors.joining());
             int id= Integer.parseInt(requestData);
-            NoticiaDAO bd= new NoticiaDAO();
-            Noticia noticia=bd.getNoticia(id);
+            MarcaDAO bd= new MarcaDAO();
+            Marca marca=bd.getMarca(id);
             Json js= new Json();
-            pw.print(js.enviaNoticia(noticia));
+            pw.print(js.enviaMarca(marca));
           pw.close();
       }
 }

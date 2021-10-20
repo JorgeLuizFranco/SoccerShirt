@@ -14,7 +14,6 @@ public class MarcaDAO {
         String sql = "insert into marca (nome, logo) values (?, ?)";
         try(Connection conn = ConnectionFactory.getConnection()) {
             PreparedStatement ps = conn.prepareStatement(sql);
-            //ps.setInt(1, noticia.getId());
             ps.setString(1,marca.getNome());
             ps.setString(2, marca.getLogo());
             ps.executeUpdate();

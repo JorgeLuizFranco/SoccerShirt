@@ -89,4 +89,28 @@
           <servlet-name>Selecionar_Noticias</servlet-name>
           <url-pattern>/SelecionarNoticias</url-pattern>
       </servlet-mapping>
+      <servlet-mapping>
+          <servlet-name>Selecionar_Time</servlet-name>
+          <url-pattern>/SelecionarTime</url-pattern>
+      </servlet-mapping>
+      <servlet-mapping>
+          <servlet-name>Selecionar_Times</servlet-name>
+          <url-pattern>/SelecionarTimes</url-pattern>
+      </servlet-mapping>
+      <servlet-mapping>
+          <servlet-name>Selecionar_Marca</servlet-name>
+          <url-pattern>/SelecionarMarca</url-pattern>
+      </servlet-mapping>
+      <servlet-mapping>
+          <servlet-name>Selecionar_Marcas</servlet-name>
+          <url-pattern>/SelecionarMarcas</url-pattern>
+      </servlet-mapping>
+      <servlet-mapping>
+          <servlet-name>Selecionar_Liga</servlet-name>
+          <url-pattern>/SelecionarLiga</url-pattern>
+      </servlet-mapping>
+      <servlet-mapping>
+          <servlet-name>Selecionar_Ligas</servlet-name>
+          <url-pattern>/SelecionarLigas</url-pattern>
+      </servlet-mapping>
 </web-app>

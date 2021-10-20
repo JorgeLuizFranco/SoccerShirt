@@ -18,11 +18,13 @@
         integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
         crossorigin="anonymous"></script>
     <script>
+        //VARIAVEIS****************************************************************
         //variaveis onde vamos guardar qual das opções
         //de gerenciamento será feita, para facilitar
         let acao = "";
         let categoria = "";
-
+        
+        //BUSCA DE DADOS ESPECIFICOS************************************************
         async function buscaJsonEx(id) {
             var ans = null
             var request = await $.ajax({
@@ -35,25 +37,25 @@
                     ans = JSON.parse(json);;
                 }
             });
-
             return ans;
         }
-
-        async function buscaJson() {
+        
+        //BUSCA DE DADOS GERAIS*****************************************************
+        async function buscaJson(categ) {
             var ans = null
-            console.log("Selecionar" + categoria.charAt(0).toUpperCase() + categoria.slice(1) + "s")
             var request = await $.ajax({
-                url: "Selecionar" + categoria.charAt(0).toUpperCase() + categoria.slice(1) + "s",
+                url: "Selecionar" + categ.charAt(0).toUpperCase() + categ.slice(1) + "s",
                 type: 'POST',
                 async: true,
                 success: function (json) {
                     console.log(JSON.parse(json));
-                    ans = JSON.parse(json);;
+                    ans = JSON.parse(json);
                 }
             });
             return ans;
         }
-
+        
+        //VERIFICA ADMINISTRADOR******************************************************
         function verificaAdm() {
             if ($("#txtUsername").val() == "") {
                 $("#txtUsername").focus();
@@ -93,31 +95,25 @@
             }
         }
 
-
+        //EDITAR************************************************************************
         //chamada da função para editar
         async function editar() {
             let id = $("#opcSelectG option:selected").val();
             let json = await buscaJsonEx(id);
             console.log(json)
             if (categoria == "noticia") {
-                //json teste para notícia
-                //let json = { "id": "1", "titulo": "Titulo da Noticia", "subtitulo": "Subtitulo da Noticia", "texto": "Texto da Noticia", "hora": "22:35:55", "date": "2021-09-27" };
                 camposNoticia("Editando notícia", id);
                 $("#tituloNoticia").val(json.titulo);
                 $("#subtituloNoticia").val(json.subtitulo);
                 $("#conteudoNoticia").val(json.texto);
                 //falta os selects
             } else {
-                //json teste time e marca
-                //let json = { "nome": "algum nome ai", "img": "url.jpg"};
                 //verificamos qual é a categoria para enviar os parametros corretos
                 if (categoria == "time") {
                     camposGerais("Editando time", "do", "Escudo", id);
                 } else if (categoria == "marca") {
                     camposGerais("Editando marca", "da", "Logo", id);
                 } else {
-                    //json teste para liga para testar o país
-                    //let json = { "nome": "algum nome ai", "img": "url.jpg", "paisOrigem": "algum país"};
                     camposGerais("Editando liga", "da", "Símbolo", id);
                     $("#paisLiga").val(json.paisOrigem);
                 }
@@ -125,7 +121,8 @@
                 $("#customFile").val(json.img);
             }
         };
-
+        
+        //CADASTRAR********************************************************************
         //chamada da função para cadastrar
         function cadastrar() {
             //vamos direcionar para a função de cadastramento
@@ -140,9 +137,11 @@
                 camposGerais("Cadastrando uma nova liga", "da", "Símbolo", 0);
             }
         }
+        
+        //CAMPOS DE NOTÍCIA******************************************************************
         //a função 'camposNoticia()' será chamada no cadastro de notícia ou na edição dela
         //terá todos os campos para o usuário inserir sobre a notícia
-        function camposNoticia(textH4, textOnclick) {
+        async function camposNoticia(textH4, textOnclick) {
             $("#corpo").text(``)
             $("#corpo").show()
             $("#corpo").append(`
@@ -168,24 +167,14 @@
                     </div>
                     <div class="form-group">
                         <label class="form-label select-label">Times - Ainda em construção</label>
-                        <select name="time" id="slcTimes" class="form-control">
-                            <option value="0">Selecionar time</option>
-                            <option value="1">Time 1</option>
-                            <option value="2">Time 2</option>
-                            <option value="3">Time 3</option>
-                            <option value="4">Time 4</option>
-                            <option value="5">Time 5</option>
+                        <select name="time" id="slcTimes" class="form-control" multiple>
+                            <option value="0" disabled>Selecionar time</option>
                         </select>
                     </div>
                     <div class="form-group">
                         <label class="form-label select-label">Marcas - Ainda em construção</label>
-                        <select name="marca" id="slcMarcas" class="form-control">
-                            <option value="0">Selecionar marca</option>
-                            <option value="1">Marca 1</option>
-                            <option value="2">Marca 2</option>
-                            <option value="3">Marca 3</option>
-                            <option value="4">Marca 4</option>
-                            <option value="5">Marca 5</option>
+                        <select name="marca" id="slcMarcas" class="form-control" multiple>
+                            <option value="0" disabled>Selecionar marca</option>
                         </select>
                     </div>
                     <label class="form-label">Imagem - Ainda em construção</label>
@@ -200,7 +189,22 @@
                             cadastro</button>
                     </div>
                 </div>`)
+
+            //buscando todos os times
+            let json = await buscaJson("time");
+            for (let i = 0; i < json.length; i++) {
+                $("#slcTimes").append(`
+                    <option value="${json[i].id}">${json[i].id} - ${json[i].nome}</option>`);
+            }
+            //buscando todas as marcas
+            json = await buscaJson("marca");
+            for (let i = 0; i < json.length; i++) {
+                $("#slcMarcas").append(`
+                    <option value="${json[i].id}">${json[i].id} - ${json[i].nome}</option>`);
+            }
         }
+        
+        //ENVIA NOTÍCIA********************************************************************
         //a função 'enviaNoticia()' vai ser chamada quando for
         //finalizar um cadastro de notícia ou finalizar edição de notícia
         function enviaNoticia(id) {
@@ -244,6 +248,7 @@
                 console.log(request);
             }
         }
+        //CAMPOS TIME/MARCA/LIGA****************************************************************
         function camposGerais(texth4, textCon, txtImg, textOnclick) {
             $("#corpo").text(``)
             $("#corpo").show()
@@ -285,7 +290,8 @@
                     </div>
                 `)
         }
-
+        
+        //ENVIA TIME/MARCA/LIGA****************************************************************
         function enviaGeral(id) {
             //verifica os campos obrigatórios
             if ($("#nome").val() == "") {
@@ -330,11 +336,10 @@
                 console.log(request);
             }
         }
-
+        
+        //FUNÇÃO DE DIRECIONA PARA A AÇÃO ESCOLHIDA****************************************************************
         //cliques nos botões do menu
         async function funcao(acao) {
-            //identificamos o botão clicado e guardamo seu value
-           // acao = $(this).val();
             //guardamos a categoria selecionada
             categoria = $("#opcSelect option:selected").val();
 
@@ -348,23 +353,22 @@
                 $("#corpo").text(``);
                 //mostra ela
                 $("#corpo").show();
-                $("#corpo").append(`<div id="formCorpo"></form>`);
-                $("#formCorpo").append(`<h4>Qual ${categoria} deseja ${acao}?</h4>`);
+                $("#corpo").append(`<div id="formCorpo">
+                    <h4>Qual ${categoria} deseja ${acao}?</h4>
+                    <br>
+                    <select id="opcSelectG" class="form-control" required></select>
+                    <br>
+                    <button id="prosseguir" type="submit" class="btn btn-outline-light" onclick="${acao}('${categoria}')" >Prosseguir</button></div>
+                    </form>`);
+
                 if (categoria == "notícia") {
                     categoria = "noticia";
                 }
 
-                let json = await buscaJson();
-                console.log("pegou:")
-                console.log(json)
-                $("#formCorpo").append(`
-                            <br>
-                            <select id="opcSelectG" class="form-control" required>`);
+                let json = await buscaJson(categoria);
 
                 if (categoria == "noticia") {
                     for (let i = 0; i < json.length; i++) {
-                        console.log(i + " i do for")
-                        console.log(json[i])
                         $("#formCorpo select").append(`
                         <option value="${json[i].id}">${json[i].id} - ${json[i].titulo}</option>`);
                     }
@@ -375,10 +379,6 @@
                     }
                 }
 
-                //adiciona o final do select
-                $("#formCorpo").append(`</select><br>`);
-
-                $("#formCorpo").append(`<button id="prosseguir" type="submit" class="btn btn-outline-light" onclick="${acao}('${categoria}')" >Prosseguir</button></div>`);
             } else {
                 cadastrar();
             }
