@@ -42,6 +42,7 @@
 
         //BUSCA DE DADOS GERAIS*****************************************************
         async function buscaJson(categ) {
+            console.log("Selecionar" + categ.charAt(0).toUpperCase() + categ.slice(1) + "s");
             var ans = null
             var request = await $.ajax({
                 url: "Selecionar" + categ.charAt(0).toUpperCase() + categ.slice(1) + "s",
@@ -190,8 +191,9 @@
                     </div>
                 </div>`)
 
+                var paramentro = "time";
             //buscando todos os times
-            let json = await buscaJson("time");
+            let json = await buscaJson(paramentro);
             console.log("json: " + json);
 
             for (let i = 0; i < json.length; i++) {
@@ -199,8 +201,9 @@
                 $("#slcTimes").append(`
                     <option value="${json[i].id}">${json[i].id} - ${json[i].nome}</option>`);
             }
+            paramentro = "marca";
             //buscando todas as marcas
-            json = await buscaJson("marca");
+            json = await buscaJson(paramentro);
             for (let i = 0; i < json.length; i++) {
                 console.log("buscar marcas for")
                 $("#slcMarcas").append(`
