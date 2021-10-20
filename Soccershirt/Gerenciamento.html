@@ -339,7 +339,8 @@
         
         //FUNÇÃO DE DIRECIONA PARA A AÇÃO ESCOLHIDA****************************************************************
         //cliques nos botões do menu
-        async function funcao(acao) {
+        async function funcao(param) {
+            acao = param;
             //guardamos a categoria selecionada
             categoria = $("#opcSelect option:selected").val();
 
