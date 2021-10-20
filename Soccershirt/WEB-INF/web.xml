@@ -120,7 +120,7 @@
       </servlet-mapping>
       <servlet-mapping>
           <servlet-name>Selecionar_Times</servlet-name>
-          <url-pattern>/SelecionarTimes</url-pattern>
+          <url-pattern>/SelecionarTimes</url-pattern> 
       </servlet-mapping>
       <servlet-mapping>
           <servlet-name>Selecionar_Marca</servlet-name>

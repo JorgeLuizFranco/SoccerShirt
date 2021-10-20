@@ -5,19 +5,19 @@ import java.util.stream.Collectors;
 import java.util.List;
 import java.util.ArrayList;
 
-public class SelecionarAllTimesServlet extends HttpServlet {
+public class SelecionarAllLigasServlet extends HttpServlet {
   //@Consumes(MediaType.APPLICATION_JSON)
         public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
             response.setContentType("text/html");
             PrintWriter pw=response.getWriter(); //get the stream to write the data
-            TimeDAO bd= new TimeDAO();
-            List<Time> times= bd.getTimes();
+            LigaDAO bd= new LigaDAO();
+            List<Liga> ligas= bd.getLigas();
             Json js= new Json();
             pw.print("[");
             int cont=0;
-            for(Time time: times){
-              pw.print(js.enviaTime(time));
-              if(cont==times.size()-1) continue;
+            for(Liga liga: ligas){
+              pw.print(js.enviaLiga(liga));
+              if(cont==ligas.size()-1) continue;
               pw.print(",");
               ++cont;
             }

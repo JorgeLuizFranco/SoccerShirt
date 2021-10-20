@@ -83,6 +83,8 @@ public class NoticiaDAO {
         }
     }
 
-
+    public void editaNoticia(int id, Noticia noticia){
+      String sql="up";
+    }
 
 }
