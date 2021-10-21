@@ -197,15 +197,10 @@ function enviaNoticia(id) {
         let msg = "";
         //vamos passar o id para usar quando for editar
         //uma notícia, portanto verificamos qual é a ação
-        if (acao == "cadastrar") {
-            noticiaCompleta = { "titulo": $("#tituloNoticia").val(), "subtitulo": $("#subtituloNoticia").val(), "conteudo": $("#conteudoNoticia").val(), "times": $("#slcTimes").val(), "marcas": $("#slcMarcas").val() }
-            msg = "Notícia cadastrada com sucesso!!!";
-        } else {
-            noticiaCompleta = { "id": id, "titulo": $("#tituloNoticia").val(), "subtitulo": $("#subtituloNoticia").val(), "conteudo": $("#conteudoNoticia").val(), "times": $("#slcTimes").val(), "marcas": $("#slcMarcas").val() }
-            msg = "Notícia editada com sucesso!!!";
-        }
+        noticiaCompleta = { "id": id, "titulo": $("#tituloNoticia").val(), "subtitulo": $("#subtituloNoticia").val(), "conteudo": $("#conteudoNoticia").val(), "times": $("#slcTimes").val(), "marcas": $("#slcMarcas").val() }
+        msg = "Notícia cadastrada/editada com sucesso!!!";
         var request = $.ajax({
-            url: acao.charAt(0).toUpperCase() + acao.slice(1) + "Noticia",
+            url: "CadastrarNoticia",
             type: 'POST',
             contentType: "application/json",
             data: noticiaCompleta,

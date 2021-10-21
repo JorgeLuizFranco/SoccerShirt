@@ -8,18 +8,18 @@ public class CadastrarNoticiaServlet extends HttpServlet {
       public  void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
             response.setContentType("text/html");
             PrintWriter pw=response.getWriter();//get the stream to write the data
-            //writing html in the stream=
-            /*if ("POST".equalsIgnoreCase(request.getMethod()))
-            {
-                test = request.getReader().lines().collect(Collectors.joining(System.lineSeparator()));
-            }*/
             String requestData = request.getReader().lines().collect(Collectors.joining());
             Json js= new Json();
             Noticia noticia= js.retornaNoticia(requestData);
             pw.println(""+noticia.getTitulo()+" "+noticia.getSubtitulo()+" "+noticia.getTexto());
             pw.close();//closing the stream
             NoticiaDAO bd= new NoticiaDAO();
-            bd.adiciona(noticia);
+            if(noticia.getId()==0){
+              bd.adiciona(noticia);
+            }
+            else{
+              bd.editaNoticia(noticia.getId(),noticia);
+            }
           //PrintWriter
       }
 }

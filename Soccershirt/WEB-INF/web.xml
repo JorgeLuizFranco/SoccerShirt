@@ -73,7 +73,6 @@
         <servlet-name>Selecionar_Times</servlet-name>
         <servlet-class>SelecionarAllTimesServlet</servlet-class>
     </servlet>
-
     <servlet-mapping>
         <servlet-name>Cadastrar_Noticia</servlet-name>
         <url-pattern>/CadastrarNoticia</url-pattern>
@@ -120,7 +119,7 @@
       </servlet-mapping>
       <servlet-mapping>
           <servlet-name>Selecionar_Times</servlet-name>
-          <url-pattern>/SelecionarTimes</url-pattern> 
+          <url-pattern>/SelecionarTimes</url-pattern>
       </servlet-mapping>
       <servlet-mapping>
           <servlet-name>Selecionar_Marca</servlet-name>

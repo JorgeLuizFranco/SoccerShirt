@@ -84,7 +84,17 @@ public class NoticiaDAO {
     }
 
     public void editaNoticia(int id, Noticia noticia){
-      String sql="up";
+      String sql="update noticia set titulo=? , subtitulo=? , texto=? where idUnica=?";
+      try(Connection conn = ConnectionFactory.getConnection()) {
+          PreparedStatement ps = conn.prepareStatement(sql);
+          ps.setString(1, noticia.getTitulo());
+          ps.setString(2, noticia.getSubtitulo());
+          ps.setString(3, noticia.getTexto());
+          ps.setInt(4, id);
+          ps.executeUpdate();
+      } catch (SQLException e) {
+          throw new RuntimeException(e);
+      }
     }
 
 }

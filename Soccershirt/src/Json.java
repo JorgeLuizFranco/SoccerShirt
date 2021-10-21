@@ -21,15 +21,21 @@ public class Json{
     strJson = "{" + aspas + "id" + aspas + ":" + aspas + Integer.toString(objeto.getId()) + aspas + ", " + aspas + "nome" + aspas + " : " + aspas + objeto.getNome() + aspas + "}";
     return strJson;
   }
+  
   public Noticia retornaNoticia(String requestData){
-    String[] words= {"titulo","subtitulo","conteudo"};
-    String[] ans= new String[3];
+	  String[] words= {"id","titulo","subtitulo","conteudo"};
+    String[] ans= new String[4];
     int cont=0;
     for(String x: words){
       int idx= requestData.indexOf(x);
       int end= requestData.indexOf("&");
       StringBuilder sb= new StringBuilder(requestData);
-      sb.setCharAt(end, '*');
+      if(end!=-1){
+    	   sb.setCharAt(end, '*');
+      }
+      else {
+        end=requestData.length();
+      }
       requestData= sb.toString();
       char[] ch = new char[requestData.length()];
       for (int i = 0; i < requestData.length(); i++) {
@@ -43,10 +49,12 @@ public class Json{
       ans[cont]=aux.toString();
       ++cont;
     }
-    String titulo = ans[0];
-    String subtitulo = ans[1];
-    String conteudo = ans[2];
+    int id= Integer.valueOf(ans[0]);
+    String titulo = ans[1];
+    String subtitulo = ans[2];
+    String conteudo = ans[3];
     Noticia noticia= new Noticia(titulo, subtitulo, conteudo);
+    noticia.setId(id);
     return noticia;
   }
 }
