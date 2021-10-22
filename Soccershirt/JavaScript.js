@@ -350,11 +350,12 @@ async function funcao(param) {
                     <br>
                     <select id="opcSelectG" class="form-control" required></select>
                     <br>
-                    <button id="prosseguir" type="submit" class="btn btn-outline-light" onclick="${acao}('${categoria}')" >Prosseguir</button></div>
                     </form>`);
         if (categoria == "notícia") {
             categoria = "noticia";
         }
+        $("#formCorpo").append(`<button id="prosseguir" type="submit" class="btn btn-outline-light" onclick="${acao}('${categoria}')" >Prosseguir</button></div>
+                    </form>`);
         let json = await buscaJson(categoria);
         if (json != null) {
             if (categoria == "noticia") {
