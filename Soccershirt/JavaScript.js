@@ -160,34 +160,31 @@ async function camposNoticia(textH4, textOnclick) {
                     <label class="form-label">Imagem - Ainda em construção</label>
                     <div class="form-group custom-file">
                         <input type="file" class="custom-file-input" id="customFile"
-                            accept="image/png, image/gif, image/jpeg">
+                            accept="image/png, image/gif, image/jpeg" multiple name="arquivo">
                         <label class="custom-file-label" for="customFile" style="float: left !important;">Insira imagem</label>
                     </div>
                     <br>
+                    <div class="form-group" id="imgSelecionadas" style="display: none" ></div>
+                    <br>
                     <div class="form-group">
-                        <button type="submit" id="finalizaCadastro" style="margin-top: 20px;" onclick="enviaNoticia('${textOnclick}')" class="btn btn-outline-light form-control">Finalizar
-                            cadastro</button>
+                        <button type="submit" id="finalizaCadastro" style="margin-top: 20px;" onclick="enviaNoticia('${textOnclick}')" class="btn btn-outline-light form-control">Finalizar</button>
                     </div>
                 </div>`)
     //buscando todos os times
     let json = await buscaJson("time");
-    console.log("json: " + json);
     for (let i = 0; i < json.length; i++) {
-        console.log("buscar times for")
         $("#slcTimes").append(`
                     <option value="${json[i].id}">${json[i].id} - ${json[i].nome}</option>`);
     }
     //buscando todas as marcas
     json = await buscaJson("marca");
     for (let i = 0; i < json.length; i++) {
-        console.log("buscar marcas for")
         $("#slcMarcas").append(`
                     <option value="${json[i].id}">${json[i].id} - ${json[i].nome}</option>`);
     }
     //buscando todas as ligas
     json = await buscaJson("liga");
     for (let i = 0; i < json.length; i++) {
-        console.log("buscar liga for")
         $("#slcLigas").append(`
                     <option value="${json[i].id}">${json[i].id} - ${json[i].nome}</option>`);
     }
@@ -206,9 +203,9 @@ function enviaNoticia(id) {
     } else {
         //vamos pegar os valores selecionados nos multiples selects
         //se não houver seleção a função irá retornar 0
-        let times = getSelectValues(slcTimes); 
-        let ligas = getSelectValues(slcLigas); 
-        let marcas = getSelectValues(slcMarcas); 
+        let times = getSelectValues(slcTimes);
+        let ligas = getSelectValues(slcLigas);
+        let marcas = getSelectValues(slcMarcas);
 
         let noticiaCompleta = "";
         let msg = "";
@@ -270,13 +267,14 @@ function camposGerais(texth4, textCon, txtImg, textOnclick) {
                     <label style = "color: red;">* - Em construção</label>
                     <div class="form-group custom-file">
                         <input type="file" class="custom-file-input" id="customFile"
-                            accept="image/png, image/gif, image/jpeg">
+                            accept="image/png, image/gif, image/jpeg" name="arquivo">
                         <label class="custom-file-label" for="customFile"">Insira uma foto ${textCon} ${txtImg.toLowerCase()}</label>
                     </div>
                     <br>
+                    <div class="form-group" id="imgSelecionadas" style="display: none"></div>
+                    <br>
                     <div class="form-group">
-                        <button type="submit" id="finalizaCadastro" style="margin-top: 20px;" onclick="enviaGeral(${textOnclick})" class="btn btn-outline-light form-control">Finalizar
-                            cadastro</button>
+                        <button type="submit" id="finalizaCadastro" style="margin-top: 20px;" onclick="enviaGeral(${textOnclick})" class="btn btn-outline-light form-control">Finalizar</button>
                     </div>
                 `)
 }
@@ -362,8 +360,6 @@ async function funcao(param) {
         let json = await buscaJson(categoria);
         if (json != null) {
             if (categoria == "noticia") {
-                console.log("json de notícias para editar/excluir")
-                console.log(json)
                 for (let i = 0; i < json.length; i++) {
                     $("#formCorpo select").append(`
                         <option value="${json[i].id}">${json[i].id} - ${json[i].titulo}</option>`);
@@ -393,9 +389,33 @@ function getSelectValues(select) {
             result.push(parseInt(options[i].value));
         }
     }
-    
+
     if (b == false) {
         result = 0;
     }
     return result;
+}
+//quando o adm adicionar algumas foto .change() irá chamar a função readURL()**********************************
+/*$("#customFile").change(function () {
+    readURL(this);
+});*/
+//*************************************************************************************************
+function excluir(param) {
+    console.log("Excluir" + param.charAt(0).toUpperCase() + param.slice(1))
+    var request = $.ajax({
+        url: "Excluir" + param.charAt(0).toUpperCase() + param.slice(1),
+        type: 'POST',
+        data: $("#opcSelectG option:selected").val(),
+        async: true,
+        success: function (mensagem) {
+            alert(param.charAt(0).toUpperCase() + param.slice(1) + " excluído com sucesso!!!")
+        }
+    });
+    request.done(function (msg) {
+        $("#log").html(msg);
+    });
+    request.fail(function (jqXHR, textStatus) {
+        alert("Request failed: " + textStatus);
+    });
+    console.log(request);
 }
