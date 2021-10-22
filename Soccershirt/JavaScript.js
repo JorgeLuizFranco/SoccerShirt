@@ -141,14 +141,20 @@ async function camposNoticia(textH4, textOnclick) {
                     </div>
                     <div class="form-group">
                         <label class="form-label select-label">Times - Ainda em construção</label>
-                        <select name="time" id="slcTimes" class="form-control" multiple>
-                            <option value="0" disabled>Selecionar time</option>
+                        <select id="slcTimes" class="form-control" multiple="multiple" name="ligas[]">
+                            <option value="0" disabled>Selecionar time(s)</option>
                         </select>
                     </div>
                     <div class="form-group">
                         <label class="form-label select-label">Marcas - Ainda em construção</label>
-                        <select name="marca" id="slcMarcas" class="form-control" multiple>
-                            <option value="0" disabled>Selecionar marca</option>
+                        <select id="slcMarcas" class="form-control" multiple="multiple" name="ligas[]">
+                            <option value="0" disabled>Selecionar marca(s)</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label select-label">Ligas - Ainda em construção</label>
+                        <select id="slcLigas" class="form-control" multiple="multiple" name="ligas[]">
+                            <option value="0" disabled>Selecionar liga(s)</option>
                         </select>
                     </div>
                     <label class="form-label">Imagem - Ainda em construção</label>
@@ -163,7 +169,6 @@ async function camposNoticia(textH4, textOnclick) {
                             cadastro</button>
                     </div>
                 </div>`)
-    var paramentro = "time";
     //buscando todos os times
     let json = await buscaJson("time");
     console.log("json: " + json);
@@ -172,12 +177,18 @@ async function camposNoticia(textH4, textOnclick) {
         $("#slcTimes").append(`
                     <option value="${json[i].id}">${json[i].id} - ${json[i].nome}</option>`);
     }
-    paramentro = "marca";
     //buscando todas as marcas
-    json = await buscaJson(paramentro);
+    json = await buscaJson("marca");
     for (let i = 0; i < json.length; i++) {
         console.log("buscar marcas for")
         $("#slcMarcas").append(`
+                    <option value="${json[i].id}">${json[i].id} - ${json[i].nome}</option>`);
+    }
+    //buscando todas as ligas
+    json = await buscaJson("liga");
+    for (let i = 0; i < json.length; i++) {
+        console.log("buscar liga for")
+        $("#slcLigas").append(`
                     <option value="${json[i].id}">${json[i].id} - ${json[i].nome}</option>`);
     }
 }
@@ -193,11 +204,17 @@ function enviaNoticia(id) {
     } else if ($("#conteudoNoticia").val() == "") {
         $("#conteudoNoticia").focus();
     } else {
+        //vamos pegar os valores selecionados nos multiples selects
+        //se não houver seleção a função irá retornar 0
+        let times = getSelectValues(slcTimes); 
+        let ligas = getSelectValues(slcLigas); 
+        let marcas = getSelectValues(slcMarcas); 
+
         let noticiaCompleta = "";
         let msg = "";
         //vamos passar o id para usar quando for editar
         //uma notícia, portanto verificamos qual é a ação
-        noticiaCompleta = { "id": id, "titulo": $("#tituloNoticia").val(), "subtitulo": $("#subtituloNoticia").val(), "conteudo": $("#conteudoNoticia").val(), "times": $("#slcTimes").val(), "marcas": $("#slcMarcas").val() }
+        noticiaCompleta = { "id": id, "titulo": $("#tituloNoticia").val(), "subtitulo": $("#subtituloNoticia").val(), "conteudo": $("#conteudoNoticia").val(), "times": times, "marcas": marcas, "ligas": ligas }
         if (id == 0) {
             msg = "Notícia cadastrada com sucesso!!!";
         } else {
@@ -290,9 +307,8 @@ function enviaGeral(id) {
             }
         }
 
-        console.log(geralCompleto);
         var request = $.ajax({
-            url: acao.charAt(0).toUpperCase() + acao.slice(1) + categoria.charAt(0).toUpperCase() + categoria.slice(1),
+            url: "Cadastrar" + categoria.charAt(0).toUpperCase() + categoria.slice(1),
             type: 'POST',
             data: geralCompleto,
             async: true,
@@ -364,4 +380,22 @@ async function funcao(param) {
     } else {
         cadastrar();
     }
+}
+//pega os valores selecionados dos multiples selects******************************************************************
+function getSelectValues(select) {
+    var result = [];
+    var options = select && select.options;
+    var b = false;
+
+    for (var i = 0; i < options.length; i++) {
+        if (options[i].selected) {
+            b = true;
+            result.push(parseInt(options[i].value));
+        }
+    }
+    
+    if (b == false) {
+        result = 0;
+    }
+    return result;
 }
