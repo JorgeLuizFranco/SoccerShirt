@@ -161,9 +161,8 @@ async function camposNoticia(textH4, textOnclick) {
                     <div class="form-group custom-file">
                         <input type="file" class="custom-file-input" id="customFile"
                             accept="image/png, image/gif, image/jpeg" multiple name="arquivo">
-                        <label class="custom-file-label" for="customFile" style="float: left !important;">Insira imagem</label>
+                        <label class="custom-file-label" for="customFile" style="float: left !important;">Insira imagens</label>
                     </div>
-                    <br>
                     <div class="form-group" id="imgSelecionadas" style="display: none" ></div>
                     <br>
                     <div class="form-group">
@@ -270,7 +269,6 @@ function camposGerais(texth4, textCon, txtImg, textOnclick) {
                             accept="image/png, image/gif, image/jpeg" name="arquivo">
                         <label class="custom-file-label" for="customFile"">Insira uma foto ${textCon} ${txtImg.toLowerCase()}</label>
                     </div>
-                    <br>
                     <div class="form-group" id="imgSelecionadas" style="display: none"></div>
                     <br>
                     <div class="form-group">
