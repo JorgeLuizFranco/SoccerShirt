@@ -198,7 +198,11 @@ function enviaNoticia(id) {
         //vamos passar o id para usar quando for editar
         //uma notícia, portanto verificamos qual é a ação
         noticiaCompleta = { "id": id, "titulo": $("#tituloNoticia").val(), "subtitulo": $("#subtituloNoticia").val(), "conteudo": $("#conteudoNoticia").val(), "times": $("#slcTimes").val(), "marcas": $("#slcMarcas").val() }
-        msg = "Notícia cadastrada/editada com sucesso!!!";
+        if (id == 0) {
+            msg = "Notícia cadastrada com sucesso!!!";
+        } else {
+            msg = "Notícia editada com sucesso!!!";
+        }
         var request = $.ajax({
             url: "CadastrarNoticia",
             type: 'POST',
@@ -206,7 +210,7 @@ function enviaNoticia(id) {
             data: noticiaCompleta,
             async: true,
             success: function (response) {
-                alert(msg)
+                alert(msg);
                 //limpamos os campos
                 $("#formCorpo input, textarea, #customFile").val("");
             }
@@ -264,21 +268,28 @@ function enviaGeral(id) {
     //verifica os campos obrigatórios
     if ($("#nome").val() == "") {
         $("#nome").focus();
-    }
-            /*else if ($("#customFile").val() == "") {
-                $("#customFile").focus();
-            }*/ else {
+    }/*else if ($("#customFile").val() == "") {
+            $("#customFile").focus();
+    }*/ else {
         //msg é apenas para manter a concordância do genêro
-        let msg = "cadastrada com sucesso!!!"
-        let geralCompleto = { "nome": $("#nome").val(), "img": $("#customFile").val() };
+        let msg;
+        if (id == 0) {
+            msg = "cadastrada com sucesso!!!";
+        } else {
+            msg = "editada com sucesso!!!";
+        }
+
+        let geralCompleto = { "id": id, "nome": $("#nome").val(), "img": $("#customFile").val() };
+
         //se for liga, como liga tem mais campos, vamos verificar
         if (categoria == "liga") {
             if ($("#paisLiga").val() == "") {
                 $("#paisLiga").focus();
             } else {
-                geralCompleto = { "nome": $("#nome").val(), "paisOrigem": $("#paisLiga").val(), "img": $("#customFile").val() };
+                geralCompleto = { "id": id, "nome": $("#nome").val(), "paisOrigem": $("#paisLiga").val(), "img": $("#customFile").val() };
             }
         }
+
         console.log(geralCompleto);
         var request = $.ajax({
             url: acao.charAt(0).toUpperCase() + acao.slice(1) + categoria.charAt(0).toUpperCase() + categoria.slice(1),
@@ -287,7 +298,11 @@ function enviaGeral(id) {
             async: true,
             success: function (mensagem) {
                 if (categoria == "time") {
-                    msg = " cadastrado com sucesso!!!";
+                    if (msg.charAt(1) == "c") {
+                        msg = " cadastrado com sucesso!!!";
+                    } else {
+                        msg = "editado com sucesso!!!";
+                    }
                 }
                 alert(categoria.charAt(0).toUpperCase() + categoria.slice(1) + msg)
                 $("#formCorpo input, textarea, #customFile").val("");
