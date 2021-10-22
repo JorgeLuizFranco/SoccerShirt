@@ -163,12 +163,14 @@ async function camposNoticia(textH4, textOnclick) {
                             accept="image/png, image/gif, image/jpeg" multiple name="arquivo">
                         <label class="custom-file-label" for="customFile" style="float: left !important;">Insira imagens</label>
                     </div>
-                    <div class="form-group" id="imgSelecionadas" style="display: none" ></div>
-                    <br>
+                    <img scr="" id="preview">
+                    <div class="form-group" id="imgSelecionadas" style="display: none"></div>
                     <div class="form-group">
-                        <button type="submit" id="finalizaCadastro" style="margin-top: 20px;" onclick="enviaNoticia('${textOnclick}')" class="btn btn-outline-light form-control">Finalizar</button>
+                        <button type="submit" id="finalizaCadastro" style="margin-top:10px" onclick="enviaNoticia('${textOnclick}')" class="btn btn-outline-light form-control">Finalizar</button>
                     </div>
                 </div>`)
+    document.getElementById("customFile").addEventListener("change", readImage, false);
+
     //buscando todos os times
     let json = await buscaJson("time");
     for (let i = 0; i < json.length; i++) {
@@ -226,6 +228,7 @@ function enviaNoticia(id) {
                 alert(msg);
                 //limpamos os campos
                 $("#formCorpo input, textarea, #customFile").val("");
+                $("#exibe").hide();
             }
         })
         request.done(function (msg) {
@@ -267,14 +270,14 @@ function camposGerais(texth4, textCon, txtImg, textOnclick) {
                     <div class="form-group custom-file">
                         <input type="file" class="custom-file-input" id="customFile"
                             accept="image/png, image/gif, image/jpeg" name="arquivo">
-                        <label class="custom-file-label" for="customFile"">Insira uma foto ${textCon} ${txtImg.toLowerCase()}</label>
+                        <label class="custom-file-label" for="customFile">Insira uma foto ${textCon} ${txtImg.toLowerCase()}</label>
                     </div>
                     <div class="form-group" id="imgSelecionadas" style="display: none"></div>
-                    <br>
                     <div class="form-group">
-                        <button type="submit" id="finalizaCadastro" style="margin-top: 20px;" onclick="enviaGeral(${textOnclick})" class="btn btn-outline-light form-control">Finalizar</button>
+                        <button type="submit" id="finalizaCadastro" style="margin-top:10px" onclick="enviaGeral(${textOnclick})" class="btn btn-outline-light form-control">Finalizar</button>
                     </div>
                 `)
+    document.getElementById("customFile").addEventListener("change", readImage, false);
 }
 //ENVIA TIME/MARCA/LIGA****************************************************************
 function enviaGeral(id) {
@@ -317,7 +320,10 @@ function enviaGeral(id) {
                     }
                 }
                 alert(categoria.charAt(0).toUpperCase() + categoria.slice(1) + msg)
-                $("#formCorpo input, textarea, #customFile").val("");
+                if (acao != "cadastrar") {
+                    $("#formCorpo input, textarea, #customFile").val("");
+                }
+                $("#exibe").hide();
             }
         })
         request.done(function (msg) {
@@ -349,12 +355,11 @@ async function funcao(param) {
                     <h4>Qual ${categoria} deseja ${acao}?</h4>
                     <br>
                     <select id="opcSelectG" class="form-control" required></select>
-                    <br>
                     </form>`);
         if (categoria == "notícia") {
             categoria = "noticia";
         }
-        $("#formCorpo").append(`<button id="prosseguir" type="submit" class="btn btn-outline-light" onclick="${acao}('${categoria}')" >Prosseguir</button></div>
+        $("#formCorpo").append(`<button id="prosseguir" type="submit" class="btn btn-outline-light" style="margin-top:10px" onclick="${acao}('${categoria}')" >Prosseguir</button></div>
                     </form>`);
         let json = await buscaJson(categoria);
         if (json != null) {
@@ -394,13 +399,45 @@ function getSelectValues(select) {
     }
     return result;
 }
-//quando o adm adicionar algumas foto .change() irá chamar a função readURL()**********************************
-/*$("#customFile").change(function () {
-    readURL(this);
-});*/
+//quando o adm adicionar algumas foto irá adicionar um preview**********************************
+function readImage() {
+    let filenames = [];
+    let files = this.files;
+    if (files.length > 1) {
+        filenames.push(files.length + " imagens selecionadas");
+    } else {
+        for (let i in files) {
+            if (files.hasOwnProperty(i)) {
+                filenames.push(files[i].name);
+            }
+        }
+    }
+    $(this)
+        .next(".custom-file-label")
+        .html(filenames.join(","));
+
+    $("#imgSelecionadas").text("");
+    $("#imgSelecionadas").show();
+    for (let i = 0; i < this.files.length; i++) {
+        var file = new FileReader();
+        var tam = this.files.length;
+        file.onload = function (e) {
+            if (i == 0 || i % 2 == 0) {
+                if (i == tam - 1) {
+                    $("#imgSelecionadas").append(`<img class="img-thumbnail" src="${e.target.result}" style="margin-top: 5px; width: 70%; height: 70%">`)
+                } else {
+                    $("#imgSelecionadas").append(`<img class="imgNot img-thumbnail float-left" src="${e.target.result}">`)
+
+                }
+            } else {
+                $("#imgSelecionadas").append(`<img class="imgNot img-thumbnail float-right" src="${e.target.result}">`)
+            }
+        };
+        file.readAsDataURL(this.files[i]);
+    }
+}
 //*************************************************************************************************
 function excluir(param) {
-    console.log("Excluir" + param.charAt(0).toUpperCase() + param.slice(1))
     var request = $.ajax({
         url: "Excluir" + param.charAt(0).toUpperCase() + param.slice(1),
         type: 'POST',
@@ -408,6 +445,7 @@ function excluir(param) {
         async: true,
         success: function (mensagem) {
             alert(param.charAt(0).toUpperCase() + param.slice(1) + " excluído com sucesso!!!")
+            $("#exibe").hide();
         }
     });
     request.done(function (msg) {
