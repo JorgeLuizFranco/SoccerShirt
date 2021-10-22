@@ -66,4 +66,15 @@ public class TimeDAO {
             throw new RuntimeException(e);
         }
     }
+    public void editaTime(int id, Time time){
+      String sql="update time set nome=?  where idUnica=?";
+      try(Connection conn = ConnectionFactory.getConnection()) {
+          PreparedStatement ps = conn.prepareStatement(sql);
+          ps.setString(1, time.getNome());
+          ps.setInt(2, id);
+          ps.executeUpdate();
+      } catch (SQLException e) {
+          throw new RuntimeException(e);
+      }
+    }
 }

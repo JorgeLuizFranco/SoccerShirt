@@ -8,21 +8,18 @@ public class CadastrarMarcaServlet extends HttpServlet {
       public  void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
             response.setContentType("text/html");
             PrintWriter pw=response.getWriter();//get the stream to write the data
-            //writing html in the stream=
-            /*if ("POST".equalsIgnoreCase(request.getMethod()))
-            {
-                test = request.getReader().lines().collect(Collectors.joining(System.lineSeparator()));
-            }*/
             String requestData = request.getReader().lines().collect(Collectors.joining());
-            pw.println(requestData);
-            int begin=requestData.indexOf('=');
-            int end= requestData.indexOf('&');
-            String nome= requestData.substring(begin+1, end);
-            pw.println(nome);
-            Marca marca= new Marca();
-            marca.setNome(nome);
+            Json js= new Json();
+            Marca marca= js.retornaMarca(requestData);
+            pw.println(""+marca.getNome());
+            pw.close();//closing the stream
             MarcaDAO bd= new MarcaDAO();
-            bd.adiciona(marca);
+            if(marca.getId()==0){
+              bd.adiciona(marca);
+            }
+            else{
+              bd.editaMarca(marca.getId(), marca);
+            }
           //PrintWriter
       }
 }

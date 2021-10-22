@@ -70,4 +70,17 @@ public class LigaDAO {
         }
     }
 
+    public void editaLiga(int id, Liga liga){
+      String sql="update liga set nome=? , paisOrigem=?  where idUnica=?";
+      try(Connection conn = ConnectionFactory.getConnection()) {
+          PreparedStatement ps = conn.prepareStatement(sql);
+          ps.setString(1, liga.getNome());
+          ps.setString(2, liga.getPaisOrigem());
+          ps.setInt(3, id);
+          ps.executeUpdate();
+      } catch (SQLException e) {
+          throw new RuntimeException(e);
+      }
+    }
+
 }

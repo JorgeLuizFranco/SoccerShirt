@@ -73,6 +73,16 @@ public class MarcaDAO {
         }
     }
 
-
+    public void editaMarca(int id, Marca marca){
+      String sql="update marca set nome=?  where idUnica=?";
+      try(Connection conn = ConnectionFactory.getConnection()) {
+          PreparedStatement ps = conn.prepareStatement(sql);
+          ps.setString(1, marca.getNome());
+          ps.setInt(2, id);
+          ps.executeUpdate();
+      } catch (SQLException e) {
+          throw new RuntimeException(e);
+      }
+    }
 
 }
