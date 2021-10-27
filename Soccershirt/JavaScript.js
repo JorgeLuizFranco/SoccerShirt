@@ -4,10 +4,10 @@
 var acao = "";
 var categoria = "";
 //BUSCA DE DADOS ESPECIFICOS************************************************
-async function buscaJsonEx(id) {
+async function buscaJsonEx(id, categ) {
     var ans = null
     var request = await $.ajax({
-        url: "Selecionar" + categoria.charAt(0).toUpperCase() + categoria.slice(1),
+        url: "Selecionar" + categ.charAt(0).toUpperCase() + categ.slice(1),
         type: 'POST',
         data: id,
         async: true,
@@ -40,7 +40,7 @@ async function verificaAdm() {
         $("#txtSenha").focus();
     } else {
         //enviamos por ajax o json com os dados para a página que irá verificar os dados
-        /*var request = await $.ajax({
+        var request = await $.ajax({
             url: "link",
             type: 'POST',
             data: { "username": $("#txtUsername").val(), "senha": $("#txtSenha").val() },
@@ -72,14 +72,14 @@ async function verificaAdm() {
         });
         request.fail(function (jqXHR, textStatus) {
             alert("Request failed: " + textStatus);
-        });*/
+        });
     }
 }
 //EDITAR************************************************************************
 //chamada da função para editar
 async function editar() {
     let id = $("#opcSelectG option:selected").val();
-    let json = await buscaJsonEx(id);
+    let json = await buscaJsonEx(id, categoria);
     console.log(json)
     if (categoria == "noticia") {
         camposNoticia("Editando notícia", id);
@@ -528,9 +528,8 @@ async function completaIndex() {
 }
 //abre a notícia clicada*****************************************************************************************************************
 async function expandeNoticia(id) {
-    //vamos setar uma categoria ara usar na função de busca
-    categoria = "noticia";
-    let json = await buscaJsonEx(id);
+    //vamos setar uma categoria para usar na função de busca
+    let json = await buscaJsonEx(id, "noticia");
     //json teste 
     //json = { "id": 1, "titulo": 'Corinthians relembra visitas e parabeniza Mauricio de Sousa', "subtitulo": "Cartunista criador da Turma da Mônica completa 86 anos nesta quarta-feira", "texto": "O Corinthians usou as redes sociais para parabenizar nesta quarta-feira o cartunista e empresário Mauricio de Sousa, criador da Turma da Mônica. Mauricio de Sousa, que já fez algumas visitas à sede e ao CT do Corinthians, completa 86 anos nesta quarta. Cascão, um dos personagens de maior sucesso do cartunista, é torcedor do Timão. Ele já apareceu em diferentes situações com a camisa do clube, inclusive após a conquista do título Mundial de 2012.", "hora": "22:37", "data": "27/10/2021", "imagem": "caminho da imagem" };
     $("section").html(`<div class="container" style="margin: auto!important;">
