@@ -40,7 +40,7 @@ async function verificaAdm() {
         $("#txtSenha").focus();
     } else {
         //enviamos por ajax o json com os dados para a página que irá verificar os dados
-        var request = await $.ajax({
+        /*var request = await $.ajax({
             url: "link",
             type: 'POST',
             data: { "username": $("#txtUsername").val(), "senha": $("#txtSenha").val() },
@@ -72,7 +72,7 @@ async function verificaAdm() {
         });
         request.fail(function (jqXHR, textStatus) {
             alert("Request failed: " + textStatus);
-        });
+        });*/
     }
 }
 //EDITAR************************************************************************
@@ -476,3 +476,25 @@ function verSenha(){
         $(".mostraolhinho").attr("type", "password");
     });
 }
+//exibe todas as notícias no index******************************************************************************************
+function exibeNoticias(json) {
+    $("section").text("");
+    cont = 0;
+    for (let i = 0; i < json.length; i++) {
+      //montar como será exibido as notícias
+      if (cont % 3 == 0) {
+        $("section").append(`
+        <br>
+        <div class="container todosNoticias">
+          <div class="row"></div>
+        </div>`);
+      }
+      $(".container:last-child .row").append(`
+          <div class="col-sm" onclick="expandeNoticia(${json[i].id})">
+            <a><h3 style="text-align: center;">${json[i].titulo}</h3></a>
+            <p>${json[i].subtitulo}</p>
+            <p>${json[i].imagem}</p>
+          </div>`);
+      cont++;
+    }
+  }
