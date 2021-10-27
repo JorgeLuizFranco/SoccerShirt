@@ -33,42 +33,46 @@ async function buscaJson(categ) {
     return ans;
 }
 //VERIFICA ADMINISTRADOR******************************************************
-function verificaAdm() {
+async function verificaAdm() {
     if ($("#txtUsername").val() == "") {
         $("#txtUsername").focus();
     } else if ($("#txtSenha").val() == "") {
         $("#txtSenha").focus();
     } else {
         //enviamos por ajax o json com os dados para a página que irá verificar os dados
-        /*  var request = $.ajax({
-               url: "link",
-               type: 'POST',
-               data: { "username": $("#txtUsername").val(), "senha": $("#txtSenha").val() },
-               async: true,
-               success: function (mensagem) {
-                   $("section").text(`<div class="exibe" id="menu">
-                    <h4>Escolha uma categoria</h4>
-                    <select id="opcSelect" class="form-control">
-                        <option value="notícia">Notícia</option>
-                        <option value="time">Time</option>
-                        <option value="marca">Marca</option>
-                        <option value="liga">Liga</option>
-                    </select>
-                    <button id="cadastrar" class="btn btn-outline-success btn_categorias"
-                        value="cadastrar">Cadastrar</button>
-                    <button id="editar" class="btn btn-outline-warning btn_categorias" value="editar">Editar</button>
-                    <button id="excluir" class="btn btn-outline-danger btn_categorias" value="excluir">Excluir</button>
-                </div>
-                <div class="exibe" id="corpo" style="display: none"></div>`);
-               }
-               //colocar mensagem de erro
-           })
-            request.done(function (msg) {
-                $("#log").html(msg);
-            });
-            request.fail(function (jqXHR, textStatus) {
-                alert("Request failed: " + textStatus);
-            });*/
+        var request = await $.ajax({
+            url: "link",
+            type: 'POST',
+            data: { "username": $("#txtUsername").val(), "senha": $("#txtSenha").val() },
+            async: true,
+            success: function (mensagem) {
+                $("section").text(`
+                    <div class="exibe" id="menu">
+                        <h4>Escolha uma categoria</h4>
+                        <select id="opcSelect" class="form-control">
+                            <option value="notícia">Notícia</option>
+                            <option value="time">Time</option>
+                            <option value="marca">Marca</option>
+                            <option value="liga">Liga</option>
+                        </select>
+                        <button id="cadastrar" class="btn btn-outline-success btn_categorias" onclick="funcao('cadastrar')"
+                            value="cadastrar">Cadastrar</button>
+                        <button id="editar" class="btn btn-outline-warning btn_categorias" onclick="funcao('editar')"
+                            value="editar">Editar</button>
+                        <button id="excluir" class="btn btn-outline-danger btn_categorias" onclick="funcao('excluir')"
+                            value="excluir">Excluir</button>
+                    </div>
+                    <div class="exibe" id="corpo" style="display: none"></div>
+                `);
+            }
+            //colocar mensagem de erro
+        })
+        request.done(function (msg) {
+            $("#log").html(msg);
+        });
+        request.fail(function (jqXHR, textStatus) {
+            alert("Request failed: " + textStatus);
+        });
     }
 }
 //EDITAR************************************************************************
@@ -455,4 +459,20 @@ function excluir(param) {
         alert("Request failed: " + textStatus);
     });
     console.log(request);
+}
+//*****************************************************************************************************
+function verSenha(){
+    $("#olho").mousedown(function() {
+        $(".mostraolhinho").attr("type", "text");
+    });
+
+    $("#olho").mouseup(function() {
+        $(".mostraolhinho").attr("type", "password");
+    });
+
+    // para evitar o problema de arrastar a imagem e a senha continuar exposta, 
+    //citada pelo nosso amigo nos comentários
+    $( "#olho" ).mouseout(function() { 
+        $(".mostraolhinho").attr("type", "password");
+    });
 }
