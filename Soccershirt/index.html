@@ -31,21 +31,49 @@
     alert();
   }
 
-  function exibeNoticia(json) {
+  function exibeNoticias(json) {
+    console.log("exibe noticia")
+    console.log(json)
+    cont = 0;
+    console.log("cont começo" + cont);
     for (let i = 0; i < json.length; i++) {
       //montar como será exibido as notícias
-      $("section").append(`
-        <li class="dropdown-item" onclick="funcaoDrop(${json[i].id}, 'time')">${json[i].id} - ${json[i].nome}</li>`);
+      
+
+      if (cont % 3 == 0) {
+        console.log("add novo conta")
+        $("section").append(`<div class="container">
+          <div class="row titulo"></div>
+          <div class="row subtitulo"></div>
+          <div class="row imagem"></div>
+        </div>`);
+      }
+
+      $(".container:last-child .titulo").append(`
+          <div class="col-sm">
+            <h3>${json[i].titulo}</h3>
+          </div>`);
+
+      $(".container:last-child .subtitulo").append(`
+          <div class="col-sm" >
+            <p>${json[i].subtitulo}</p>
+          </div>`);
+
+      $(".container:last-child .imagem").append(`
+          <div class="col-sm">
+            <p>${json[i].imagem}</p>
+        </div>`);
+        cont++;
+
     }
+    
+    console.log("cont final" + cont);
   }
 
   $(document).ready(function () {
-
-    //chamamos a função que irá exibir as notícias e passamos como parametro um json com todas as notícias a serem exibidas
-    exibeNoticia([{ "id": 1, "nome": 'time 1' }, { "id": 2, "nome": 'time 2' }, { "id": 3, "nome": 'time 3' }, { "id": 4, "nome": 'time 4' }, { "id": 5, "nome": 'time 5' }])
     //pegamos os times cadastrados e colocamos no navbar**************************************************************************************
     //var json = buscaJson("time");
-    var json = [{ "id": 1, "nome": 'time 1' }, { "id": 2, "nome": 'time 2' }, { "id": 3, "nome": 'time 3' }, { "id": 4, "nome": 'time 4' }, { "id": 5, "nome": 'time 5' }];
+    var json = [{ "id": 1, "nome": 'time 1' }, { "id": 2, "nome": 'time 2' }, { "id": 3, "nome": 'time 3' }, { "id": 4, "nome": 'time 4' }, { "id": 5, "nome": 'time 5' },{ "id": 1, "nome": 'time 1' }, { "id": 2, "nome": 'time 2' }, { "id": 3, "nome": 'time 3' }, { "id": 4, "nome": 'time 4' }, { "id": 5, "nome": 'time 5' }];
     for (let i = 0; i < json.length; i++) {
       $("#dropTimes").append(`
         <li class="dropdown-item" onclick="funcaoDrop(${json[i].id}, 'time')">${json[i].id} - ${json[i].nome}</li>`);
@@ -64,6 +92,10 @@
       $("#dropLigas").append(`
         <li class="dropdown-item" onclick="funcaoDrop(${json[i].id}, 'liga')">${json[i].id} - ${json[i].nome}</li>`);
     }
+
+    //chamamos a função que irá exibir as notícias e passamos como parametro um json com todas as notícias a serem exibidas
+    exibeNoticias([{ "id": 1, "titulo": 'titulo 1 da notícia', "subtitulo": "Subtitulo da notícia", "corpo": "corpo da notícia", "hora": "22:37", "data": "27/10/2021", "imagem": "caminho da imagem" }, { "id": 2, "titulo": 'titulo 2 da notícia', "subtitulo": "Subtitulo da notícia", "corpo": "corpo da notícia", "hora": "22:37", "data": "27/10/2021", "imagem": "caminho da imagem" }, { "id": 3, "titulo": 'titulo 3 da notícia', "subtitulo": "Subtitulo da notícia", "corpo": "corpo da notícia", "hora": "22:37", "data": "27/10/2021", "imagem": "caminho da imagem" }, { "id": 4, "titulo": 'titulo 4 da notícia', "subtitulo": "Subtitulo da notícia", "corpo": "corpo da notícia", "hora": "22:37", "data": "27/10/2021", "imagem": "caminho da imagem" }, { "id": 5, "titulo": 'titulo 5 da notícia', "subtitulo": "Subtitulo da notícia", "corpo": "corpo da notícia", "hora": "22:37", "data": "27/10/2021", "imagem": "caminho da imagem" }])
+
   });
 </script>
 
@@ -140,6 +172,33 @@
   <!--************************************************************************************************************************************-->
   <section>
 
+    <div class="container">
+      <div class="row titulo"></div>
+      <div class="row subtitulo"></div>
+      <div class="row imagem"></div>
+    </div>
+
+    <!--    
+      <div class="row">
+        <div class="col-sm">
+          <h3>${json[i].titulo}</h3>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-sm">
+          <p>${json[i].subtitulo}</p>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-sm">
+          <p>${json[i].imagem}</p>
+        </div>
+      </div>
+    </div>
+
+-->
   </section>
 
 </body>
