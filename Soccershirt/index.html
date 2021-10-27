@@ -22,7 +22,8 @@
     integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
     crossorigin="anonymous"></script>
   <script src="JavaScript.js"></script>
-
+  <!--CSS-->
+  <link rel="stylesheet" href="indexStyle.css">
 </head>
 
 <script>
@@ -31,81 +32,74 @@
     alert();
   }
 
-  function exibeNoticias(json) {
-    console.log("exibe noticia")
-    console.log(json)
-    cont = 0;
-    console.log("cont começo" + cont);
-    for (let i = 0; i < json.length; i++) {
-      //montar como será exibido as notícias
-      
-
-      if (cont % 3 == 0) {
-        console.log("add novo conta")
-        $("section").append(`<div class="container">
-          <div class="row titulo"></div>
-          <div class="row subtitulo"></div>
-          <div class="row imagem"></div>
+  function expandeNoticia(id) {
+    //vamos setar uma categoria ara usar na função de busca
+    categoria = "noticia";
+    json = buscaJsonEx(id);
+    //json teste 
+    //json = { "id": 1, "titulo": 'Corinthians relembra visitas e parabeniza Mauricio de Sousa', "subtitulo": "Cartunista criador da Turma da Mônica completa 86 anos nesta quarta-feira", "texto": "O Corinthians usou as redes sociais para parabenizar nesta quarta-feira o cartunista e empresário Mauricio de Sousa, criador da Turma da Mônica. Mauricio de Sousa, que já fez algumas visitas à sede e ao CT do Corinthians, completa 86 anos nesta quarta. Cascão, um dos personagens de maior sucesso do cartunista, é torcedor do Timão. Ele já apareceu em diferentes situações com a camisa do clube, inclusive após a conquista do título Mundial de 2012.", "hora": "22:37", "data": "27/10/2021", "imagem": "caminho da imagem" };
+    $("section").html(`<div class="container" style="margin: auto!important;">
+          <div class="row">
+            <div class="col-sm"><h1 style="font-size: 3.7em; text-transform: none; letter-spacing: -1px;">${json.titulo}</h1></div>
+          </div>
+          <div class="row" style="color: #495057;">
+            <div class="col-8">
+              <h5>${json.subtitulo}</h5>
+            </div>
+            <div class="col-4">
+              <span>Publicado: ${json.data} ${json.hora}</span>
+              <br>
+              <span>Última edição: ${json.data} ${json.hora}</span>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-8">
+              <p>${json.texto}</p>
+            </div>
+            <div class="col-4">
+              <span>${json.imagem}</span>
+            </div>
+            
+          </div>
         </div>`);
-      }
-
-      $(".container:last-child .titulo").append(`
-          <div class="col-sm">
-            <h3>${json[i].titulo}</h3>
-          </div>`);
-
-      $(".container:last-child .subtitulo").append(`
-          <div class="col-sm" >
-            <p>${json[i].subtitulo}</p>
-          </div>`);
-
-      $(".container:last-child .imagem").append(`
-          <div class="col-sm">
-            <p>${json[i].imagem}</p>
-        </div>`);
-        cont++;
-
-    }
-    
-    console.log("cont final" + cont);
   }
 
   $(document).ready(function () {
     //pegamos os times cadastrados e colocamos no navbar**************************************************************************************
-    //var json = buscaJson("time");
-    var json = [{ "id": 1, "nome": 'time 1' }, { "id": 2, "nome": 'time 2' }, { "id": 3, "nome": 'time 3' }, { "id": 4, "nome": 'time 4' }, { "id": 5, "nome": 'time 5' },{ "id": 1, "nome": 'time 1' }, { "id": 2, "nome": 'time 2' }, { "id": 3, "nome": 'time 3' }, { "id": 4, "nome": 'time 4' }, { "id": 5, "nome": 'time 5' }];
+    var json = buscaJson("time");
+    //var json = [{ "id": 1, "nome": 'time 1' }, { "id": 2, "nome": 'time 2' }, { "id": 3, "nome": 'time 3' }, { "id": 4, "nome": 'time 4' }, { "id": 5, "nome": 'time 5' }, { "id": 1, "nome": 'time 1' }, { "id": 2, "nome": 'time 2' }, { "id": 3, "nome": 'time 3' }, { "id": 4, "nome": 'time 4' }, { "id": 5, "nome": 'time 5' }];
     for (let i = 0; i < json.length; i++) {
       $("#dropTimes").append(`
         <li class="dropdown-item" onclick="funcaoDrop(${json[i].id}, 'time')">${json[i].id} - ${json[i].nome}</li>`);
     }
     //pegamos as marcas cadastrados e colocamos no navbar**************************************************************************************
-    //json = buscaJson("marca");
-    json = [{ "id": 1, "nome": 'marca 1' }, { "id": 2, "nome": 'marca 2' }, { "id": 3, "nome": 'marca 3' }, { "id": 4, "nome": 'marca 4' }, { "id": 5, "nome": 'marca 5' }];
+    json = buscaJson("marca");
+    //json = [{ "id": 1, "nome": 'marca 1' }, { "id": 2, "nome": 'marca 2' }, { "id": 3, "nome": 'marca 3' }, { "id": 4, "nome": 'marca 4' }, { "id": 5, "nome": 'marca 5' }];
     for (let i = 0; i < json.length; i++) {
       $("#dropMarcas").append(`
         <li class="dropdown-item" onclick="funcaoDrop(${json[i].id}, 'time')">${json[i].id} - ${json[i].nome}</li>`);
     }
     //pegamos as marcas cadastrados e colocamos no navbar**************************************************************************************
-    //json = buscaJson("liga");
-    json = [{ "id": 1, "nome": 'liga 1' }, { "id": 2, "nome": 'liga 2' }, { "id": 3, "nome": 'liga 3' }, { "id": 4, "nome": 'liga 4' }, { "id": 5, "nome": 'liga 5' }];
+    json = buscaJson("liga");
+    //json = [{ "id": 1, "nome": 'liga 1' }, { "id": 2, "nome": 'liga 2' }, { "id": 3, "nome": 'liga 3' }, { "id": 4, "nome": 'liga 4' }, { "id": 5, "nome": 'liga 5' }];
     for (let i = 0; i < json.length; i++) {
       $("#dropLigas").append(`
         <li class="dropdown-item" onclick="funcaoDrop(${json[i].id}, 'liga')">${json[i].id} - ${json[i].nome}</li>`);
     }
-
     //chamamos a função que irá exibir as notícias e passamos como parametro um json com todas as notícias a serem exibidas
-    exibeNoticias([{ "id": 1, "titulo": 'titulo 1 da notícia', "subtitulo": "Subtitulo da notícia", "corpo": "corpo da notícia", "hora": "22:37", "data": "27/10/2021", "imagem": "caminho da imagem" }, { "id": 2, "titulo": 'titulo 2 da notícia', "subtitulo": "Subtitulo da notícia", "corpo": "corpo da notícia", "hora": "22:37", "data": "27/10/2021", "imagem": "caminho da imagem" }, { "id": 3, "titulo": 'titulo 3 da notícia', "subtitulo": "Subtitulo da notícia", "corpo": "corpo da notícia", "hora": "22:37", "data": "27/10/2021", "imagem": "caminho da imagem" }, { "id": 4, "titulo": 'titulo 4 da notícia', "subtitulo": "Subtitulo da notícia", "corpo": "corpo da notícia", "hora": "22:37", "data": "27/10/2021", "imagem": "caminho da imagem" }, { "id": 5, "titulo": 'titulo 5 da notícia', "subtitulo": "Subtitulo da notícia", "corpo": "corpo da notícia", "hora": "22:37", "data": "27/10/2021", "imagem": "caminho da imagem" }])
-
+    //exibeNoticias([{ "id": 1, "titulo": 'Corinthians relembra visitas e parabeniza Mauricio de Sousa', "subtitulo": "Cartunista criador da Turma da Mônica completa 86 anos nesta quarta-feira", "texto": "O Corinthians usou as redes sociais para parabenizar nesta quarta-feira o cartunista e empresário Mauricio de Sousa, criador da Turma da Mônica. Mauricio de Sousa, que já fez algumas visitas à sede e ao CT do Corinthians, completa 86 anos nesta quarta. Cascão, um dos personagens de maior sucesso do cartunista, é torcedor do Timão. Ele já apareceu em diferentes situações com a camisa do clube, inclusive após a conquista do título Mundial de 2012.", "hora": "22:37", "data": "27/10/2021", "imagem": "caminho da imagem" }, { "id": 2, "titulo": 'titulo 2 da notícia', "subtitulo": "Subtitulo da notícia", "texto": "texto da notícia", "hora": "22:37", "data": "27/10/2021", "imagem": "caminho da imagem" }, { "id": 3, "titulo": 'titulo 3 da notícia', "subtitulo": "Subtitulo da notícia", "texto": "texto da notícia", "hora": "22:37", "data": "27/10/2021", "imagem": "caminho da imagem" }, { "id": 4, "titulo": 'titulo 4 da notícia', "subtitulo": "Subtitulo da notícia", "texto": "texto da notícia", "hora": "22:37", "data": "27/10/2021", "imagem": "caminho da imagem" }, { "id": 5, "titulo": 'titulo 5 da notícia', "subtitulo": "Subtitulo da notícia", "texto": "texto da notícia", "hora": "22:37", "data": "27/10/2021", "imagem": "caminho da imagem" }, { "id": 6, "titulo": 'titulo 6 da notícia', "subtitulo": "Subtitulo da notícia", "texto": "texto da notícia", "hora": "22:37", "data": "27/10/2021", "imagem": "caminho da imagem" }, { "id": 7, "titulo": 'titulo 7 da notícia', "subtitulo": "Subtitulo da notícia", "texto": "texto da notícia", "hora": "22:37", "data": "27/10/2021", "imagem": "caminho da imagem" }, { "id": 8, "titulo": 'titulo 8 da notícia', "subtitulo": "Subtitulo da notícia", "texto": "texto da notícia", "hora": "22:37", "data": "27/10/2021", "imagem": "caminho da imagem" }, { "id": 9, "titulo": 'titulo 9 da notícia', "subtitulo": "Subtitulo da notícia", "texto": "texto da notícia", "hora": "22:37", "data": "27/10/2021", "imagem": "caminho da imagem" }, { "id": 10, "titulo": 'titulo 10 da notícia', "subtitulo": "Subtitulo da notícia", "texto": "texto da notícia", "hora": "22:37", "data": "27/10/2021", "imagem": "caminho da imagem" }, { "id": 11, "titulo": 'titulo 11 da notícia', "subtitulo": "Subtitulo da notícia", "texto": "texto da notícia", "hora": "22:37", "data": "27/10/2021", "imagem": "caminho da imagem" }])
+    
+    exibeNoticias(buscaJson("noticia"));
   });
 </script>
 
 <body>
   <!--************************************************************************************************************************************-->
-  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <nav class="navbar navbar-expand-lg navbar-light bg-light" style="margin-bottom: 30px!important;">
     <div class="container-fluid">
 
       <!--recarregar página incial-->
-      <a class="navbar-brand" onClick="window.location.reload()">SoccerShirt</a>
+      <a class="navbar-brand" onClick="window.location.reload()" style="cursor: pointer;">SoccerShirt</a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
         aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -170,37 +164,7 @@
     </div>
   </nav>
   <!--************************************************************************************************************************************-->
-  <section>
-
-    <div class="container">
-      <div class="row titulo"></div>
-      <div class="row subtitulo"></div>
-      <div class="row imagem"></div>
-    </div>
-
-    <!--    
-      <div class="row">
-        <div class="col-sm">
-          <h3>${json[i].titulo}</h3>
-        </div>
-      </div>
-
-      <div class="row">
-        <div class="col-sm">
-          <p>${json[i].subtitulo}</p>
-        </div>
-      </div>
-
-      <div class="row">
-        <div class="col-sm">
-          <p>${json[i].imagem}</p>
-        </div>
-      </div>
-    </div>
-
--->
-  </section>
-
+  <section></section>
 </body>
 
 </html>
