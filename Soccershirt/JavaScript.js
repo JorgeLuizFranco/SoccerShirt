@@ -4,10 +4,10 @@
 var acao = "";
 var categoria = "";
 //BUSCA DE DADOS ESPECIFICOS************************************************
-async function buscaJsonEx(id, categ) {
+async function buscaJsonEx() {
     var ans = null
     var request = await $.ajax({
-        url: "Selecionar" + categ.charAt(0).toUpperCase() + categ.slice(1),
+        url: "Selecionar" + categoria.charAt(0).toUpperCase() + categoria.slice(1),
         type: 'POST',
         data: id,
         async: true,
@@ -79,8 +79,7 @@ async function verificaAdm() {
 //chamada da função para editar
 async function editar() {
     let id = $("#opcSelectG option:selected").val();
-    let json = await buscaJsonEx(id, categoria);
-    console.log(json)
+    let json = await buscaJsonEx(id);
     if (categoria == "noticia") {
         camposNoticia("Editando notícia", id);
         $("#tituloNoticia").val(json.titulo);
@@ -529,31 +528,31 @@ async function completaIndex() {
 //abre a notícia clicada*****************************************************************************************************************
 async function expandeNoticia(id) {
     //vamos setar uma categoria para usar na função de busca
-    categoria = "noticia"
-    let json = await buscaJsonEx(id, categoria);
-    console.log(json)
+    /*categoria = "noticia"
+    let json = await buscaJsonEx(id);
+    console.log(json)*/
     //json teste 
     //json = { "id": 1, "titulo": 'Corinthians relembra visitas e parabeniza Mauricio de Sousa', "subtitulo": "Cartunista criador da Turma da Mônica completa 86 anos nesta quarta-feira", "texto": "O Corinthians usou as redes sociais para parabenizar nesta quarta-feira o cartunista e empresário Mauricio de Sousa, criador da Turma da Mônica. Mauricio de Sousa, que já fez algumas visitas à sede e ao CT do Corinthians, completa 86 anos nesta quarta. Cascão, um dos personagens de maior sucesso do cartunista, é torcedor do Timão. Ele já apareceu em diferentes situações com a camisa do clube, inclusive após a conquista do título Mundial de 2012.", "hora": "22:37", "data": "27/10/2021", "imagem": "caminho da imagem" };
     $("section").html(`<div class="container" style="margin: auto!important;">
           <div class="row">
-            <div class="col-sm"><h1 style="font-size: 3.7em; text-transform: none; letter-spacing: -1px;">${json.titulo}</h1></div>
+            <div class="col-sm"><h1 style="font-size: 3.7em; text-transform: none; letter-spacing: -1px;">${json[id].titulo}</h1></div>
           </div>
           <div class="row" style="color: #495057;">
             <div class="col-8">
-              <h5>${json.subtitulo}</h5>
+              <h5>${json[id].subtitulo}</h5>
             </div>
             <div class="col-4">
-              <span>Publicado: ${json.data} ${json.hora}</span>
+              <span>Publicado: ${json[id].data} ${json[id].hora}</span>
               <br>
-              <span>Última edição: ${json.data} ${json.hora}</span>
+              <span>Última edição: ${json[id].data} ${json[id].hora}</span>
             </div>
           </div>
           <div class="row">
             <div class="col-8">
-              <p>${json.texto}</p>
+              <p>${json[id].texto}</p>
             </div>
             <div class="col-4">
-              <span>${json.imagem}</span>
+              <span>${json[id].imagem}</span>
             </div>
             
           </div>
