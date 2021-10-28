@@ -528,10 +528,10 @@ async function completaIndex() {
 }
 //abre a notícia clicada*****************************************************************************************************************
 async function expandeNoticia(id) {
-    console.log(id);
-
     //vamos setar uma categoria para usar na função de busca
-    let json = await buscaJsonEx(id, "noticia");
+    categoria = "noticia"
+    let json = await buscaJsonEx(id, categoria);
+    console.log(json)
     //json teste 
     //json = { "id": 1, "titulo": 'Corinthians relembra visitas e parabeniza Mauricio de Sousa', "subtitulo": "Cartunista criador da Turma da Mônica completa 86 anos nesta quarta-feira", "texto": "O Corinthians usou as redes sociais para parabenizar nesta quarta-feira o cartunista e empresário Mauricio de Sousa, criador da Turma da Mônica. Mauricio de Sousa, que já fez algumas visitas à sede e ao CT do Corinthians, completa 86 anos nesta quarta. Cascão, um dos personagens de maior sucesso do cartunista, é torcedor do Timão. Ele já apareceu em diferentes situações com a camisa do clube, inclusive após a conquista do título Mundial de 2012.", "hora": "22:37", "data": "27/10/2021", "imagem": "caminho da imagem" };
     $("section").html(`<div class="container" style="margin: auto!important;">
