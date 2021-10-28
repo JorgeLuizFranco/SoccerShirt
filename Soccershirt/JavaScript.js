@@ -3,6 +3,7 @@
 //de gerenciamento será feita, para facilitar
 var acao = "";
 var categoria = "";
+var json;
 //BUSCA DE DADOS ESPECIFICOS************************************************
 async function buscaJsonEx() {
     var ans = null
@@ -500,7 +501,7 @@ function exibeNoticias(json) {
 //exibe na tela do index*************************************************************************************************
 async function completaIndex() {
     //pegamos os times cadastrados e colocamos no navbar**************************************************************************************
-    var json = await buscaJson("time");
+    json = await buscaJson("time");
     //var json = [{ "id": 1, "nome": 'time 1' }, { "id": 2, "nome": 'time 2' }, { "id": 3, "nome": 'time 3' }, { "id": 4, "nome": 'time 4' }, { "id": 5, "nome": 'time 5' }, { "id": 1, "nome": 'time 1' }, { "id": 2, "nome": 'time 2' }, { "id": 3, "nome": 'time 3' }, { "id": 4, "nome": 'time 4' }, { "id": 5, "nome": 'time 5' }];
     for (let i = 0; i < json.length; i++) {
         $("#dropTimes").append(`
@@ -533,28 +534,33 @@ async function expandeNoticia(id) {
     console.log(json)*/
     //json teste 
     //json = { "id": 1, "titulo": 'Corinthians relembra visitas e parabeniza Mauricio de Sousa', "subtitulo": "Cartunista criador da Turma da Mônica completa 86 anos nesta quarta-feira", "texto": "O Corinthians usou as redes sociais para parabenizar nesta quarta-feira o cartunista e empresário Mauricio de Sousa, criador da Turma da Mônica. Mauricio de Sousa, que já fez algumas visitas à sede e ao CT do Corinthians, completa 86 anos nesta quarta. Cascão, um dos personagens de maior sucesso do cartunista, é torcedor do Timão. Ele já apareceu em diferentes situações com a camisa do clube, inclusive após a conquista do título Mundial de 2012.", "hora": "22:37", "data": "27/10/2021", "imagem": "caminho da imagem" };
-    $("section").html(`<div class="container" style="margin: auto!important;">
-          <div class="row">
-            <div class="col-sm"><h1 style="font-size: 3.7em; text-transform: none; letter-spacing: -1px;">${json[id].titulo}</h1></div>
-          </div>
-          <div class="row" style="color: #495057;">
-            <div class="col-8">
-              <h5>${json[id].subtitulo}</h5>
+    for (let i = 0; i < json.length; i++) {
+        if(json[i].id == id){
+            $("section").html(`<div class="container" style="margin: auto!important;">
+            <div class="row">
+              <div class="col-sm"><h1 style="font-size: 3.7em; text-transform: none; letter-spacing: -1px;">${json[i].titulo}</h1></div>
             </div>
-            <div class="col-4">
-              <span>Publicado: ${json[id].data} ${json[id].hora}</span>
-              <br>
-              <span>Última edição: ${json[id].data} ${json[id].hora}</span>
+            <div class="row" style="color: #495057;">
+              <div class="col-8">
+                <h5>${json[i].subtitulo}</h5>
+              </div>
+              <div class="col-4">
+                <span>Publicado: ${json[i].data} ${json[i].hora}</span>
+                <br>
+                <span>Última edição: ${json[i].data} ${json[i].hora}</span>
+              </div>
             </div>
-          </div>
-          <div class="row">
-            <div class="col-8">
-              <p>${json[id].texto}</p>
+            <div class="row">
+              <div class="col-8">
+                <p>${json[i].texto}</p>
+              </div>
+              <div class="col-4">
+                <span>${json[i].imagem}</span>
+              </div>
+              
             </div>
-            <div class="col-4">
-              <span>${json[id].imagem}</span>
-            </div>
-            
-          </div>
-        </div>`);
+          </div>`);
+        }        
+    }
+    
 }
