@@ -528,6 +528,8 @@ async function completaIndex() {
 }
 //abre a notícia clicada*****************************************************************************************************************
 async function expandeNoticia(id) {
+    console.log(id);
+
     //vamos setar uma categoria para usar na função de busca
     let json = await buscaJsonEx(id, "noticia");
     //json teste 
