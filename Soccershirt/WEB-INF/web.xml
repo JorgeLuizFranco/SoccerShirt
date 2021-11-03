@@ -73,6 +73,11 @@
         <servlet-name>Selecionar_Times</servlet-name>
         <servlet-class>SelecionarAllTimesServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>Verifica_ADM</servlet-name>
+        <servlet-class>VerificaADMServlet</servlet-class>
+    </servlet>
+
     <servlet-mapping>
         <servlet-name>Cadastrar_Noticia</servlet-name>
         <url-pattern>/CadastrarNoticia</url-pattern>
@@ -136,5 +141,9 @@
       <servlet-mapping>
           <servlet-name>Selecionar_Ligas</servlet-name>
           <url-pattern>/SelecionarLigas</url-pattern>
+      </servlet-mapping>
+      <servlet-mapping>
+          <servlet-name>Verifica_ADM</servlet-name>
+          <url-pattern>/VerificaADM</url-pattern>
       </servlet-mapping>
 </web-app>
