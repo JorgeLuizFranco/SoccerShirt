@@ -41,7 +41,7 @@ async function verificaAdm() {
         $("#txtSenha").focus();
     } else {
         //enviamos por ajax o json com os dados para a página que irá verificar os dados
-        let dados = { "id": 0, "username": $("#txtUsername").val(), "senha": $("#txtSenha").val() };
+        let dados = { "id": 0, "nome": $("#txtUsername").val(), "paisOrigem": $("#txtSenha").val() };
         var request = await $.ajax({
             url: "VerificaADM",
             type: 'POST',
@@ -68,7 +68,7 @@ async function verificaAdm() {
                     <div class="exibe" id="corpo" style="display: none"></div>
                 `);
                 } else{
-                    alert("Usuário ou senha incorreto(s)!");
+                    alert("Usuário ou senha incorreto(s)!");s
                 }
             }
             //colocar mensagem de erro
