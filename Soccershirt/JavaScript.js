@@ -42,6 +42,7 @@ async function verificaAdm() {
     } else {
         //enviamos por ajax o json com os dados para a página que irá verificar os dados
         let dados = { "id": 0, "nome": $("#txtUsername").val(), "paisOrigem": $("#txtSenha").val() };
+        console.log(dados)
         var request = await $.ajax({
             url: "VerificaADM",
             type: 'POST',
@@ -79,6 +80,7 @@ async function verificaAdm() {
         request.fail(function (jqXHR, textStatus) {
             alert("Request failed: " + textStatus);
         });
+        console.log(request);
     }
 }
 //EDITAR************************************************************************
