@@ -41,14 +41,15 @@ async function verificaAdm() {
         $("#txtSenha").focus();
     } else {
         //enviamos por ajax o json com os dados para a página que irá verificar os dados
-        let dados = { "id" : 0, "username": $("#txtUsername").val(), "senha": $("#txtSenha").val() };
+        let dados = { "id": 0, "username": $("#txtUsername").val(), "senha": $("#txtSenha").val() };
         var request = await $.ajax({
             url: "VerificaADM",
             type: 'POST',
             data: dados,
             async: true,
             success: function (mensagem) {
-                $("section").text(`
+                if (mensagem) {
+                    $("section").text(`
                     <div class="exibe" id="menu">
                         <h4>Escolha uma categoria</h4>
                         <select id="opcSelect" class="form-control">
@@ -66,6 +67,9 @@ async function verificaAdm() {
                     </div>
                     <div class="exibe" id="corpo" style="display: none"></div>
                 `);
+                } else{
+                    alert("Usuário ou senha incorreto(s)!");
+                }
             }
             //colocar mensagem de erro
         })
@@ -536,7 +540,7 @@ async function expandeNoticia(id) {
     //json teste 
     //json = { "id": 1, "titulo": 'Corinthians relembra visitas e parabeniza Mauricio de Sousa', "subtitulo": "Cartunista criador da Turma da Mônica completa 86 anos nesta quarta-feira", "texto": "O Corinthians usou as redes sociais para parabenizar nesta quarta-feira o cartunista e empresário Mauricio de Sousa, criador da Turma da Mônica. Mauricio de Sousa, que já fez algumas visitas à sede e ao CT do Corinthians, completa 86 anos nesta quarta. Cascão, um dos personagens de maior sucesso do cartunista, é torcedor do Timão. Ele já apareceu em diferentes situações com a camisa do clube, inclusive após a conquista do título Mundial de 2012.", "hora": "22:37", "data": "27/10/2021", "imagem": "caminho da imagem" };
     for (let i = 0; i < json.length; i++) {
-        if(json[i].id == id){
+        if (json[i].id == id) {
             $("section").html(`<div class="container" style="margin: auto!important;">
             <div class="row">
               <div class="col-sm"><h1 style="font-size: 3.7em; text-transform: none; letter-spacing: -1px;">${json[i].titulo}</h1></div>
@@ -561,7 +565,7 @@ async function expandeNoticia(id) {
               
             </div>
           </div>`);
-        }        
+        }
     }
-    
+
 }
