@@ -41,10 +41,11 @@ async function verificaAdm() {
         $("#txtSenha").focus();
     } else {
         //enviamos por ajax o json com os dados para a página que irá verificar os dados
+        let dados = { "username": $("#txtUsername").val(), "senha": $("#txtSenha").val() };
         var request = await $.ajax({
-            url: "link",
+            url: "VerificaADM",
             type: 'POST',
-            data: { "username": $("#txtUsername").val(), "senha": $("#txtSenha").val() },
+            data: dados,
             async: true,
             success: function (mensagem) {
                 $("section").text(`
