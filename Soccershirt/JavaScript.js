@@ -68,7 +68,7 @@ async function verificaAdm() {
                     </div>
                     <div class="exibe" id="corpo" style="display: none"></div>
                 `);
-                } else{
+                } else {
                     alert("Usuário ou senha incorreto(s)!");
                 }
             }
@@ -508,8 +508,8 @@ function exibeNoticias(json) {
 //exibe na tela do index*************************************************************************************************
 async function completaIndex() {
     //pegamos os times cadastrados e colocamos no navbar**************************************************************************************
-    json = await buscaJson("time");
-    //var json = [{ "id": 1, "nome": 'time 1' }, { "id": 2, "nome": 'time 2' }, { "id": 3, "nome": 'time 3' }, { "id": 4, "nome": 'time 4' }, { "id": 5, "nome": 'time 5' }, { "id": 1, "nome": 'time 1' }, { "id": 2, "nome": 'time 2' }, { "id": 3, "nome": 'time 3' }, { "id": 4, "nome": 'time 4' }, { "id": 5, "nome": 'time 5' }];
+    var json = await buscaJson("time");
+    //json = [{ "id": 1, "nome": 'time 1' }, { "id": 2, "nome": 'time 2' }, { "id": 3, "nome": 'time 3' }, { "id": 4, "nome": 'time 4' }, { "id": 5, "nome": 'time 5' }, { "id": 1, "nome": 'time 1' }, { "id": 2, "nome": 'time 2' }, { "id": 3, "nome": 'time 3' }, { "id": 4, "nome": 'time 4' }, { "id": 5, "nome": 'time 5' }];
     for (let i = 0; i < json.length; i++) {
         $("#dropTimes").append(`
         <li class="dropdown-item" onclick="funcaoDrop(${json[i].id}, 'time')">${json[i].nome}</li>`);
@@ -522,52 +522,52 @@ async function completaIndex() {
         <li class="dropdown-item" onclick="funcaoDrop(${json[i].id}, 'time')">${json[i].nome}</li>`);
     }
     //pegamos as marcas cadastrados e colocamos no navbar**************************************************************************************
-    json = await buscaJson("liga");
+     json = await buscaJson("liga");
     //json = [{ "id": 1, "nome": 'liga 1' }, { "id": 2, "nome": 'liga 2' }, { "id": 3, "nome": 'liga 3' }, { "id": 4, "nome": 'liga 4' }, { "id": 5, "nome": 'liga 5' }];
     for (let i = 0; i < json.length; i++) {
         $("#dropLigas").append(`
         <li class="dropdown-item" onclick="funcaoDrop(${json[i].id}, 'liga')">${json[i].nome}</li>`);
     }
     //chamamos a função que irá exibir as notícias e passamos como parametro um json com todas as notícias a serem exibidas
-    //exibeNoticias([{ "id": 1, "titulo": 'Corinthians relembra visitas e parabeniza Mauricio de Sousa', "subtitulo": "Cartunista criador da Turma da Mônica completa 86 anos nesta quarta-feira", "texto": "O Corinthians usou as redes sociais para parabenizar nesta quarta-feira o cartunista e empresário Mauricio de Sousa, criador da Turma da Mônica. Mauricio de Sousa, que já fez algumas visitas à sede e ao CT do Corinthians, completa 86 anos nesta quarta. Cascão, um dos personagens de maior sucesso do cartunista, é torcedor do Timão. Ele já apareceu em diferentes situações com a camisa do clube, inclusive após a conquista do título Mundial de 2012.", "hora": "22:37", "data": "27/10/2021", "imagem": "caminho da imagem" }, { "id": 2, "titulo": 'titulo 2 da notícia', "subtitulo": "Subtitulo da notícia", "texto": "texto da notícia", "hora": "22:37", "data": "27/10/2021", "imagem": "caminho da imagem" }, { "id": 3, "titulo": 'titulo 3 da notícia', "subtitulo": "Subtitulo da notícia", "texto": "texto da notícia", "hora": "22:37", "data": "27/10/2021", "imagem": "caminho da imagem" }, { "id": 4, "titulo": 'titulo 4 da notícia', "subtitulo": "Subtitulo da notícia", "texto": "texto da notícia", "hora": "22:37", "data": "27/10/2021", "imagem": "caminho da imagem" }, { "id": 5, "titulo": 'titulo 5 da notícia', "subtitulo": "Subtitulo da notícia", "texto": "texto da notícia", "hora": "22:37", "data": "27/10/2021", "imagem": "caminho da imagem" }, { "id": 6, "titulo": 'titulo 6 da notícia', "subtitulo": "Subtitulo da notícia", "texto": "texto da notícia", "hora": "22:37", "data": "27/10/2021", "imagem": "caminho da imagem" }, { "id": 7, "titulo": 'titulo 7 da notícia', "subtitulo": "Subtitulo da notícia", "texto": "texto da notícia", "hora": "22:37", "data": "27/10/2021", "imagem": "caminho da imagem" }, { "id": 8, "titulo": 'titulo 8 da notícia', "subtitulo": "Subtitulo da notícia", "texto": "texto da notícia", "hora": "22:37", "data": "27/10/2021", "imagem": "caminho da imagem" }, { "id": 9, "titulo": 'titulo 9 da notícia', "subtitulo": "Subtitulo da notícia", "texto": "texto da notícia", "hora": "22:37", "data": "27/10/2021", "imagem": "caminho da imagem" }, { "id": 10, "titulo": 'titulo 10 da notícia', "subtitulo": "Subtitulo da notícia", "texto": "texto da notícia", "hora": "22:37", "data": "27/10/2021", "imagem": "caminho da imagem" }, { "id": 11, "titulo": 'titulo 11 da notícia', "subtitulo": "Subtitulo da notícia", "texto": "texto da notícia", "hora": "22:37", "data": "27/10/2021", "imagem": "caminho da imagem" }])
     json = await buscaJson("noticia");
     exibeNoticias(json);
+    //exibeNoticias([{ "id": 1, "titulo": 'Corinthians relembra visitas e parabeniza Mauricio de Sousa', "subtitulo": "Cartunista criador da Turma da Mônica completa 86 anos nesta quarta-feira", "texto": "O Corinthians usou as redes sociais para parabenizar nesta quarta-feira o cartunista e empresário Mauricio de Sousa, criador da Turma da Mônica. Mauricio de Sousa, que já fez algumas visitas à sede e ao CT do Corinthians, completa 86 anos nesta quarta. Cascão, um dos personagens de maior sucesso do cartunista, é torcedor do Timão. Ele já apareceu em diferentes situações com a camisa do clube, inclusive após a conquista do título Mundial de 2012.", "hora": "22:37", "data": "27/10/2021", "imagem": "caminho da imagem" }, { "id": 2, "titulo": 'titulo 2 da notícia', "subtitulo": "Subtitulo da notícia", "texto": "texto da notícia", "hora": "22:37", "data": "27/10/2021", "imagem": "caminho da imagem" }, { "id": 3, "titulo": 'titulo 3 da notícia', "subtitulo": "Subtitulo da notícia", "texto": "texto da notícia", "hora": "22:37", "data": "27/10/2021", "imagem": "caminho da imagem" }, { "id": 4, "titulo": 'titulo 4 da notícia', "subtitulo": "Subtitulo da notícia", "texto": "texto da notícia", "hora": "22:37", "data": "27/10/2021", "imagem": "caminho da imagem" }, { "id": 5, "titulo": 'titulo 5 da notícia', "subtitulo": "Subtitulo da notícia", "texto": "texto da notícia", "hora": "22:37", "data": "27/10/2021", "imagem": "caminho da imagem" }, { "id": 6, "titulo": 'titulo 6 da notícia', "subtitulo": "Subtitulo da notícia", "texto": "texto da notícia", "hora": "22:37", "data": "27/10/2021", "imagem": "caminho da imagem" }, { "id": 7, "titulo": 'titulo 7 da notícia', "subtitulo": "Subtitulo da notícia", "texto": "texto da notícia", "hora": "22:37", "data": "27/10/2021", "imagem": "caminho da imagem" }, { "id": 8, "titulo": 'titulo 8 da notícia', "subtitulo": "Subtitulo da notícia", "texto": "texto da notícia", "hora": "22:37", "data": "27/10/2021", "imagem": "caminho da imagem" }, { "id": 9, "titulo": 'titulo 9 da notícia', "subtitulo": "Subtitulo da notícia", "texto": "texto da notícia", "hora": "22:37", "data": "27/10/2021", "imagem": "caminho da imagem" }, { "id": 10, "titulo": 'titulo 10 da notícia', "subtitulo": "Subtitulo da notícia", "texto": "texto da notícia", "hora": "22:37", "data": "27/10/2021", "imagem": "caminho da imagem" }, { "id": 11, "titulo": 'titulo 11 da notícia', "subtitulo": "Subtitulo da notícia", "texto": "texto da notícia", "hora": "22:37", "data": "27/10/2021", "imagem": "caminho da imagem" }])
+
 }
 //abre a notícia clicada*****************************************************************************************************************
 async function expandeNoticia(id) {
     //vamos setar uma categoria para usar na função de busca
-    /*categoria = "noticia"
+    categoria = "noticia";
     let json = await buscaJsonEx(id);
-    console.log(json)*/
-    //json teste 
-    //json = { "id": 1, "titulo": 'Corinthians relembra visitas e parabeniza Mauricio de Sousa', "subtitulo": "Cartunista criador da Turma da Mônica completa 86 anos nesta quarta-feira", "texto": "O Corinthians usou as redes sociais para parabenizar nesta quarta-feira o cartunista e empresário Mauricio de Sousa, criador da Turma da Mônica. Mauricio de Sousa, que já fez algumas visitas à sede e ao CT do Corinthians, completa 86 anos nesta quarta. Cascão, um dos personagens de maior sucesso do cartunista, é torcedor do Timão. Ele já apareceu em diferentes situações com a camisa do clube, inclusive após a conquista do título Mundial de 2012.", "hora": "22:37", "data": "27/10/2021", "imagem": "caminho da imagem" };
-    for (let i = 0; i < json.length; i++) {
-        if (json[i].id == id) {
-            $("section").html(`<div class="container" style="margin: auto!important;">
+    console.log(json)
+    /*console.log(json)*/
+    //for (let i = 0; i < json.length; i++) {
+    // if (json[i].id == id) {
+    $("section").html(`<div class="container" style="margin: auto!important;">
             <div class="row">
-              <div class="col-sm"><h1 style="font-size: 3.7em; text-transform: none; letter-spacing: -1px;">${json[i].titulo}</h1></div>
+              <div class="col-sm"><h1 style="font-size: 3.7em; text-transform: none; letter-spacing: -1px;">${json.titulo}</h1></div>
             </div>
             <div class="row" style="color: #495057;">
               <div class="col-8">
-                <h5>${json[i].subtitulo}</h5>
+                <h5>${json.subtitulo}</h5>
               </div>
               <div class="col-4">
-                <span>Publicado: ${json[i].data} ${json[i].hora}</span>
+                <span>Publicado: ${json.data} ${json.hora}</span>
                 <br>
-                <span>Última edição: ${json[i].data} ${json[i].hora}</span>
+                <span>Última edição: ${json.data} ${json.hora}</span>
               </div>
             </div>
             <div class="row">
               <div class="col-8">
-                <p>${json[i].texto}</p>
+                <p>${json.texto}</p>
               </div>
               <div class="col-4">
-                <span>${json[i].imagem}</span>
+                <span>${json.imagem}</span>
               </div>
               
             </div>
           </div>`);
-        }
-    }
+    //}
+    // }
 
 }
