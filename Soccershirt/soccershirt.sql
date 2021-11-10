@@ -1,242 +1,131 @@
--- phpMyAdmin SQL Dump
--- version 5.0.2
--- https://www.phpmyadmin.net/
---
--- Host: 127.0.0.1
--- Tempo de geração: 16/06/2021 às 16:36
--- Versão do servidor: 10.4.14-MariaDB
--- Versão do PHP: 7.4.9
+drop database soccershirt;
+create database soccershirt;
+use soccershirt;
+create table noticia( 
 
-SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-START TRANSACTION;
-SET time_zone = "+00:00";
+	idUnica int AUTO_INCREMENT, 
 
+	titulo text, 
 
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8mb4 */;
+	subtitulo text, 
 
---
--- Banco de dados: `soccershirt`
---
+	texto text, 
 
--- --------------------------------------------------------
+	dataC date, 
 
---
--- Estrutura para tabela `administrador`
---
+	horaC time, 
 
-CREATE TABLE `administrador` (
-  `Senha` varchar(50) NOT NULL,
-  `username` varchar(100) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+	primary key (idUnica) 
 
--- --------------------------------------------------------
+); 
 
---
--- Estrutura para tabela `contem`
---
+create table imagens( 
 
-CREATE TABLE `contem` (
-  `idTime` int(11) NOT NULL,
-  `idNoticia` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+	idNoticia int, 
 
--- --------------------------------------------------------
+	imagem varchar(700),
 
---
--- Estrutura para tabela `gerencia`
---
+	primary key(idNoticia, imagem), 
 
-CREATE TABLE `gerencia` (
-  `hora` time NOT NULL,
-  `data` date NOT NULL,
-  `idAdm` varchar(100) NOT NULL,
-  `idNoticia` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+	foreign key(idNoticia) references noticia(idUnica) 
 
--- --------------------------------------------------------
+); 
 
---
--- Estrutura para tabela `liga`
---
+create table time( 
 
-CREATE TABLE `liga` (
-  `id` int(11) NOT NULL,
-  `simbolo` longblob NOT NULL,
-  `paisOrigem` varchar(100) NOT NULL,
-  `nome` varchar(500) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+	idUnica int AUTO_INCREMENT, 
 
--- --------------------------------------------------------
+	camiseta varchar(700),
 
---
--- Estrutura para tabela `marca`
---
+	nome varchar(1000), 
 
-CREATE TABLE `marca` (
-  `id` int(11) NOT NULL,
-  `nome` varchar(500) NOT NULL,
-  `logo` longblob NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+	silaba varchar(10), 
 
--- --------------------------------------------------------
+	primary key(idUnica) 
 
---
--- Estrutura para tabela `noticia`
---
+); 
 
-CREATE TABLE `noticia` (
-  `id` int(11) NOT NULL,
-  `texto` text NOT NULL,
-  `subtitulo` text DEFAULT NULL,
-  `titulo` text NOT NULL,
-  `dataC` date NOT NULL,
-  `horaC` time NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+create table contem( 
 
--- --------------------------------------------------------
+	idNoticia int, 
 
---
--- Estrutura para tabela `participa`
---
+	idTime int, 
 
-CREATE TABLE `participa` (
-  `idLiga` int(11) NOT NULL,
-  `idTime` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+	primary key(idNoticia, idTime), 
 
--- --------------------------------------------------------
+	foreign key(idNoticia) references noticia(idUnica), 
 
---
--- Estrutura para tabela `time`
---
+	foreign key(idTime) references time(idUnica) 
 
-CREATE TABLE `time` (
-  `id` int(11) NOT NULL,
-  `camiseta` longblob NOT NULL,
-  `nome` varchar(500) NOT NULL,
-  `silaba` varchar(10) NOT NULL,
-  `idMarca` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+);  
 
---
--- Índices de tabelas apagadas
---
+create table liga( 
 
---
--- Índices de tabela `administrador`
---
-ALTER TABLE `administrador`
-  ADD PRIMARY KEY (`username`);
+	idUnica int AUTO_INCREMENT, 
 
---
--- Índices de tabela `contem`
---
-ALTER TABLE `contem`
-  ADD KEY `idNoticia` (`idNoticia`),
-  ADD KEY `idTime` (`idTime`);
+	simbolo varchar(700),
 
---
--- Índices de tabela `gerencia`
---
-ALTER TABLE `gerencia`
-  ADD PRIMARY KEY (`idAdm`,`idNoticia`),
-  ADD KEY `idNoticia` (`idNoticia`);
+	paisOrigem varchar(500), 
 
---
--- Índices de tabela `liga`
---
-ALTER TABLE `liga`
-  ADD PRIMARY KEY (`id`);
+	nome varchar(500), 
 
---
--- Índices de tabela `marca`
---
-ALTER TABLE `marca`
-  ADD PRIMARY KEY (`id`);
+	primary key(idUnica) 
 
---
--- Índices de tabela `noticia`
---
-ALTER TABLE `noticia`
-  ADD PRIMARY KEY (`id`);
+); 
 
---
--- Índices de tabela `participa`
---
-ALTER TABLE `participa`
-  ADD PRIMARY KEY (`idLiga`),
-  ADD KEY `idTime` (`idTime`);
+create table marca( 
 
---
--- Índices de tabela `time`
---
-ALTER TABLE `time`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `idMarca` (`idMarca`);
+	idUnica int AUTO_INCREMENT,	 
 
---
--- AUTO_INCREMENT de tabelas apagadas
---
+	logo varchar(700),
 
---
--- AUTO_INCREMENT de tabela `liga`
---
-ALTER TABLE `liga`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+	nome varchar(500), 
 
---
--- AUTO_INCREMENT de tabela `marca`
---
-ALTER TABLE `marca`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+	primary key(idUnica) 
 
---
--- AUTO_INCREMENT de tabela `noticia`
---
-ALTER TABLE `noticia`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+); 
 
---
--- AUTO_INCREMENT de tabela `time`
---
-ALTER TABLE `time`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+create table administrador( 
 
---
--- Restrições para dumps de tabelas
---
+	idUnica int AUTO_INCREMENT, 
 
---
--- Restrições para tabelas `contem`
---
-ALTER TABLE `contem`
-  ADD CONSTRAINT `contem_ibfk_1` FOREIGN KEY (`idNoticia`) REFERENCES `noticia` (`id`),
-  ADD CONSTRAINT `contem_ibfk_2` FOREIGN KEY (`idTime`) REFERENCES `time` (`id`);
+	username varchar(500), 
 
---
--- Restrições para tabelas `gerencia`
---
-ALTER TABLE `gerencia`
-  ADD CONSTRAINT `gerencia_ibfk_1` FOREIGN KEY (`idNoticia`) REFERENCES `noticia` (`id`),
-  ADD CONSTRAINT `gerencia_ibfk_2` FOREIGN KEY (`idAdm`) REFERENCES `administrador` (`username`);
+	senha varchar(500), 
 
---
--- Restrições para tabelas `participa`
---
-ALTER TABLE `participa`
-  ADD CONSTRAINT `participa_ibfk_1` FOREIGN KEY (`idLiga`) REFERENCES `liga` (`id`),
-  ADD CONSTRAINT `participa_ibfk_2` FOREIGN KEY (`idTime`) REFERENCES `time` (`id`);
+	primary key (idUnica) 
 
---
--- Restrições para tabelas `time`
---
-ALTER TABLE `time`
-  ADD CONSTRAINT `time_ibfk_1` FOREIGN KEY (`idMarca`) REFERENCES `marca` (`id`);
-COMMIT;
+); 
 
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+create table gerencia( 
+
+	idAdm int, 
+
+	idNoticia int, 
+
+	hora time, 
+
+	data date, 
+
+	primary key(idAdm, idNoticia), 
+
+	foreign key(idAdm) references administrador(idUnica), 
+
+	foreign key(idNoticia) references noticia(idUnica) 
+
+);  
+
+create table contemNM( 
+
+	idNoticia int, 
+
+	idMarca int, 
+
+	primary key(idNoticia, idMarca), 
+
+	foreign key(idNoticia) references noticia(idUnica), 
+
+	foreign key(idMarca) references time(idUnica) 
+
+); 
+insert into administrador (username, senha) values('admin', 'admin');
