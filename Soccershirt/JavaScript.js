@@ -223,7 +223,7 @@ function enviaNoticia(id) {
         let msg = "";
         //vamos passar o id para usar quando for editar
         //uma notícia, portanto verificamos qual é a ação
-        noticiaCompleta = { "id": id, "titulo": $("#tituloNoticia").val(), "subtitulo": $("#subtituloNoticia").val(), "conteudo": $("#conteudoNoticia").val(), "times": times, "marcas": marcas, "ligas": ligas }
+        noticiaCompleta = { "id": id, "titulo": $("#tituloNoticia").val(), "subtitulo": $("#subtituloNoticia").val(), "conteudo": $("#customFile").val() }
         if (id == 0) {
             msg = "Notícia cadastrada com sucesso!!!";
         } else {
