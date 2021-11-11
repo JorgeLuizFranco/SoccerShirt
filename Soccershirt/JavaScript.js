@@ -50,7 +50,7 @@ async function verificaAdm() {
             async: true,
             success: function (mensagem) {
                 if (mensagem) {
-                    $("section").text(`
+                    $("section").html(`
                     <div class="exibe" id="menu">
                         <h4>Escolha uma categoria</h4>
                         <select id="opcSelect" class="form-control">
