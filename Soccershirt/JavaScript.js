@@ -68,7 +68,7 @@ async function verificaAdm() {
                     </div>
                     <div class="exibe" id="corpo" style="display: none"></div>
                 `);
-                } else {
+                } else{
                     alert("Usuário ou senha incorreto(s)!");
                 }
             }
