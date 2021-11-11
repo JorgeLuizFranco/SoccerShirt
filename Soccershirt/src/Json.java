@@ -132,7 +132,7 @@ public Marca retornaMarca(String requestData){
 
 public Liga retornaLiga(String requestData){
   String[] words= {"id","nome","paisOrigem"};
-  String[] ans= new String[2];
+  String[] ans= new String[3];
   int cont=0;
   for(String x: words){
     int idx= requestData.indexOf(x);
