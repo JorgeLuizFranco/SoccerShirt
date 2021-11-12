@@ -68,8 +68,8 @@ async function verificaAdm() {
                     </div>
                     <div class="exibe" id="corpo" style="display: none"></div>
                 `);
-                } else{
-                    alert("Usuário ou senha incorreto(s)!");s
+                } else {
+                    alert("Usuário ou senha incorreto(s)!"); s
                 }
             }
             //colocar mensagem de erro
@@ -217,7 +217,7 @@ function enviaNoticia(id) {
         let msg = "";
         //vamos passar o id para usar quando for editar
         //uma notícia, portanto verificamos qual é a ação
-        noticiaCompleta = { "id": id, "titulo": $("#tituloNoticia").val(), "subtitulo": $("#subtituloNoticia").val(), "conteudo": $("#conteudoNoticia").val(), "times" : times, "marcas" : marcas, "ligas" : ligas, "imagens" : $("#customFile").val() }
+        noticiaCompleta = { "id": id, "titulo": $("#tituloNoticia").val(), "subtitulo": $("#subtituloNoticia").val(), "conteudo": $("#conteudoNoticia").val(), "timesLen" : times.length, "times": times, "marcasLen" : marcas.length,"marcas": marcas, "marcasLen" : marcas.length, "ligasLen" : ligas.length, "ligas": ligas, "imagens": $("#customFile").val() }
         console.log(noticiaCompleta);
         if (id == 0) {
             msg = "Notícia cadastrada com sucesso!!!";
@@ -517,7 +517,7 @@ async function completaIndex() {
         <li class="dropdown-item" onclick="funcaoDrop(${json[i].id}, 'time')">${json[i].nome}</li>`);
     }
     //pegamos as marcas cadastrados e colocamos no navbar**************************************************************************************
-     json = await buscaJson("liga");
+    json = await buscaJson("liga");
     //json = [{ "id": 1, "nome": 'liga 1' }, { "id": 2, "nome": 'liga 2' }, { "id": 3, "nome": 'liga 3' }, { "id": 4, "nome": 'liga 4' }, { "id": 5, "nome": 'liga 5' }];
     for (let i = 0; i < json.length; i++) {
         $("#dropLigas").append(`
