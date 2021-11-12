@@ -74,12 +74,6 @@ async function verificaAdm() {
             }
             //colocar mensagem de erro
         })
-        request.done(function (msg) {
-            $("#log").html(msg);
-        });
-        request.fail(function (jqXHR, textStatus) {
-            alert("Request failed: " + textStatus);
-        });
         console.log(request);
     }
 }
