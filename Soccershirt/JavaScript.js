@@ -4,6 +4,7 @@
 var acao = "";
 var categoria = "";
 var json;
+var imgSelecionadas;
 //BUSCA DE DADOS ESPECIFICOS************************************************
 async function buscaJsonEx() {
     var ans = null
@@ -215,9 +216,35 @@ function enviaNoticia(id) {
 
         let noticiaCompleta = "";
         let msg = "";
-        //vamos passar o id para usar quando for editar
-        //uma notícia, portanto verificamos qual é a ação
-        noticiaCompleta = { "id": id, "titulo": $("#tituloNoticia").val(), "subtitulo": $("#subtituloNoticia").val(), "conteudo": $("#conteudoNoticia").val(), "timesLen" : times.length, "times": times, "marcasLen" : marcas.length,"marcas": marcas, "marcasLen" : marcas.length, "ligasLen" : ligas.length, "ligas": ligas, "imagens": $("#customFile").val() }
+        
+        //iniciamos noticiaComleta com os dados que sempre vai ter
+        noticiaCompleta = { "id": id, "titulo": $("#tituloNoticia").val(), "subtitulo": $("#subtituloNoticia").val(), "conteudo": $("#conteudoNoticia").val(), "timesLen" : times.length, "marcasLen" : marcas.length, "ligasLen" : ligas.length};
+        //verificamos se foi selecionado algum time
+        if(times != 0){
+            //se for, vamos dividir eles no json
+            for (let i = 0; i < times.length; i++) {
+                let name = "time" + i;
+                noticiaCompleta.append(name, times[i]);
+            }
+        }
+        
+        //verificamos se foi selecionado alguma marca
+        if(marcas != 0){
+            //se for, vamos dividir eles no json
+            for (let i = 0; i < marcas.length; i++) {
+                let name = "marca" + i;
+                noticiaCompleta.append(name, marcas[i]);
+            }
+        }
+
+        //verificamos se foi selecionado alguma liga
+        if(ligas != 0){
+            //se for, vamos dividir eles no json
+            for (let i = 0; i < ligas.length; i++) {
+                let name = "liga" + i;
+                noticiaCompleta.append(name, ligas[i]);
+            }
+        }
         console.log(noticiaCompleta);
         if (id == 0) {
             msg = "Notícia cadastrada com sucesso!!!";
@@ -407,6 +434,7 @@ function getSelectValues(select) {
 }
 //quando o adm adicionar algumas foto irá adicionar um preview**********************************
 function readImage() {
+    imgSelecionadas = {};
     let filenames = [];
     let files = this.files;
     if (files.length > 1) {
@@ -433,13 +461,16 @@ function readImage() {
                     $("#imgSelecionadas").append(`<img class="img-thumbnail" src="${e.target.result}" style="margin-top: 5px; width: 70%; height: 70%">`)
                 } else {
                     $("#imgSelecionadas").append(`<img class="imgNot img-thumbnail float-left" src="${e.target.result}">`)
-
                 }
             } else {
                 $("#imgSelecionadas").append(`<img class="imgNot img-thumbnail float-right" src="${e.target.result}">`)
             }
+           /* let name = "imagem" + i;
+            console.log(file.onload);
+            imgSelecionadas.append(name, `${e.target.result}`);*/
         };
         file.readAsDataURL(this.files[i]);
+
     }
 }
 //*************************************************************************************************
