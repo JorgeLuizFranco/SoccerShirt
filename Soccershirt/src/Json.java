@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+import java.util.Arrays;
 public class Json{
   char aspas = '"';
   String strJson;
@@ -23,8 +25,9 @@ public class Json{
   }
 
   public Noticia retornaNoticia(String requestData){
-	  String[] words= {"id","titulo","subtitulo","conteudo"};
-    String[] ans= new String[4];
+	  String[] words= {"id","titulo","subtitulo","conteudo","times","marcas","ligas","imagens"};
+    String[] ans= new String[8];
+    ArrayList<String> times= new ArrayList<String>(), marcas=new ArrayList<String>(),ligas=new ArrayList<String>();
     int cont=0;
     for(String x: words){
       int idx= requestData.indexOf(x);
@@ -41,10 +44,15 @@ public class Json{
       for (int i = 0; i < requestData.length(); i++) {
         ch[i] = requestData.charAt(i);
       }
-      String aux= new String();
+      StringBuilder aux= new StringBuilder();
       while(ch[idx]!='=') ++idx;
       for(int i=idx+1; i<end; i++){
-        aux+=ch[i];
+        aux.append(ch[i]);
+      }
+      switch(x){
+        case "times": times=new ArrayList( Arrays.asList(aux.toString().split("KQVSUQ")) );
+        case "marcas": marcas=new ArrayList( Arrays.asList(aux.toString().split(",")) );
+        case "ligas": ligas=new ArrayList( Arrays.asList(aux.toString().split(",")) );
       }
       ans[cont]=aux.toString();
       ++cont;
@@ -55,6 +63,9 @@ public class Json{
     String conteudo = ans[3];
     Noticia noticia= new Noticia(titulo, subtitulo, conteudo);
     noticia.setId(id);
+    noticia.setTimes(times);
+    noticia.setLigas(ligas);
+    noticia.setMarcas(marcas);
     return noticia;
   }
 

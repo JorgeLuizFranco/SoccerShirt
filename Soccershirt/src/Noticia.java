@@ -16,6 +16,9 @@ import java.time.LocalTime;
       private String texto;
       private LocalDate data;
       private LocalTime hora;
+      private ArrayList<Integer> times;
+      private ArrayList<Integer> marcas;
+      private ArrayList<Integer> ligas;
       //public File foto;
       //construtor
       public Noticia( String titulo, String subtitulo, String texto){
@@ -24,6 +27,9 @@ import java.time.LocalTime;
         this.texto=texto;
         this.data=java.time.LocalDate.now();
         this.hora= java.time.LocalTime.now();
+        this.times= new ArrayList<Integer>();
+        this.marcas= new ArrayList<Integer>();
+        this.ligas= new ArrayList<Integer>();
       }
     // métodos get e set para id, nome, email, endereço e dataNascimento
     public void setId(int novo){
@@ -71,7 +77,30 @@ import java.time.LocalTime;
     public LocalDate getDate() {
       return this.data;
     }
-
+    public void setTimes(ArrayList<String> strTimes){
+      for(String x: strTimes){
+        this.times.add(Integer.valueOf(x));
+      }
+    }
+    public void setLigas(ArrayList<String> strLigas){
+      for(String x: strLigas){
+        this.ligas.add(Integer.valueOf(x));
+      }
+    }
+    public void setMarcas(ArrayList<String> strMarcas){
+      for(String x: strMarcas){
+        this.marcas.add(Integer.valueOf(x));
+      }
+    }
+    public ArrayList<Integer> getMarcas(){
+      return this.marcas;
+    }
+    public ArrayList<Integer> getTimes(){
+      return this.times;
+    }
+    public ArrayList<Integer> getLigas(){
+      return this.ligas;
+    }
     /*public void setData(Calendar data) {
       this.data = data;
     }*/
