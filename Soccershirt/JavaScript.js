@@ -4,7 +4,7 @@
 var acao = "";
 var categoria = "";
 var json;
-var imgSelecionadas;
+var imgSelecionadas = [];
 //BUSCA DE DADOS ESPECIFICOS************************************************
 async function buscaJsonEx() {
     var ans = null
@@ -216,35 +216,55 @@ function enviaNoticia(id) {
 
         let noticiaCompleta = "";
         let msg = "";
+        /*
+                //iniciamos noticiaComleta com os dados que sempre vai ter
+                noticiaCompleta = { "id": id, "titulo": $("#tituloNoticia").val(), "subtitulo": $("#subtituloNoticia").val(), "conteudo": $("#conteudoNoticia").val(), "timesLen": times.length };
+                //verificamos se foi selecionado algum time
+                if (times != 0) {
+                    //se for, vamos dividir eles no json
+                    for (let i = 0; i < times.length; i++) {
+                        let name = "time" + i;
+                        noticiaCompleta.append(name, times[i]);
+                    }
+                } else{
+                    noticiaCompleta.append("time0", times);
+                }
+                noticiaCompleta.append("marcasLen", marcas.length);  
+                //verificamos se foi selecionado alguma marca
+                if (marcas != 0) {
+                    //se for, vamos dividir eles no json
+                    for (let i = 0; i < marcas.length; i++) {
+                        let name = "marca" + i;
+                        noticiaCompleta.append(name, marcas[i]);
+                    }
+                } else{
+                    noticiaCompleta.append("marca0", marcas);
+                }
         
-        //iniciamos noticiaComleta com os dados que sempre vai ter
-        noticiaCompleta = { "id": id, "titulo": $("#tituloNoticia").val(), "subtitulo": $("#subtituloNoticia").val(), "conteudo": $("#conteudoNoticia").val(), "timesLen" : times.length, "marcasLen" : marcas.length, "ligasLen" : ligas.length};
-        //verificamos se foi selecionado algum time
-        if(times != 0){
-            //se for, vamos dividir eles no json
-            for (let i = 0; i < times.length; i++) {
-                let name = "time" + i;
-                noticiaCompleta.append(name, times[i]);
+                noticiaCompleta.append("ligasLen", ligas.length);
+                //verificamos se foi selecionado alguma liga
+                if (ligas != 0) {
+                    //se for, vamos dividir eles no json
+                    for (let i = 0; i < ligas.length; i++) {
+                        let name = "liga" + i;
+                        noticiaCompleta.append(name, ligas[i]);
+                    }
+                } else{
+                    noticiaCompleta.append("liga0", ligas);
+                }
+                */
+        //noticiaCompleta = { "id": id, "titulo": $("#tituloNoticia").val(), "subtitulo": $("#subtituloNoticia").val(), "conteudo": $("#conteudoNoticia").val(), "times": times, "marcas": marcas, "ligas": ligas }
+        //verificamos se foi selecionado alguma imagem
+       /* if (imgSelecionadas.length > 0) {
+            //se for, vamos dividir elas no json
+            for (let i = 0; i < imgSelecionadas.length; i++) {
+                let name = "imagem" + i;
+                noticiaCompleta = {...noticiaCompleta, name : imgSelecionadas[i]};
             }
-        }
-        
-        //verificamos se foi selecionado alguma marca
-        if(marcas != 0){
-            //se for, vamos dividir eles no json
-            for (let i = 0; i < marcas.length; i++) {
-                let name = "marca" + i;
-                noticiaCompleta.append(name, marcas[i]);
-            }
-        }
-
-        //verificamos se foi selecionado alguma liga
-        if(ligas != 0){
-            //se for, vamos dividir eles no json
-            for (let i = 0; i < ligas.length; i++) {
-                let name = "liga" + i;
-                noticiaCompleta.append(name, ligas[i]);
-            }
-        }
+        } else {
+            noticiaCompleta = {...noticiaCompleta, "imagem0": 0};
+        }*/
+       noticiaCompleta = { "id": id, "titulo": $("#tituloNoticia").val(), "subtitulo": $("#subtituloNoticia").val(), "conteudo": $("#conteudoNoticia").val(), "times": times, "marcas": marcas, "ligas": ligas, "imagens": imgSelecionadas }
         console.log(noticiaCompleta);
         if (id == 0) {
             msg = "Notícia cadastrada com sucesso!!!";
@@ -416,14 +436,18 @@ async function funcao(param) {
 }
 //pega os valores selecionados dos multiples selects******************************************************************
 function getSelectValues(select) {
-    var result = [];
+    var result = "";
     var options = select && select.options;
     var b = false;
 
     for (var i = 0; i < options.length; i++) {
         if (options[i].selected) {
             b = true;
-            result.push(parseInt(options[i].value));
+            if (i == 0) {
+                result += parseInt(options[i].value);
+            } else {
+                result += ", " + parseInt(options[i].value);
+            }
         }
     }
 
@@ -433,8 +457,8 @@ function getSelectValues(select) {
     return result;
 }
 //quando o adm adicionar algumas foto irá adicionar um preview**********************************
-function readImage() {
-    imgSelecionadas = {};
+async function readImage() {
+    imgSelecionadas = [];
     let filenames = [];
     let files = this.files;
     if (files.length > 1) {
@@ -465,12 +489,24 @@ function readImage() {
             } else {
                 $("#imgSelecionadas").append(`<img class="imgNot img-thumbnail float-right" src="${e.target.result}">`)
             }
-           /* let name = "imagem" + i;
-            console.log(file.onload);
-            imgSelecionadas.append(name, `${e.target.result}`);*/
+            let aspas = '"';
+            //let name = aspas + "imagem" + i + aspas + " : " + aspas + e.target.result + aspas;
+            /*let url = aspas + e.target.result + aspas;
+            if (i == 0) {
+                imgSelecionadas = url;
+            } else {
+                imgSelecionadas += url;
+            }*/
+            imgSelecionadas.push(e.target.result);
+            //imgSelecionadas += url;
+            /*if(i == 0){
+                imgSelecionadas += name;
+            }else{
+                imgSelecionadas += ", " + name;
+            }*/
+            //console.log(imgSelecionadas)
         };
         file.readAsDataURL(this.files[i]);
-
     }
 }
 //*************************************************************************************************
