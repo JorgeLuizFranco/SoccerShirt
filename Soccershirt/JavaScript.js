@@ -446,7 +446,7 @@ function getSelectValues(select) {
             if (result == "") {
                 result += parseInt(options[i].value);
             } else {
-                result += ", " + parseInt(options[i].value);
+                result += "KQVSUQ" + parseInt(options[i].value);
             }
         }
     }
@@ -482,7 +482,7 @@ async function readImage() {
         file.onload = function (e) {
             if (i == 0 || i % 2 == 0) {
                 if (i == tam - 1) {
-                    $("#imgSelecionadas").append(`<img class="img-thumbnail" src="${e.target.result}" style="margin-top: 5px; width: 70%; height: 70%">`)
+                    $("#imgSelecionadas").append(`<img class="img-thumbnail" src="${e.target.result}" `) //style="margin-top: 5px; width: 70%; height: 70%">
                 } else {
                     $("#imgSelecionadas").append(`<img class="imgNot img-thumbnail float-left" src="${e.target.result}">`)
                 }
