@@ -51,8 +51,8 @@ public class Json{
       }
       switch(x){
         case "times": times=new ArrayList( Arrays.asList(aux.toString().split("KQVSUQ")) );
-        case "marcas": marcas=new ArrayList( Arrays.asList(aux.toString().split(",")) );
-        case "ligas": ligas=new ArrayList( Arrays.asList(aux.toString().split(",")) );
+        case "marcas": marcas=new ArrayList( Arrays.asList(aux.toString().split("KQVSUQ")) );
+        case "ligas": ligas=new ArrayList( Arrays.asList(aux.toString().split("KQVSUQ")) );
       }
       ans[cont]=aux.toString();
       ++cont;

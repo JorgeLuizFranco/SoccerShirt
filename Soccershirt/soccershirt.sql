@@ -1,145 +1,145 @@
 drop database soccershirt;
 create database soccershirt;
 use soccershirt;
-create table noticia( 
+create table noticia(
 
-	idUnica int AUTO_INCREMENT, 
+	idUnica int AUTO_INCREMENT,
 
-	titulo text, 
+	titulo text,
 
-	subtitulo text, 
+	subtitulo text,
 
-	texto text, 
+	texto text,
 
-	dataC date, 
+	dataC date,
 
-	horaC time, 
+	horaC time,
 
-	primary key (idUnica) 
+	primary key (idUnica)
 
-); 
+);
 
-create table imagens( 
+create table imagens(
 
-	idNoticia int, 
+	idNoticia int,
 
 	imagem varchar(700),
 
-	primary key(idNoticia, imagem), 
+	primary key(idNoticia, imagem),
 
-	foreign key(idNoticia) references noticia(idUnica) 
+	foreign key(idNoticia) references noticia(idUnica)
 
-); 
+);
 
-create table time( 
+create table time(
 
-	idUnica int AUTO_INCREMENT, 
+	idUnica int AUTO_INCREMENT,
 
 	camiseta varchar(700),
 
-	nome varchar(1000), 
+	nome varchar(1000),
 
-	silaba varchar(10), 
+	silaba varchar(10),
 
-	primary key(idUnica) 
+	primary key(idUnica)
 
-); 
+);
 
-create table timeNoticia( 
+create table timeNoticia(
 
-	idNoticia int, 
+	idNoticia int,
 
-	idTime int, 
+	idTime int,
 
-	primary key(idNoticia, idTime), 
+	primary key(idNoticia, idTime),
 
-	foreign key(idNoticia) references noticia(idUnica), 
+	foreign key(idNoticia) references noticia(idUnica),
 
-	foreign key(idTime) references time(idUnica) 
+	foreign key(idTime) references time(idUnica)
 
-);  
+);
 
-create table liga( 
+create table liga(
 
-	idUnica int AUTO_INCREMENT, 
+	idUnica int AUTO_INCREMENT,
 
 	simbolo varchar(700),
 
-	paisOrigem varchar(500), 
+	paisOrigem varchar(500),
 
-	nome varchar(500), 
+	nome varchar(500),
 
-	primary key(idUnica) 
+	primary key(idUnica)
 
-); 
+);
 
-create table marca( 
+create table marca(
 
-	idUnica int AUTO_INCREMENT,	 
+	idUnica int AUTO_INCREMENT,
 
 	logo varchar(700),
 
-	nome varchar(500), 
+	nome varchar(500),
 
-	primary key(idUnica) 
+	primary key(idUnica)
 
-); 
+);
 
-create table administrador( 
+create table administrador(
 
-	idUnica int AUTO_INCREMENT, 
+	idUnica int AUTO_INCREMENT,
 
-	username varchar(500), 
+	username varchar(500),
 
-	senha varchar(500), 
+	senha varchar(500),
 
-	primary key (idUnica) 
+	primary key (idUnica)
 
-); 
+);
 
-create table gerencia( 
+create table gerencia(
 
-	idAdm int, 
+	idAdm int,
 
-	idNoticia int, 
+	idNoticia int,
 
-	hora time, 
+	hora time,
 
-	data date, 
+	data date,
 
-	primary key(idAdm, idNoticia), 
+	primary key(idAdm, idNoticia),
 
-	foreign key(idAdm) references administrador(idUnica), 
+	foreign key(idAdm) references administrador(idUnica),
 
-	foreign key(idNoticia) references noticia(idUnica) 
+	foreign key(idNoticia) references noticia(idUnica)
 
-);  
+);
 
-create table marcaNoticia( 
+create table marcaNoticia(
 
-	idNoticia int, 
+	idNoticia int,
 
-	idMarca int, 
+	idMarca int,
 
-	primary key(idNoticia, idMarca), 
+	primary key(idNoticia, idMarca),
 
-	foreign key(idNoticia) references noticia(idUnica), 
+	foreign key(idNoticia) references noticia(idUnica),
 
-	foreign key(idMarca) references marca(idUnica) 
+	foreign key(idMarca) references marca(idUnica)
 
-); 
+);
 
-create table ligaNoticia( 
+create table ligaNoticia(
 
-	idNoticia int, 
+	idNoticia int,
 
-	idLiga int, 
+	idLiga int,
 
-	primary key(idNoticia, idLiga), 
+	primary key(idNoticia, idLiga),
 
-	foreign key(idNoticia) references noticia(idUnica), 
+	foreign key(idNoticia) references noticia(idUnica),
 
-	foreign key(idLiga) references liga(idUnica) 
+	foreign key(idLiga) references liga(idUnica)
 
-); 
+);
 insert into administrador (username, senha) values('admin', 'admin');
