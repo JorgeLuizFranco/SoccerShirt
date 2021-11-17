@@ -45,7 +45,7 @@ create table time(
 
 ); 
 
-create table contem( 
+create table timeNoticia( 
 
 	idNoticia int, 
 
@@ -115,7 +115,7 @@ create table gerencia(
 
 );  
 
-create table contemNM( 
+create table marcaNoticia( 
 
 	idNoticia int, 
 
@@ -125,7 +125,21 @@ create table contemNM(
 
 	foreign key(idNoticia) references noticia(idUnica), 
 
-	foreign key(idMarca) references time(idUnica) 
+	foreign key(idMarca) references marca(idUnica) 
+
+); 
+
+create table ligaNoticia( 
+
+	idNoticia int, 
+
+	idLiga int, 
+
+	primary key(idNoticia, idLiga), 
+
+	foreign key(idNoticia) references noticia(idUnica), 
+
+	foreign key(idLiga) references liga(idUnica) 
 
 ); 
 insert into administrador (username, senha) values('admin', 'admin');
