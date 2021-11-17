@@ -255,16 +255,16 @@ function enviaNoticia(id) {
                 */
         //noticiaCompleta = { "id": id, "titulo": $("#tituloNoticia").val(), "subtitulo": $("#subtituloNoticia").val(), "conteudo": $("#conteudoNoticia").val(), "times": times, "marcas": marcas, "ligas": ligas }
         //verificamos se foi selecionado alguma imagem
-       /* if (imgSelecionadas.length > 0) {
-            //se for, vamos dividir elas no json
-            for (let i = 0; i < imgSelecionadas.length; i++) {
-                let name = "imagem" + i;
-                noticiaCompleta = {...noticiaCompleta, name : imgSelecionadas[i]};
-            }
-        } else {
-            noticiaCompleta = {...noticiaCompleta, "imagem0": 0};
-        }*/
-       noticiaCompleta = { "id": id, "titulo": $("#tituloNoticia").val(), "subtitulo": $("#subtituloNoticia").val(), "conteudo": $("#conteudoNoticia").val(), "times": times, "marcas": marcas, "ligas": ligas, "imagens": imgSelecionadas }
+        /* if (imgSelecionadas.length > 0) {
+             //se for, vamos dividir elas no json
+             for (let i = 0; i < imgSelecionadas.length; i++) {
+                 let name = "imagem" + i;
+                 noticiaCompleta = {...noticiaCompleta, name : imgSelecionadas[i]};
+             }
+         } else {
+             noticiaCompleta = {...noticiaCompleta, "imagem0": 0};
+         }*/
+        noticiaCompleta = { "id": id, "titulo": $("#tituloNoticia").val(), "subtitulo": $("#subtituloNoticia").val(), "conteudo": $("#conteudoNoticia").val(), "times": times, "marcas": marcas, "ligas": ligas, "imagens": imgSelecionadas }
         console.log(noticiaCompleta);
         if (id == 0) {
             msg = "Notícia cadastrada com sucesso!!!";
@@ -443,7 +443,7 @@ function getSelectValues(select) {
     for (var i = 0; i < options.length; i++) {
         if (options[i].selected) {
             b = true;
-            if (i == 0) {
+            if (result == "") {
                 result += parseInt(options[i].value);
             } else {
                 result += ", " + parseInt(options[i].value);
