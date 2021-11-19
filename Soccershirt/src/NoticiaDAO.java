@@ -24,6 +24,19 @@ public class NoticiaDAO {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+        String sql = "select id from noticia where dataC=? and horaC=?";
+        int id;
+        try(Connection conn = ConnectionFactory.getConnection()) {
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setDate(1, java.sql.Date.valueOf(noticia.getDate()));
+            ps.setTime(2, java.sql.Time.valueOf(noticia.getHora()));
+            ResultSet rs = ps.executeQuery();
+            if(rs.next()){
+              id=rs.getInt("idUnica");
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public List<Noticia> getNoticias() {
