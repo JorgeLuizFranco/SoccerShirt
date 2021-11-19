@@ -20,6 +20,7 @@ async function buscaJsonEx() {
     });
     return ans;
 }
+
 //BUSCA DE DADOS GERAIS*****************************************************
 async function buscaJson(categ) {
     var ans = null
@@ -559,7 +560,7 @@ function exibeNoticias(json) {
         </div>`);
         }
         $(".container:last-child .row").append(`
-          <div class="col-sm" onclick="expandeNoticia(${json[i].id})">
+          <div class="col-sm" onclick="expandeNoticia(${json[i].id})")">
             <a><h3 style="text-align: center;">${json[i].titulo}</h3></a>
             <p>${json[i].subtitulo}</p>
             <p>${json[i].imagem}</p>
@@ -602,9 +603,7 @@ async function expandeNoticia(id) {
     categoria = "noticia";
     let json = await buscaJsonEx(id);
     console.log(json)
-    /*console.log(json)*/
-    //for (let i = 0; i < json.length; i++) {
-    // if (json[i].id == id) {
+
     $("section").html(`<div class="container" style="margin: auto!important;">
             <div class="row">
               <div class="col-sm"><h1 style="font-size: 3.7em; text-transform: none; letter-spacing: -1px;">${json.titulo}</h1></div>
@@ -629,7 +628,36 @@ async function expandeNoticia(id) {
               
             </div>
           </div>`);
-    //}
-    // }
-
+}
+//FUNÇÃO DE PESQUISA***************************************************************************************************************
+async function buscar() {
+    var string = $("#inputPesquisa").val();
+    if (string.trim() == "" || string == "") {
+        $("#inputPesquisa").focus();
+    } else {
+        //noticias = await buscaJson("noticia");
+        noticias = [{ "id": 1, "titulo": 'Corinthians relembra visitas e parabeniza Mauricio de Sousa', "subtitulo": "Cartunista criador da Turma da Mônica completa 86 anos nesta quarta-feira", "texto": "O Corinthians usou as redes sociais para parabenizar nesta quarta-feira o cartunista e empresário Mauricio de Sousa, criador da Turma da Mônica. Mauricio de Sousa, que já fez algumas visitas à sede e ao CT do Corinthians, completa 86 anos nesta quarta. Cascão, um dos personagens de maior sucesso do cartunista, é torcedor do Timão. Ele já apareceu em diferentes situações com a camisa do clube, inclusive após a conquista do título Mundial de 2012.", "hora": "22:37", "data": "27/10/2021", "imagem": "caminho da imagem" }, { "id": 2, "titulo": 'titulo 2 da notícia', "subtitulo": "Subtitulo da notícia", "texto": "texto da notícia", "hora": "22:37", "data": "27/10/2021", "imagem": "caminho da imagem" }, { "id": 3, "titulo": 'titulo 3 da notícia', "subtitulo": "Subtitulo da notícia", "texto": "texto da notícia", "hora": "22:37", "data": "27/10/2021", "imagem": "caminho da imagem" }, { "id": 4, "titulo": 'titulo 4 da notícia', "subtitulo": "Subtitulo da notícia", "texto": "texto da notícia", "hora": "22:37", "data": "27/10/2021", "imagem": "caminho da imagem" }, { "id": 5, "titulo": 'titulo 5 da notícia', "subtitulo": "Subtitulo da notícia", "texto": "texto da notícia", "hora": "22:37", "data": "27/10/2021", "imagem": "caminho da imagem" }, { "id": 6, "titulo": 'titulo 6 da notícia', "subtitulo": "Subtitulo da notícia", "texto": "texto da notícia", "hora": "22:37", "data": "27/10/2021", "imagem": "caminho da imagem" }, { "id": 7, "titulo": 'titulo 7 da notícia', "subtitulo": "Subtitulo da notícia", "texto": "texto da notícia", "hora": "22:37", "data": "27/10/2021", "imagem": "caminho da imagem" }, { "id": 8, "titulo": 'titulo 8 da notícia', "subtitulo": "Subtitulo da notícia", "texto": "texto da notícia", "hora": "22:37", "data": "27/10/2021", "imagem": "caminho da imagem" }, { "id": 9, "titulo": 'titulo 9 da notícia', "subtitulo": "Subtitulo da notícia", "texto": "texto da notícia", "hora": "22:37", "data": "27/10/2021", "imagem": "caminho da imagem" }, { "id": 10, "titulo": 'titulo 10 da notícia', "subtitulo": "Subtitulo da notícia", "texto": "texto da notícia", "hora": "22:37", "data": "27/10/2021", "imagem": "caminho da imagem" }, { "id": 11, "titulo": 'titulo 11 da notícia', "subtitulo": "Subtitulo da notícia", "texto": "texto da notícia", "hora": "22:37", "data": "27/10/2021", "imagem": "caminho da imagem" }];
+        var noticiasPesquisadas = [];
+        for (let noticia of noticias) {
+            if (noticia.titulo.toUpperCase().includes(string.toUpperCase()) || noticia.subtitulo.toUpperCase().includes(string.toUpperCase()) || noticia.texto.toUpperCase().includes(string.toUpperCase())) {
+                noticiasPesquisadas.push({ "id": noticia.id, "titulo": noticia.titulo, "subtitulo": noticia.subtitulo, "texto": noticia.texto, "imagem": noticia.imagens, "horaC": noticia.horaC, "dataC": noticia.dataC });
+            }
+        }
+        if (noticiasPesquisadas.length > 0) {
+            exibeNoticias(noticiasPesquisadas);
+        } else {
+            $("section").text("");
+            $("section").append(`
+        <br>
+        <div class="container">
+          <div class="row">
+            <div class="col-sm result">
+            <h3 style="text-align: center;">Não encontramos resultados para pesquisa:</h3>
+            <h1>${string}</h1>
+            <p>Tente pesquisar outra palavra</p>
+          </div>
+          </div>
+        </div>`);
+        }
+    }
 }
