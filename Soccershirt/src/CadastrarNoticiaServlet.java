@@ -9,7 +9,9 @@ public class CadastrarNoticiaServlet extends HttpServlet {
             response.setContentType("text/html");
             PrintWriter pw=response.getWriter();//get the stream to write the data
             String requestData = request.getReader().lines().collect(Collectors.joining());
-            Json js= new Json();
+            pw.print(requestData);
+            pw.close();
+            /*Json js= new Json();
             Noticia noticia= js.retornaNoticia(requestData);
             pw.print(""+noticia.getTitulo()+" "+noticia.getSubtitulo()+" "+noticia.getTexto()+" ");
             pw.print("times ");

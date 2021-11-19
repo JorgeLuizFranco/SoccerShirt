@@ -229,7 +229,7 @@ function enviaNoticia(id) {
                 } else{
                     noticiaCompleta.append("time0", times);
                 }
-                noticiaCompleta.append("marcasLen", marcas.length);  
+                noticiaCompleta.append("marcasLen", marcas.length);
                 //verificamos se foi selecionado alguma marca
                 if (marcas != 0) {
                     //se for, vamos dividir eles no json
@@ -240,7 +240,7 @@ function enviaNoticia(id) {
                 } else{
                     noticiaCompleta.append("marca0", marcas);
                 }
-        
+
                 noticiaCompleta.append("ligasLen", ligas.length);
                 //verificamos se foi selecionado alguma liga
                 if (ligas != 0) {
@@ -509,6 +509,14 @@ async function readImage() {
         file.readAsDataURL(this.files[i]);
     }
 }
+function pesquisar(noticias, palavra){
+    for(let noticia of noticias){
+      if(noticia.titulo.includes(palavra) or noticia.subtitulo.includes(palavra) or noticia.conteudo.includes(palavra)){
+        console.log(noticia);
+        //exibe noticia
+      }
+    }
+}
 //*************************************************************************************************
 function excluir(param) {
     var request = $.ajax({
@@ -539,7 +547,7 @@ function verSenha() {
         $(".mostraolhinho").attr("type", "password");
     });
 
-    // para evitar o problema de arrastar a imagem e a senha continuar exposta, 
+    // para evitar o problema de arrastar a imagem e a senha continuar exposta,
     //citada pelo nosso amigo nos comentários
     $("#olho").mouseout(function () {
         $(".mostraolhinho").attr("type", "password");
@@ -626,7 +634,7 @@ async function expandeNoticia(id) {
               <div class="col-4">
                 <span>${json.imagem}</span>
               </div>
-              
+
             </div>
           </div>`);
     //}
