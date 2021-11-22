@@ -24,21 +24,37 @@ public class NoticiaDAO {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        sql = "select id from noticia where dataC=? and horaC=?";
-        int id;
+        sql = "select idUnica from noticia where dataC=? and horaC=?";
+        int idNoticia=-1;
         try(Connection conn = ConnectionFactory.getConnection()) {
             PreparedStatement ps = conn.prepareStatement(sql);
             ps.setDate(1, java.sql.Date.valueOf(noticia.getDate()));
             ps.setTime(2, java.sql.Time.valueOf(noticia.getHora()));
             ResultSet rs = ps.executeQuery();
             if(rs.next()){
-              id=rs.getInt("idUnica");
+              idNoticia=rs.getInt("idUnica");
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-    }
-
+        String[] ents= {"time","marca","liga"};
+        for(String x: ents){
+          ArrayList<Integer> ids;
+          if(x=="time") ids=noticia.getTimes();
+          else ids= (x=="marca"? noticia.getMarcas(): noticia.getLigas());
+          for(int id: ids){
+            sql = "insert into "+x+"Noticia values(?,?);";
+            try(Connection conn = ConnectionFactory.getConnection()) {
+                PreparedStatement ps = conn.prepareStatement(sql);
+                ps.setInt(1, idNoticia);
+                ps.setInt(2, id);
+                ps.executeUpdate();
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+          }
+        }
+   }
     public List<Noticia> getNoticias() {
         String sql = "select * from noticia";
         try(Connection conn = ConnectionFactory.getConnection()) {

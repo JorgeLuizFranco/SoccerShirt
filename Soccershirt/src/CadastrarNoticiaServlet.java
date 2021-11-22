@@ -11,7 +11,7 @@ public class CadastrarNoticiaServlet extends HttpServlet {
             String requestData = request.getReader().lines().collect(Collectors.joining());
             pw.print(requestData);
             pw.close();
-            /*Json js= new Json();
+            Json js= new Json();
             Noticia noticia= js.retornaNoticia(requestData);
             pw.print(""+noticia.getTitulo()+" "+noticia.getSubtitulo()+" "+noticia.getTexto()+" ");
             pw.print("times ");
@@ -27,13 +27,13 @@ public class CadastrarNoticiaServlet extends HttpServlet {
                 pw.print(i+" ");
             }
             pw.close();//closing the stream
-            /*NoticiaDAO bd= new NoticiaDAO();
+            NoticiaDAO bd= new NoticiaDAO();
             if(noticia.getId()==0){
               bd.adiciona(noticia);
             }
             else{
               bd.editaNoticia(noticia.getId(),noticia);
-            }*/
+            }
           //PrintWriter
       }
 }
