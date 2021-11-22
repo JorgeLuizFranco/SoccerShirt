@@ -24,7 +24,7 @@ public class NoticiaDAO {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        String sql = "select id from noticia where dataC=? and horaC=?";
+        sql = "select id from noticia where dataC=? and horaC=?";
         int id;
         try(Connection conn = ConnectionFactory.getConnection()) {
             PreparedStatement ps = conn.prepareStatement(sql);
