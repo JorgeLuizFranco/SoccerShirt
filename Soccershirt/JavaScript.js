@@ -14,7 +14,6 @@ async function buscaJsonEx() {
         data: id,
         async: true,
         success: function (json) {
-            console.log(JSON.parse(json));
             ans = JSON.parse(json);;
         }
     });
@@ -35,6 +34,7 @@ async function buscaJson(categ) {
     });
     return ans;
 }
+
 //VERIFICA ADMINISTRADOR******************************************************
 async function verificaAdm() {
     if ($("#txtUsername").val() == "") {
@@ -44,7 +44,6 @@ async function verificaAdm() {
     } else {
         //enviamos por ajax o json com os dados para a página que irá verificar os dados
         let dados = { "id": 0, "nome": $("#txtUsername").val(), "paisOrigem": $("#txtSenha").val() };
-        console.log(dados)
         var request = await $.ajax({
             url: "VerificaADM",
             type: 'POST',
@@ -71,10 +70,9 @@ async function verificaAdm() {
                     <div class="exibe" id="corpo" style="display: none"></div>
                 `);
                 } else {
-                    alert("Usuário ou senha incorreto(s)!"); s
+                    alert("Usuário ou senha incorreto(s)!"); 
                 }
             }
-            //colocar mensagem de erro
         })
         console.log(request);
     }
@@ -266,7 +264,6 @@ function enviaNoticia(id) {
              noticiaCompleta = {...noticiaCompleta, "imagem0": 0};
          }*/
         noticiaCompleta = { "id": id, "titulo": $("#tituloNoticia").val(), "subtitulo": $("#subtituloNoticia").val(), "conteudo": $("#conteudoNoticia").val(), "times": times, "marcas": marcas, "ligas": ligas, "imagens": imgSelecionadas }
-        console.log(noticiaCompleta);
         if (id == 0) {
             msg = "Notícia cadastrada com sucesso!!!";
         } else {
@@ -548,6 +545,8 @@ function verSenha() {
 }
 //exibe todas as notícias no index******************************************************************************************
 function exibeNoticias(json) {
+    console.log("exibe")
+    console.log(json)
     $("section").text("");
     cont = 0;
     for (let i = 0; i < json.length; i++) {
@@ -602,7 +601,6 @@ async function expandeNoticia(id) {
     //vamos setar uma categoria para usar na função de busca
     categoria = "noticia";
     let json = await buscaJsonEx(id);
-    console.log(json)
 
     $("section").html(`<div class="container" style="margin: auto!important;">
             <div class="row">
