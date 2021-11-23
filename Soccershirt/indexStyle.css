@@ -1,5 +1,37 @@
+* {
+    padding:0;
+    margin:0;
+    vertical-align:baseline;
+    list-style:none;
+    border:0
+    }
+html{
+    font-family: sans-serif;
+}
+header{ /*unplash*/
+    background-image: url("imgs/fundoIndex.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-attachment: fixed;
+    height: 95vh;
+}
 .container{
     align-items: center;
+}
+.containerIMG{
+    display: flex;
+    justify-content: center;
+    height: 100%;
+    width: 100%;
+    color: white;
+}
+.navbar{
+    position: fixed;
+    width: 100%;
+    
+}
+section{
+    height: 1500px;
 }
 .todosNoticias .col-sm, .result{
     text-align: center;
