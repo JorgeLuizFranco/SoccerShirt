@@ -44,7 +44,8 @@ async function buscaRelacao(categ, id) {
         data: id,
         async: true,
         success: function (json) {
-            ans = JSON.parse(json);
+            console.log(json)
+            ans = json;
         }
     });
     console.log(request);
@@ -687,6 +688,7 @@ async function funcaoDrop(id, param, nome) {
     //chamamos a função que irá retornar os ids
     //das notícias relacionadas o que for selecionado
     let idsNot = await buscaRelacao(param, id);
+    console.log(idsNot)
     if (idsNot == null) {
         $("section").text("");
         $("section").append(`
