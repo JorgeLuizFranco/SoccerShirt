@@ -234,10 +234,9 @@ function enviaNoticia(id) {
         $("#corpo").text(``)
         $("#corpo").show()
 
-        for (let n = 0; n < imgSelecionadas.length; n++) {
-            const element = array[n];
+       /* for (let n = 0; n < imgSelecionadas.length; n++) {
             $("#corpo").append(`<img class="imgNot img-thumbnail float-left" src="${imgSelecionadas[n]}">`)
-        }
+        }*/
         let noticiaCompleta = "";
         let msg = "";
         /*
