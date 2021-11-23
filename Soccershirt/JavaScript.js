@@ -602,8 +602,8 @@ function exibeNoticias(json) {
 //exibe na tela do index*************************************************************************************************
 async function completaIndex() {
     //pegamos os times cadastrados e colocamos no navbar**************************************************************************************
-    //json = await buscaJson("time");
-    json = [{ "id": 1, "nome": 'time 1' }, { "id": 2, "nome": 'time 2' }, { "id": 3, "nome": 'time 3' }, { "id": 4, "nome": 'time 4' }, { "id": 5, "nome": 'time 5' }, { "id": 1, "nome": 'time 1' }, { "id": 2, "nome": 'time 2' }, { "id": 3, "nome": 'time 3' }, { "id": 4, "nome": 'time 4' }, { "id": 5, "nome": 'time 5' }];
+    json = await buscaJson("time");
+    //json = [{ "id": 1, "nome": 'time 1' }, { "id": 2, "nome": 'time 2' }, { "id": 3, "nome": 'time 3' }, { "id": 4, "nome": 'time 4' }, { "id": 5, "nome": 'time 5' }, { "id": 1, "nome": 'time 1' }, { "id": 2, "nome": 'time 2' }, { "id": 3, "nome": 'time 3' }, { "id": 4, "nome": 'time 4' }, { "id": 5, "nome": 'time 5' }];
     for (let i = 0; i < json.length; i++) {
         $("#dropTimes").append(`
         <li class="dropdown-item"  value="${json[i].id}" onclick="funcaoDrop(${json[i].id}, 'time', '${json[i].nome}')">${json[i].nome}</li>`);
