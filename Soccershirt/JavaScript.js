@@ -14,6 +14,7 @@ async function buscaJsonEx() {
         data: id,
         async: true,
         success: function (json) {
+            console.log(JSON.parse(json));
             ans = JSON.parse(json);;
         }
     });
@@ -28,6 +29,7 @@ async function buscaJson(categ) {
         type: 'POST',
         async: true,
         success: function (json) {
+            console.log(JSON.parse(json));
             ans = JSON.parse(json);
         }
     });
@@ -36,12 +38,14 @@ async function buscaJson(categ) {
 //BUSCA RELAÇÕES*****************************************************
 async function buscaRelacao(categ, id) {
     var ans = null
+    console.log("id")
     var request = await $.ajax({
         url: "Filtra" + categ.charAt(0).toUpperCase() + categ.slice(1),
         type: 'POST',
         data: id,
         async: true,
         success: function (json) {
+            console.log(json)
             ans = json;
         }
     });
@@ -58,6 +62,7 @@ async function verificaAdm() {
     } else {
         //enviamos por ajax o json com os dados para a página que irá verificar os dados
         let dados = { "id": 0, "nome": $("#txtUsername").val(), "paisOrigem": $("#txtSenha").val() };
+        console.log(dados)
         var request = await $.ajax({
             url: "VerificaADM",
             type: 'POST',
@@ -279,6 +284,7 @@ function enviaNoticia(id) {
              noticiaCompleta = {...noticiaCompleta, "imagem0": 0};
          }*/
         noticiaCompleta = { "id": id, "titulo": $("#tituloNoticia").val(), "subtitulo": $("#subtituloNoticia").val(), "conteudo": $("#conteudoNoticia").val(), "times": times, "marcas": marcas, "ligas": ligas, "imagens": imgSelecionadas }
+        console.log(noticiaCompleta);
         if (id == 0) {
             msg = "Notícia cadastrada com sucesso!!!";
         } else {
@@ -297,7 +303,12 @@ function enviaNoticia(id) {
                 $("#exibe").hide();
             }
         })
-        
+        request.done(function (msg) {
+            $("#log").html(msg);
+        });
+        request.fail(function (jqXHR, textStatus) {
+            alert("Request failed: " + textStatus);
+        });
         console.log(request);
     }
 }
@@ -387,7 +398,12 @@ function enviaGeral(id) {
                 $("#exibe").hide();
             }
         })
-        
+        request.done(function (msg) {
+            $("#log").html(msg);
+        });
+        request.fail(function (jqXHR, textStatus) {
+            alert("Request failed: " + textStatus);
+        });
         console.log(request);
     }
 }
@@ -485,7 +501,7 @@ async function readImage() {
         file.onload = function (e) {
             if (i == 0 || i % 2 == 0) {
                 if (i == tam - 1) {
-                    $("#imgSelecionadas").append(`<img class="img-thumbnail" src="${e.target.result}" style="margin-top: 5px; width: 70%; height: 70%">`) //
+                    $("#imgSelecionadas").append(`<img class="img-thumbnail" src="${e.target.result}" >`) //
                 } else {
                     $("#imgSelecionadas").append(`<img class="imgNot img-thumbnail float-left" src="${e.target.result}">`)
                 }
@@ -524,7 +540,12 @@ function excluir(param) {
             $("#exibe").hide();
         }
     });
-    
+    request.done(function (msg) {
+        $("#log").html(msg);
+    });
+    request.fail(function (jqXHR, textStatus) {
+        alert("Request failed: " + textStatus);
+    });
     console.log(request);
 }
 //*****************************************************************************************************
@@ -599,6 +620,8 @@ async function expandeNoticia(id) {
     //vamos setar uma categoria para usar na função de busca
     categoria = "noticia";
     let json = await buscaJsonEx(id);
+    console.log(json)
+
     $("section").html(`<div class="container" style="margin: auto!important;">
             <div class="row">
               <div class="col-sm"><h1 style="font-size: 3.7em; text-transform: none; letter-spacing: -1px;">${json.titulo}</h1></div>
@@ -661,6 +684,7 @@ async function funcaoDrop(id, param, nome) {
     //chamamos a função que irá retornar os ids
     //das notícias relacionadas o que for selecionado
     let idsNot = await buscaRelacao(param, id);
+    console.log(idsNot)
     if (idsNot == null) {
         $("section").text("");
         $("section").append(`
