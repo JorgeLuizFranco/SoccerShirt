@@ -86,7 +86,7 @@ async function verificaAdm() {
                     <div class="exibe" id="corpo" style="display: none"></div>
                 `);
                 } else {
-                    alert("Usuário ou senha incorreto(s)!"); s
+                    alert("Usuário ou senha incorreto(s)!"); 
                 }
             }
             //colocar mensagem de erro
@@ -197,19 +197,19 @@ async function camposNoticia(textH4, textOnclick) {
     let json = await buscaJson("time");
     for (let i = 0; i < json.length; i++) {
         $("#slcTimes").append(`
-                    <option value="${json[i].id}">${json[i].id} - ${json[i].nome}</option>`);
+                    <option value="${json[i].id}">${json[i].nome}</option>`);
     }
     //buscando todas as marcas
     json = await buscaJson("marca");
     for (let i = 0; i < json.length; i++) {
         $("#slcMarcas").append(`
-                    <option value="${json[i].id}">${json[i].id} - ${json[i].nome}</option>`);
+                    <option value="${json[i].id}">${json[i].nome}</option>`);
     }
     //buscando todas as ligas
     json = await buscaJson("liga");
     for (let i = 0; i < json.length; i++) {
         $("#slcLigas").append(`
-                    <option value="${json[i].id}">${json[i].id} - ${json[i].nome}</option>`);
+                    <option value="${json[i].id}">${json[i].nome}</option>`);
     }
 }
 //ENVIA NOTÍCIA********************************************************************
@@ -231,7 +231,6 @@ function enviaNoticia(id) {
         let marcas = getSelectValues(slcMarcas);
 
         let noticiaCompleta = "";
-        let msg = "";
         /*
                 //iniciamos noticiaComleta com os dados que sempre vai ter
                 noticiaCompleta = { "id": id, "titulo": $("#tituloNoticia").val(), "subtitulo": $("#subtituloNoticia").val(), "conteudo": $("#conteudoNoticia").val(), "timesLen": times.length };
@@ -281,11 +280,7 @@ function enviaNoticia(id) {
              noticiaCompleta = {...noticiaCompleta, "imagem0": 0};
          }*/
         noticiaCompleta = { "id": id, "titulo": $("#tituloNoticia").val(), "subtitulo": $("#subtituloNoticia").val(), "conteudo": $("#conteudoNoticia").val(), "times": times, "marcas": marcas, "ligas": ligas, "imagens": imgSelecionadas }
-        if (id == 0) {
-            msg = "Notícia cadastrada com sucesso!!!";
-        } else {
-            msg = "Notícia editada com sucesso!!!";
-        }
+        
         var request = $.ajax({
             url: "CadastrarNoticia",
             type: 'POST',
@@ -293,7 +288,11 @@ function enviaNoticia(id) {
             data: noticiaCompleta,
             async: true,
             success: function (response) {
-                alert(msg);
+                if (id == 0) {
+                    alert("Notícia cadastrada com sucesso!!!");
+                } else {
+                    alert("Notícia editada com sucesso!!!");
+                }
                 //limpamos os campos
                 $("#formCorpo input, textarea, #customFile").val("");
                 $("#exibe").hide();
@@ -351,9 +350,9 @@ function enviaGeral(id) {
         //msg é apenas para manter a concordância do genêro
         let msg;
         if (id == 0) {
-            msg = "cadastrada com sucesso!!!";
+            msg = " cadastrada com sucesso!!!";
         } else {
-            msg = "editada com sucesso!!!";
+            msg = " editada com sucesso!!!";
         }
 
         let geralCompleto = { "id": id, "nome": $("#nome").val(), "img": $("#customFile").val() };
@@ -377,11 +376,11 @@ function enviaGeral(id) {
                     if (msg.charAt(1) == "c") {
                         msg = " cadastrado com sucesso!!!";
                     } else {
-                        msg = "editado com sucesso!!!";
+                        msg = " editado com sucesso!!!";
                     }
                 }
                 alert(categoria.charAt(0).toUpperCase() + categoria.slice(1) + msg)
-                if (acao != "cadastrar") {
+                if (acao == "cadastrar" && acao == "editar") {
                     $("#formCorpo input, textarea, #customFile").val("");
                 }
                 $("#exibe").hide();
@@ -425,7 +424,7 @@ async function funcao(param) {
             } else {
                 for (let i = 0; i < json.length; i++) {
                     $("#formCorpo select").append(`
-                        <option value="${json[i].id}">${json[i].id} - ${json[i].nome}</option>`);
+                        <option value="${json[i].id}">${json[i].nome}</option>`);
                 }
             }
         } else {
@@ -519,7 +518,7 @@ function excluir(param) {
         async: true,
         success: function (mensagem) {
             alert(param.charAt(0).toUpperCase() + param.slice(1) + " excluído com sucesso!!!")
-            $("#exibe").hide();
+            funcao('excluir');
         }
     });
     
