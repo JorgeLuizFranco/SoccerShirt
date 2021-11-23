@@ -35,26 +35,6 @@ async function buscaJson(categ) {
     });
     return ans;
 }
-
-//BUSCA RELAÇÕES*****************************************************
-async function buscaRelacao(categ, id) {
-    var ans = null
-    console.log("id")
-    var request = await $.ajax({
-        url: "Filtra" + categ.charAt(0).toUpperCase() + categ.slice(1),
-        type: 'POST',
-        data: id,
-        async: true,
-        success: function (json) {
-            console.log(json)
-            ans = json;
-        }
-    });
-    console.log(request);
-    return ans;
-
-}
-
 //VERIFICA ADMINISTRADOR******************************************************
 async function verificaAdm() {
     if ($("#txtUsername").val() == "") {
@@ -595,21 +575,21 @@ async function completaIndex() {
     //json = [{ "id": 1, "nome": 'time 1' }, { "id": 2, "nome": 'time 2' }, { "id": 3, "nome": 'time 3' }, { "id": 4, "nome": 'time 4' }, { "id": 5, "nome": 'time 5' }, { "id": 1, "nome": 'time 1' }, { "id": 2, "nome": 'time 2' }, { "id": 3, "nome": 'time 3' }, { "id": 4, "nome": 'time 4' }, { "id": 5, "nome": 'time 5' }];
     for (let i = 0; i < json.length; i++) {
         $("#dropTimes").append(`
-        <li class="dropdown-item" onclick="funcaoDrop('${json[i].id}', 'time')">${json[i].nome}</li>`);
+        <li class="dropdown-item" onclick="funcaoDrop(${json[i].id}, 'time')">${json[i].nome}</li>`);
     }
     //pegamos as marcas cadastrados e colocamos no navbar**************************************************************************************
     json = await buscaJson("marca");
     //json = [{ "id": 1, "nome": 'marca 1' }, { "id": 2, "nome": 'marca 2' }, { "id": 3, "nome": 'marca 3' }, { "id": 4, "nome": 'marca 4' }, { "id": 5, "nome": 'marca 5' }];
     for (let i = 0; i < json.length; i++) {
         $("#dropMarcas").append(`
-        <li class="dropdown-item" onclick="funcaoDrop('${json[i].id}', 'time')">${json[i].nome}</li>`);
+        <li class="dropdown-item" onclick="funcaoDrop(${json[i].id}, 'time')">${json[i].nome}</li>`);
     }
     //pegamos as marcas cadastrados e colocamos no navbar**************************************************************************************
     json = await buscaJson("liga");
     //json = [{ "id": 1, "nome": 'liga 1' }, { "id": 2, "nome": 'liga 2' }, { "id": 3, "nome": 'liga 3' }, { "id": 4, "nome": 'liga 4' }, { "id": 5, "nome": 'liga 5' }];
     for (let i = 0; i < json.length; i++) {
         $("#dropLigas").append(`
-        <li class="dropdown-item" onclick="funcaoDrop('${json[i].id}', 'liga')">${json[i].nome}</li>`);
+        <li class="dropdown-item" onclick="funcaoDrop(${json[i].id}, 'liga')">${json[i].nome}</li>`);
     }
     //chamamos a função que irá exibir as notícias e passamos como parametro um json com todas as notícias a serem exibidas
     json = await buscaJson("noticia");
@@ -679,36 +659,5 @@ async function buscar() {
           </div>
         </div>`);
         }
-    }
-}
-//FUNÇÃO DE FILTRAGEM******************************************************************************************************
-async function funcaoDrop(id, param, nome) {
-    //chamamos a função que irá retornar os ids
-    //das notícias relacionadas o que for selecionado
-    let idsNot = await buscaRelacao(param, id);
-    console.log(idsNot)
-    if (idsNot == null) {
-        $("section").text("");
-        $("section").append(`
-        <br>
-        <div class="container">
-          <div class="row">
-            <div class="col-sm result">
-            <h3 style="text-align: center;">Não há notícias relacionadas com "${nome}".</h3>
-          </div>
-          </div>
-        </div>`);
-    } else {
-        noticiasPesquisadas = [];
-        json = await buscaJson('noticia');
-        for (let i = 0; i < json.length; i++) {
-            for (let j = 0; j < idsNot.length; j++) {
-                if (json[i].id == idsNot[j]) {
-                    noticiasPesquisadas.push({ "id": json[i].id, "titulo": json[i].titulo, "subtitulo": json[i].subtitulo, "texto": json[i].texto, "imagem": json[i].imagens, "horaC": json[i].horaC, "dataC": json[i].dataC });
-                    break;
-                }
-            }
-        }
-        exibeNoticias(noticiasPesquisadas);
     }
 }
