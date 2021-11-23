@@ -41,15 +41,22 @@ async function buscaRelacao(categ, id) {
     var request = await $.ajax({
         url: "Filtra" + categ.charAt(0).toUpperCase() + categ.slice(1),
         type: 'POST',
-        data: id,
+        data: Integer.parseInt(id),
         async: true,
         success: function (json) {
             console.log(json)
             ans = json;
         }
     });
+    request.done(function (msg) {
+        $("#log").html(msg);
+    });
+    request.fail(function (jqXHR, textStatus) {
+        alert("Request failed: " + textStatus);
+    });
     console.log(request);
     return ans;
+
 }
 
 
@@ -534,8 +541,8 @@ async function readImage() {
     }
 }
 //*************************************************************************************************
-function excluir(param) {
-    var request = $.ajax({
+async function excluir(param) {
+    var request = await $.ajax({
         url: "Excluir" + param.charAt(0).toUpperCase() + param.slice(1),
         type: 'POST',
         data: $("#opcSelectG option:selected").val(),
@@ -597,6 +604,7 @@ async function completaIndex() {
     json = await buscaJson("time");
     //json = [{ "id": 1, "nome": 'time 1' }, { "id": 2, "nome": 'time 2' }, { "id": 3, "nome": 'time 3' }, { "id": 4, "nome": 'time 4' }, { "id": 5, "nome": 'time 5' }, { "id": 1, "nome": 'time 1' }, { "id": 2, "nome": 'time 2' }, { "id": 3, "nome": 'time 3' }, { "id": 4, "nome": 'time 4' }, { "id": 5, "nome": 'time 5' }];
     for (let i = 0; i < json.length; i++) {
+        console.log("time: " + `${json[i].id}` + `${json[i].nome}`)
         $("#dropTimes").append(`
         <li class="dropdown-item" onclick="funcaoDrop(${json[i].id}, 'time', '${json[i].nome}')">${json[i].nome}</li>`);
     }
@@ -604,6 +612,7 @@ async function completaIndex() {
     json = await buscaJson("marca");
     //json = [{ "id": 1, "nome": 'marca 1' }, { "id": 2, "nome": 'marca 2' }, { "id": 3, "nome": 'marca 3' }, { "id": 4, "nome": 'marca 4' }, { "id": 5, "nome": 'marca 5' }];
     for (let i = 0; i < json.length; i++) {
+        console.log("marca: " + `${json[i].id}` + `${json[i].nome}`)
         $("#dropMarcas").append(`
         <li class="dropdown-item" onclick="funcaoDrop(${json[i].id}, 'marca', '${json[i].nome}')">${json[i].nome}</li>`);
     }
@@ -611,6 +620,7 @@ async function completaIndex() {
     json = await buscaJson("liga");
     //json = [{ "id": 1, "nome": 'liga 1' }, { "id": 2, "nome": 'liga 2' }, { "id": 3, "nome": 'liga 3' }, { "id": 4, "nome": 'liga 4' }, { "id": 5, "nome": 'liga 5' }];
     for (let i = 0; i < json.length; i++) {
+        console.log("liga: " + `${json[i].id}` + `${json[i].nome}`)
         $("#dropLigas").append(`
         <li class="dropdown-item" onclick="funcaoDrop(${json[i].id}, 'liga', '${json[i].nome}')">${json[i].nome}</li>`);
     }
