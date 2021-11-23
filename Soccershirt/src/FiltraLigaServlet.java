@@ -2,7 +2,8 @@ import java.io.*;
 import javax.servlet.*;
 import javax.servlet.http.*;
 import java.util.stream.Collectors;
-public class ExcluirTimeServlet extends HttpServlet {
+import java.util.ArrayList;
+public class FiltraLigaServlet extends HttpServlet {
   //@Consumes(MediaType.APPLICATION_JSON)
       public  void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
             response.setContentType("text/html");
@@ -11,10 +12,17 @@ public class ExcluirTimeServlet extends HttpServlet {
             String requestData = request.getReader().lines().collect(Collectors.joining());
             String[] parts = requestData.split("/");
             int id=Integer.parseInt(parts[0]);
-            pw.println(id);
-            pw.println(requestData);
-            TimeDAO bd= new TimeDAO();
-            bd.removerTime(id);
+            LigaDAO bd= new LigaDAO();
+            ArrayList<Integer> idNoticias=bd.filtraNoticias(id);
+            pw.print("[");
+            int cont=0;
+            for(int idNoticia: idNoticias){
+              pw.print(idNoticia);
+              if(cont==idNoticias.size()-1) continue;
+              pw.print(",");
+              ++cont;
+            }
+            pw.print("]");
             pw.close();
       }
 }

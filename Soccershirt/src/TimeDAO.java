@@ -57,14 +57,22 @@ public class TimeDAO {
         }
     }
     public void removerTime(int id) {
-        String sql = "delete from time where idUnica=?";
-        try(Connection conn = ConnectionFactory.getConnection()) {
-            PreparedStatement ps = conn.prepareStatement(sql);
-            ps.setInt(1, id);
-            ps.executeUpdate();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+      String sql ="delete from timeNoticia where idtime=?;";
+      try(Connection conn = ConnectionFactory.getConnection()) {
+          PreparedStatement ps = conn.prepareStatement(sql);
+          ps.setInt(1, id);
+          ps.executeUpdate();
+      } catch (SQLException e) {
+          throw new RuntimeException(e);
+      }
+      sql = "delete from time where idUnica=?;";
+      try(Connection conn = ConnectionFactory.getConnection()) {
+          PreparedStatement ps = conn.prepareStatement(sql);
+          ps.setInt(1, id);
+          ps.executeUpdate();
+      } catch (SQLException e) {
+          throw new RuntimeException(e);
+      }
     }
     public void editaTime(int id, Time time){
       String sql="update time set nome=?  where idUnica=?";

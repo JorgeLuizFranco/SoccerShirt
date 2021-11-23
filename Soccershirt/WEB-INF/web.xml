@@ -81,6 +81,14 @@
         <servlet-name>Filtra_Time</servlet-name>
         <servlet-class>FiltraTimeServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>Filtra_Marca</servlet-name>
+        <servlet-class>FiltraMarcaServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>Filtra_Liga</servlet-name>
+        <servlet-class>FiltraLigaServlet</servlet-class>
+    </servlet>
 
     <servlet-mapping>
         <servlet-name>Cadastrar_Noticia</servlet-name>
@@ -153,5 +161,13 @@
       <servlet-mapping>
           <servlet-name>Filtra_Time</servlet-name>
           <url-pattern>/FiltraTime</url-pattern>
+      </servlet-mapping>
+      <servlet-mapping>
+          <servlet-name>Filtra_Marca</servlet-name>
+          <url-pattern>/FiltraMarca</url-pattern>
+      </servlet-mapping>
+      <servlet-mapping>
+          <servlet-name>Filtra_Liga</servlet-name>
+          <url-pattern>/FiltraLiga</url-pattern>
       </servlet-mapping>
 </web-app>

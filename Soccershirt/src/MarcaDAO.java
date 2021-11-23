@@ -63,7 +63,15 @@ public class MarcaDAO {
 
 
     public void removerMarca(int id) {
-        String sql = "delete from marca where idUnica=?";
+        String sql ="delete from marcaNoticia where idMarca=?;";
+        try(Connection conn = ConnectionFactory.getConnection()) {
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setInt(1, id);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        sql = "delete from marca where idUnica=?;";
         try(Connection conn = ConnectionFactory.getConnection()) {
             PreparedStatement ps = conn.prepareStatement(sql);
             ps.setInt(1, id);
@@ -85,4 +93,19 @@ public class MarcaDAO {
       }
     }
 
+    public ArrayList<Integer> filtraNoticias(int idMarca){
+      String sql = "select idNoticia from marcaNoticia where idMarca=?";
+      ArrayList<Integer> ids= new ArrayList<Integer>();
+      try(Connection conn = ConnectionFactory.getConnection()) {
+          PreparedStatement ps = conn.prepareStatement(sql);
+          ps.setInt(1, idMarca);
+          ResultSet rs = ps.executeQuery();
+          while(rs.next()){
+            ids.add(rs.getInt("idNoticia"));
+          }
+      } catch (SQLException e) {
+          throw new RuntimeException(e);
+      }
+      return ids;
+    }
 }

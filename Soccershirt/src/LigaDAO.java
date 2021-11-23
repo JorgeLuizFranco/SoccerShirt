@@ -60,14 +60,22 @@ public class LigaDAO {
         }
     }
     public void removerLiga(int id) {
-        String sql = "delete from liga where idUnica=?";
-        try(Connection conn = ConnectionFactory.getConnection()) {
-            PreparedStatement ps = conn.prepareStatement(sql);
-            ps.setInt(1, id);
-            ps.executeUpdate();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+      String sql ="delete from ligaNoticia where idliga=?;";
+      try(Connection conn = ConnectionFactory.getConnection()) {
+          PreparedStatement ps = conn.prepareStatement(sql);
+          ps.setInt(1, id);
+          ps.executeUpdate();
+      } catch (SQLException e) {
+          throw new RuntimeException(e);
+      }
+      sql = "delete from liga where idUnica=?;";
+      try(Connection conn = ConnectionFactory.getConnection()) {
+          PreparedStatement ps = conn.prepareStatement(sql);
+          ps.setInt(1, id);
+          ps.executeUpdate();
+      } catch (SQLException e) {
+          throw new RuntimeException(e);
+      }
     }
 
     public void editaLiga(int id, Liga liga){
@@ -83,4 +91,19 @@ public class LigaDAO {
       }
     }
 
+    public ArrayList<Integer> filtraNoticias(int idLiga){
+      String sql = "select idNoticia from ligaNoticia where idLiga=?";
+      ArrayList<Integer> ids= new ArrayList<Integer>();
+      try(Connection conn = ConnectionFactory.getConnection()) {
+          PreparedStatement ps = conn.prepareStatement(sql);
+          ps.setInt(1, idLiga);
+          ResultSet rs = ps.executeQuery();
+          while(rs.next()){
+            ids.add(rs.getInt("idNoticia"));
+          }
+      } catch (SQLException e) {
+          throw new RuntimeException(e);
+      }
+      return ids;
+    }
 }
