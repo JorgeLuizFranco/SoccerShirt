@@ -9,4 +9,43 @@
 .todosNoticias .col-sm:hover{
     background-color: rgb(248, 249, 250);
     cursor: pointer;
+    -webkit-animation: fadeIn 3s ease-in-out;
+    -moz-animation: fadeIn 3s ease-in-out;
+    -o-animation: fadeIn 3s ease-in-out;
+    animation: fadeIn 3s ease-in-out;
+}
+/*.container:last-child .row .col-sm{
+    -webkit-animation: fadeIn 3s ease-in-out;
+    -moz-animation: fadeIn 3s ease-in-out;
+    -o-animation: fadeIn 3s ease-in-out;
+    animation: fadeIn 3s ease-in-out;
+}*/
+
+.navbar-brand{
+    transition: all 500ms ease-in-out;
+    position: relative;
+    background: none;
+    border: 0;
+    font-weight: bold;
+}
+
+.navbar-brand:after{
+    content: '';
+
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    background: #FFAB9D;
+    transition: inherit;
+
+    position: absolute;
+   /* top: -30%;
+    left: -5px;*/
+
+    opacity: 0.3;
+    z-index: -1;
+}
+
+.navbar-brand:hover:after{
+    width: calc(100% + 20px);
 }
