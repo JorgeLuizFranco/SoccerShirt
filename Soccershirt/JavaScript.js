@@ -35,6 +35,24 @@ async function buscaJson(categ) {
     });
     return ans;
 }
+//BUSCA RELAÇÕES*****************************************************
+async function buscaRelacao(categ, id) {
+    var ans = null
+    console.log("id")
+    var request = await $.ajax({
+        url: "Filtra" + categ.charAt(0).toUpperCase() + categ.slice(1),
+        type: 'POST',
+        data: id,
+        async: true,
+        success: function (json) {
+            console.log(json)
+            ans = json;
+        }
+    });
+    console.log(request);
+    return ans;
+
+}
 //VERIFICA ADMINISTRADOR******************************************************
 async function verificaAdm() {
     if ($("#txtUsername").val() == "") {
@@ -483,7 +501,7 @@ async function readImage() {
         file.onload = function (e) {
             if (i == 0 || i % 2 == 0) {
                 if (i == tam - 1) {
-                    $("#imgSelecionadas").append(`<img class="img-thumbnail" src="${e.target.result}" >`) //style="margin-top: 5px; width: 70%; height: 70%"
+                    $("#imgSelecionadas").append(`<img class="img-thumbnail" src="${e.target.result}" style="margin-top: 5px; width: 70%; height: 70%">`) //
                 } else {
                     $("#imgSelecionadas").append(`<img class="imgNot img-thumbnail float-left" src="${e.target.result}">`)
                 }
