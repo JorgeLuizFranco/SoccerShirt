@@ -49,13 +49,6 @@ async function buscaRelacao(categ, id) {
             ans = json;
         }
     });
-
-    request.done(function (msg) {
-        $("#log").html(msg);
-    });
-    request.fail(function (jqXHR, textStatus) {
-        alert("Request failed: " + textStatus);
-    });
     console.log(request);
     return ans;
 
