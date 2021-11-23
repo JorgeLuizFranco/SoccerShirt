@@ -77,6 +77,10 @@
         <servlet-name>Verifica_ADM</servlet-name>
         <servlet-class>VerificaADMServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>Filtra_Time</servlet-name>
+        <servlet-class>FiltraTimeServlet</servlet-class>
+    </servlet>
 
     <servlet-mapping>
         <servlet-name>Cadastrar_Noticia</servlet-name>
@@ -145,5 +149,9 @@
       <servlet-mapping>
           <servlet-name>Verifica_ADM</servlet-name>
           <url-pattern>/VerificaADM</url-pattern>
+      </servlet-mapping>
+      <servlet-mapping>
+          <servlet-name>Filtra_Time</servlet-name>
+          <url-pattern>/FiltraTime</url-pattern>
       </servlet-mapping>
 </web-app>
