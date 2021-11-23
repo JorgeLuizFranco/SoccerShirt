@@ -54,7 +54,6 @@ async function buscaRelacao(categ, id) {
 
 }
 
-
 //VERIFICA ADMINISTRADOR******************************************************
 async function verificaAdm() {
     if ($("#txtUsername").val() == "") {
