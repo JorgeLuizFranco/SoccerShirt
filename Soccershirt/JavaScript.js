@@ -299,6 +299,7 @@ function enviaNoticia(id) {
                 $("#exibe").text(``);
             }
         })
+        console.log(request)
     }
 }
 //CAMPOS TIME/MARCA/LIGA****************************************************************
