@@ -38,21 +38,19 @@ async function buscaJson(categ) {
 //BUSCA RELAÇÕES*****************************************************
 async function buscaRelacao(categ, id) {
     var ans = null
-    console.log("id")
     var request = await $.ajax({
         url: "Filtra" + categ.charAt(0).toUpperCase() + categ.slice(1),
         type: 'POST',
         data: id,
         async: true,
         success: function (json) {
-            console.log(json)
-            ans = json;
+            ans = JSON.parse(json);
         }
     });
     console.log(request);
     return ans;
-
 }
+
 
 //VERIFICA ADMINISTRADOR******************************************************
 async function verificaAdm() {
@@ -234,9 +232,12 @@ function enviaNoticia(id) {
         $("#corpo").text(``)
         $("#corpo").show()
 
-       /* for (let n = 0; n < imgSelecionadas.length; n++) {
+        for (let n = 0; n < imgSelecionadas.length; n++) {
+            const element = array[n];
             $("#corpo").append(`<img class="imgNot img-thumbnail float-left" src="${imgSelecionadas[n]}">`)
-        }*/
+        }
+
+
         let noticiaCompleta = "";
         let msg = "";
         /*
@@ -252,7 +253,7 @@ function enviaNoticia(id) {
                 } else{
                     noticiaCompleta.append("time0", times);
                 }
-                noticiaCompleta.append("marcasLen", marcas.length);
+                noticiaCompleta.append("marcasLen", marcas.length);  
                 //verificamos se foi selecionado alguma marca
                 if (marcas != 0) {
                     //se for, vamos dividir eles no json
@@ -263,7 +264,7 @@ function enviaNoticia(id) {
                 } else{
                     noticiaCompleta.append("marca0", marcas);
                 }
-
+        
                 noticiaCompleta.append("ligasLen", ligas.length);
                 //verificamos se foi selecionado alguma liga
                 if (ligas != 0) {
@@ -287,7 +288,7 @@ function enviaNoticia(id) {
          } else {
              noticiaCompleta = {...noticiaCompleta, "imagem0": 0};
          }*/
-        noticiaCompleta = { "id": id, "titulo": $("#tituloNoticia").val(), "subtitulo": $("#subtituloNoticia").val(), "conteudo": $("#conteudoNoticia").val(), "times": times, "marcas": marcas, "ligas": ligas, "imagens": "imgSelecionadas", "teste": null }
+        noticiaCompleta = { "id": id, "titulo": $("#tituloNoticia").val(), "subtitulo": $("#subtituloNoticia").val(), "conteudo": $("#conteudoNoticia").val(), "times": times, "marcas": marcas, "ligas": ligas, "imagens": imgSelecionadas }
         if (id == 0) {
             msg = "Notícia cadastrada com sucesso!!!";
         } else {
@@ -446,7 +447,7 @@ async function funcao(param) {
             } else {
                 for (let i = 0; i < json.length; i++) {
                     $("#formCorpo select").append(`
-                        <option value="${json[i].id}">${json[i].nome}</option>`);
+                        <option value="${json[i].id}">${json[i].id} - ${json[i].nome}</option>`);
                 }
             }
         } else {
@@ -532,8 +533,8 @@ async function readImage() {
     }
 }
 //*************************************************************************************************
-async function excluir(param) {
-    var request = await $.ajax({
+function excluir(param) {
+    var request = $.ajax({
         url: "Excluir" + param.charAt(0).toUpperCase() + param.slice(1),
         type: 'POST',
         data: $("#opcSelectG option:selected").val(),
@@ -561,7 +562,7 @@ function verSenha() {
         $(".mostraolhinho").attr("type", "password");
     });
 
-    // para evitar o problema de arrastar a imagem e a senha continuar exposta,
+    // para evitar o problema de arrastar a imagem e a senha continuar exposta, 
     //citada pelo nosso amigo nos comentários
     $("#olho").mouseout(function () {
         $(".mostraolhinho").attr("type", "password");
@@ -593,24 +594,24 @@ function exibeNoticias(json) {
 async function completaIndex() {
     //pegamos os times cadastrados e colocamos no navbar**************************************************************************************
     json = await buscaJson("time");
-   // json = [{ "id": 1, "nome": 'time 1' }, { "id": 2, "nome": 'time 2' }, { "id": 3, "nome": 'time 3' }, { "id": 4, "nome": 'time 4' }, { "id": 5, "nome": 'time 5' }, { "id": 1, "nome": 'time 1' }, { "id": 2, "nome": 'time 2' }, { "id": 3, "nome": 'time 3' }, { "id": 4, "nome": 'time 4' }, { "id": 5, "nome": 'time 5' }];
+    //json = [{ "id": 1, "nome": 'time 1' }, { "id": 2, "nome": 'time 2' }, { "id": 3, "nome": 'time 3' }, { "id": 4, "nome": 'time 4' }, { "id": 5, "nome": 'time 5' }, { "id": 1, "nome": 'time 1' }, { "id": 2, "nome": 'time 2' }, { "id": 3, "nome": 'time 3' }, { "id": 4, "nome": 'time 4' }, { "id": 5, "nome": 'time 5' }];
     for (let i = 0; i < json.length; i++) {
         $("#dropTimes").append(`
-        <li class="dropdown-item" onclick="funcaoDrop('${json[i].id}', 'time', '${json[i].nome}')">${json[i].nome}</li>`);
+        <li class="dropdown-item" onclick="funcaoDrop(${json[i].id}, 'time', '${json[i].nome}')">${json[i].nome}</li>`);
     }
     //pegamos as marcas cadastrados e colocamos no navbar**************************************************************************************
     json = await buscaJson("marca");
     //json = [{ "id": 1, "nome": 'marca 1' }, { "id": 2, "nome": 'marca 2' }, { "id": 3, "nome": 'marca 3' }, { "id": 4, "nome": 'marca 4' }, { "id": 5, "nome": 'marca 5' }];
     for (let i = 0; i < json.length; i++) {
         $("#dropMarcas").append(`
-        <li class="dropdown-item" onclick="funcaoDrop('${json[i].id}', 'marca', '${json[i].nome}')">${json[i].nome}</li>`);
+        <li class="dropdown-item" onclick="funcaoDrop(${json[i].id}, 'marca', '${json[i].nome}')">${json[i].nome}</li>`);
     }
     //pegamos as marcas cadastrados e colocamos no navbar**************************************************************************************
     json = await buscaJson("liga");
     //json = [{ "id": 1, "nome": 'liga 1' }, { "id": 2, "nome": 'liga 2' }, { "id": 3, "nome": 'liga 3' }, { "id": 4, "nome": 'liga 4' }, { "id": 5, "nome": 'liga 5' }];
     for (let i = 0; i < json.length; i++) {
         $("#dropLigas").append(`
-        <li class="dropdown-item" onclick="funcaoDrop('${json[i].id}', 'liga', '${json[i].nome}')">${json[i].nome}</li>`);
+        <li class="dropdown-item" onclick="funcaoDrop(${json[i].id}, 'liga', '${json[i].nome}')">${json[i].nome}</li>`);
     }
     //chamamos a função que irá exibir as notícias e passamos como parametro um json com todas as notícias a serem exibidas
     json = await buscaJson("noticia");
@@ -645,7 +646,7 @@ async function expandeNoticia(id) {
               <div class="col-4">
                 <span>${json.imagem}</span>
               </div>
-
+              
             </div>
           </div>`);
 }
@@ -686,7 +687,6 @@ async function funcaoDrop(id, param, nome) {
     //chamamos a função que irá retornar os ids
     //das notícias relacionadas o que for selecionado
     let idsNot = await buscaRelacao(param, id);
-    console.log(idsNot)
     if (idsNot == null) {
         $("section").text("");
         $("section").append(`
