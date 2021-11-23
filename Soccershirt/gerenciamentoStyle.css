@@ -1,5 +1,5 @@
 body {
-    background-image: url("https://st2.depositphotos.com/3995057/8781/i/450/depositphotos_87814736-stock-photo-blur-image-stack-of-newspapers.jpg");
+    background-image: url("imgs/fundoGeren.jpg");
     background-repeat: no-repeat;
     background-size: cover;
     background-attachment: fixed;
@@ -13,7 +13,6 @@ body {
     border-radius: 10px;
     color: white;
     padding: 30px;
-    overflow: hidden;
 }
 header {
     text-align: center;
