@@ -459,7 +459,7 @@ function getSelectValues(select) {
 }
 //quando o adm adicionar algumas foto irá adicionar um preview**********************************
 async function readImage() {
-    imgEnviadas = [];
+    imgSelecionadas = [];
     let filenames = [];
     let files = this.files;
     if (files.length > 1) {
@@ -498,7 +498,7 @@ async function readImage() {
             } else {
                 imgSelecionadas += url;
             }*/
-            imgEnviadas.push(e.target.result);
+            imgSelecionadas.push(e.target.result);
             //imgSelecionadas += url;
             /*if(i == 0){
                 imgSelecionadas += name;
