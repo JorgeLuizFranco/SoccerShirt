@@ -297,7 +297,7 @@ function enviaNoticia(id) {
                 }
                 //limpamos os campos
                 $("#formCorpo input, textarea, #customFile").val("");
-                $("#exibe").hide();
+                $("#exibe").text(``);
             }
         })
     }
@@ -385,7 +385,7 @@ function enviaGeral(id) {
                 if (acao == "cadastrar" && acao == "editar") {
                     $("#formCorpo input, textarea, #customFile").val("");
                 }
-                $("#exibe").hide();
+                $("#exibe").text(``);
             }
         })
     }
@@ -640,17 +640,10 @@ async function buscar() {
             exibeNoticias(noticiasPesquisadas);
         } else {
             $("section").text("");
-            $("section").append(`
-        <br>
-        <div class="container">
-          <div class="row">
-            <div class="col-sm result">
-            <h3 style="text-align: center;">Não encontramos resultados para pesquisa:</h3>
-            <h1>${string}</h1>
-            <p>Tente pesquisar outra palavra</p>
-          </div>
-          </div>
-        </div>`);
+            $(".containerIMG").html(`
+            <h1>Não encontramos resultados para pesquisa:</h1>
+            <h3>${string}<h3>
+            <p>Tente pesquisar outra palavra</p>`);
         }
     }
 }
@@ -661,15 +654,8 @@ async function funcaoDrop(id, param, nome) {
     let idsNot = await buscaRelacao(param, id);
     if (idsNot == null || idsNot == []) {
         $("section").text("");
-        $("section").append(`
-        <br>
-        <div class="container">
-          <div class="row">
-            <div class="col-sm result">
-            <h3 style="text-align: center;">Não há notícias relacionadas com "${nome}".</h3>
-          </div>
-          </div>
-        </div>`);
+        $(".containerIMG").html(`<h1>Não há notícias relacionadas com "${nome}".</h1>`);
+       
     } else {
         noticiasPesquisadas = [];
         json = await buscaJson('noticia');
