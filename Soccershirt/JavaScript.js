@@ -38,6 +38,7 @@ async function buscaJson(categ) {
 //BUSCA RELAÇÕES*****************************************************
 async function buscaRelacao(categ, id) {
     var ans = null
+    console.log("id: " + id)
     var request = await $.ajax({
         url: "Filtra" + categ.charAt(0).toUpperCase() + categ.slice(1),
         type: 'POST',
@@ -254,7 +255,7 @@ function enviaNoticia(id) {
                 } else{
                     noticiaCompleta.append("time0", times);
                 }
-                noticiaCompleta.append("marcasLen", marcas.length);  
+                noticiaCompleta.append("marcasLen", marcas.length);
                 //verificamos se foi selecionado alguma marca
                 if (marcas != 0) {
                     //se for, vamos dividir eles no json
@@ -265,7 +266,7 @@ function enviaNoticia(id) {
                 } else{
                     noticiaCompleta.append("marca0", marcas);
                 }
-        
+
                 noticiaCompleta.append("ligasLen", ligas.length);
                 //verificamos se foi selecionado alguma liga
                 if (ligas != 0) {
@@ -563,7 +564,7 @@ function verSenha() {
         $(".mostraolhinho").attr("type", "password");
     });
 
-    // para evitar o problema de arrastar a imagem e a senha continuar exposta, 
+    // para evitar o problema de arrastar a imagem e a senha continuar exposta,
     //citada pelo nosso amigo nos comentários
     $("#olho").mouseout(function () {
         $(".mostraolhinho").attr("type", "password");
@@ -647,7 +648,7 @@ async function expandeNoticia(id) {
               <div class="col-4">
                 <span>${json.imagem}</span>
               </div>
-              
+
             </div>
           </div>`);
 }
