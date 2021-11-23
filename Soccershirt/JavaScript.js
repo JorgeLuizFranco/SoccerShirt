@@ -14,7 +14,8 @@ async function buscaJsonEx() {
         data: id,
         async: true,
         success: function (json) {
-            ans = JSON.parse(json);;
+            ans = decodeURIComponent(escape(json));
+            ans = JSON.parse(ans);
         }
     });
     return ans;
@@ -28,7 +29,8 @@ async function buscaJson(categ) {
         type: 'POST',
         async: true,
         success: function (json) {
-            ans = JSON.parse(json);
+            ans = decodeURIComponent(escape(json));
+            ans = JSON.parse(ans);
         }
     });
     return ans;
