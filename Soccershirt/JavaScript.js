@@ -39,11 +39,10 @@ async function buscaJson(categ) {
 async function buscaRelacao(categ, id) {
     var ans = null
     console.log("id")
-    console.log($(this).val())
     var request = await $.ajax({
         url: "Filtra" + categ.charAt(0).toUpperCase() + categ.slice(1),
         type: 'POST',
-        data: $(this).val(),
+        data: id,
         async: true,
         success: function (json) {
             console.log(json)
@@ -456,7 +455,7 @@ async function funcao(param) {
             } else {
                 for (let i = 0; i < json.length; i++) {
                     $("#formCorpo select").append(`
-                        <option value="${json[i].id}">${json[i].id} - ${json[i].nome}</option>`);
+                        <option value="${json[i].id}">${json[i].nome}</option>`);
                 }
             }
         } else {
@@ -603,24 +602,24 @@ function exibeNoticias(json) {
 async function completaIndex() {
     //pegamos os times cadastrados e colocamos no navbar**************************************************************************************
     json = await buscaJson("time");
-    //json = [{ "id": 1, "nome": 'time 1' }, { "id": 2, "nome": 'time 2' }, { "id": 3, "nome": 'time 3' }, { "id": 4, "nome": 'time 4' }, { "id": 5, "nome": 'time 5' }, { "id": 1, "nome": 'time 1' }, { "id": 2, "nome": 'time 2' }, { "id": 3, "nome": 'time 3' }, { "id": 4, "nome": 'time 4' }, { "id": 5, "nome": 'time 5' }];
+   // json = [{ "id": 1, "nome": 'time 1' }, { "id": 2, "nome": 'time 2' }, { "id": 3, "nome": 'time 3' }, { "id": 4, "nome": 'time 4' }, { "id": 5, "nome": 'time 5' }, { "id": 1, "nome": 'time 1' }, { "id": 2, "nome": 'time 2' }, { "id": 3, "nome": 'time 3' }, { "id": 4, "nome": 'time 4' }, { "id": 5, "nome": 'time 5' }];
     for (let i = 0; i < json.length; i++) {
         $("#dropTimes").append(`
-        <li class="dropdown-item"  value="${json[i].id}" onclick="funcaoDrop(${json[i].id}, 'time', '${json[i].nome}')">${json[i].nome}</li>`);
+        <li class="dropdown-item" onclick="funcaoDrop('${json[i].id}', 'time', '${json[i].nome}')">${json[i].nome}</li>`);
     }
     //pegamos as marcas cadastrados e colocamos no navbar**************************************************************************************
     json = await buscaJson("marca");
     //json = [{ "id": 1, "nome": 'marca 1' }, { "id": 2, "nome": 'marca 2' }, { "id": 3, "nome": 'marca 3' }, { "id": 4, "nome": 'marca 4' }, { "id": 5, "nome": 'marca 5' }];
     for (let i = 0; i < json.length; i++) {
         $("#dropMarcas").append(`
-        <li class="dropdown-item" value="${json[i].id}" onclick="funcaoDrop(${json[i].id}, 'marca', '${json[i].nome}')">${json[i].nome}</li>`);
+        <li class="dropdown-item" onclick="funcaoDrop('${json[i].id}', 'marca', '${json[i].nome}')">${json[i].nome}</li>`);
     }
     //pegamos as marcas cadastrados e colocamos no navbar**************************************************************************************
     json = await buscaJson("liga");
     //json = [{ "id": 1, "nome": 'liga 1' }, { "id": 2, "nome": 'liga 2' }, { "id": 3, "nome": 'liga 3' }, { "id": 4, "nome": 'liga 4' }, { "id": 5, "nome": 'liga 5' }];
     for (let i = 0; i < json.length; i++) {
         $("#dropLigas").append(`
-        <li class="dropdown-item" value="${json[i].id}" onclick="funcaoDrop(${json[i].id}, 'liga', '${json[i].nome}')">${json[i].nome}</li>`);
+        <li class="dropdown-item" onclick="funcaoDrop('${json[i].id}', 'liga', '${json[i].nome}')">${json[i].nome}</li>`);
     }
     //chamamos a função que irá exibir as notícias e passamos como parametro um json com todas as notícias a serem exibidas
     json = await buscaJson("noticia");
