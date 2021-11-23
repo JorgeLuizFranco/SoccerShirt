@@ -287,7 +287,7 @@ function enviaNoticia(id) {
          } else {
              noticiaCompleta = {...noticiaCompleta, "imagem0": 0};
          }*/
-        noticiaCompleta = { "id": id, "titulo": $("#tituloNoticia").val(), "subtitulo": $("#subtituloNoticia").val(), "conteudo": $("#conteudoNoticia").val(), "times": times, "marcas": marcas, "ligas": ligas, "imagens": imgSelecionadas }
+        noticiaCompleta = { "id": id, "titulo": $("#tituloNoticia").val(), "subtitulo": $("#subtituloNoticia").val(), "conteudo": $("#conteudoNoticia").val(), "times": times, "marcas": marcas, "ligas": ligas, "imagens": imgSelecionadas, "teste": null }
         if (id == 0) {
             msg = "Notícia cadastrada com sucesso!!!";
         } else {
