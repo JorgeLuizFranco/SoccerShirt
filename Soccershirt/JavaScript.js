@@ -551,7 +551,7 @@ function exibeNoticias(json) {
         </div>`);
         }
         $(".container:last-child .row").append(`
-          <div class="col-sm" onclick="expandeNoticia(${json[i].id})")">
+          <div class="col-sm" onclick="expandeNoticia('${json[i].id}')")">
             <a><h3 style="text-align: center;">${json[i].titulo}</h3></a>
             <p>${json[i].subtitulo}</p>
             <p>${json[i].imagem}</p>
