@@ -5,7 +5,6 @@ var acao = "";
 var categoria = "";
 var json;
 var imgSelecionadas = [];
-var noticiasPesquisadas = [];
 //BUSCA DE DADOS ESPECIFICOS************************************************
 async function buscaJsonEx() {
     var ans = null
@@ -15,6 +14,7 @@ async function buscaJsonEx() {
         data: id,
         async: true,
         success: function (json) {
+            console.log(JSON.parse(json));
             ans = JSON.parse(json);;
         }
     });
@@ -29,31 +29,12 @@ async function buscaJson(categ) {
         type: 'POST',
         async: true,
         success: function (json) {
+            console.log(JSON.parse(json));
             ans = JSON.parse(json);
         }
     });
     return ans;
 }
-
-//BUSCA RELAÇÕES*****************************************************
-async function buscaRelacao(categ, id) {
-    var ans = null
-    console.log("id")
-    var request = await $.ajax({
-        url: "Filtra" + categ.charAt(0).toUpperCase() + categ.slice(1),
-        type: 'POST',
-        data: id,
-        async: true,
-        success: function (json) {
-            console.log(json)
-            ans = json;
-        }
-    });
-    console.log(request);
-    return ans;
-
-}
-
 //VERIFICA ADMINISTRADOR******************************************************
 async function verificaAdm() {
     if ($("#txtUsername").val() == "") {
@@ -63,6 +44,7 @@ async function verificaAdm() {
     } else {
         //enviamos por ajax o json com os dados para a página que irá verificar os dados
         let dados = { "id": 0, "nome": $("#txtUsername").val(), "paisOrigem": $("#txtSenha").val() };
+        console.log(dados)
         var request = await $.ajax({
             url: "VerificaADM",
             type: 'POST',
@@ -89,9 +71,10 @@ async function verificaAdm() {
                     <div class="exibe" id="corpo" style="display: none"></div>
                 `);
                 } else {
-                    alert("Usuário ou senha incorreto(s)!");
+                    alert("Usuário ou senha incorreto(s)!"); s
                 }
             }
+            //colocar mensagem de erro
         })
         console.log(request);
     }
@@ -100,7 +83,7 @@ async function verificaAdm() {
 //chamada da função para editar
 async function editar() {
     let id = $("#opcSelectG option:selected").val();
-    json = await buscaJsonEx(id);
+    let json = await buscaJsonEx(id);
     if (categoria == "noticia") {
         camposNoticia("Editando notícia", id);
         $("#tituloNoticia").val(json.titulo);
@@ -196,22 +179,22 @@ async function camposNoticia(textH4, textOnclick) {
     document.getElementById("customFile").addEventListener("change", readImage, false);
 
     //buscando todos os times
-    json = await buscaJson("time");
+    let json = await buscaJson("time");
     for (let i = 0; i < json.length; i++) {
         $("#slcTimes").append(`
-                    <option value="${json[i].id}">${json[i].nome}</option>`);
+                    <option value="${json[i].id}">${json[i].id} - ${json[i].nome}</option>`);
     }
     //buscando todas as marcas
     json = await buscaJson("marca");
     for (let i = 0; i < json.length; i++) {
         $("#slcMarcas").append(`
-                    <option value="${json[i].id}">${json[i].nome}</option>`);
+                    <option value="${json[i].id}">${json[i].id} - ${json[i].nome}</option>`);
     }
     //buscando todas as ligas
     json = await buscaJson("liga");
     for (let i = 0; i < json.length; i++) {
         $("#slcLigas").append(`
-                    <option value="${json[i].id}">${json[i].nome}</option>`);
+                    <option value="${json[i].id}">${json[i].id} - ${json[i].nome}</option>`);
     }
 }
 //ENVIA NOTÍCIA********************************************************************
@@ -231,12 +214,7 @@ function enviaNoticia(id) {
         let times = getSelectValues(slcTimes);
         let ligas = getSelectValues(slcLigas);
         let marcas = getSelectValues(slcMarcas);
-        $("#corpo").text(``)
-        $("#corpo").show()
 
-       /* for (let n = 0; n < imgSelecionadas.length; n++) {
-            $("#corpo").append(`<img class="imgNot img-thumbnail float-left" src="${imgSelecionadas[n]}">`)
-        }*/
         let noticiaCompleta = "";
         let msg = "";
         /*
@@ -252,7 +230,7 @@ function enviaNoticia(id) {
                 } else{
                     noticiaCompleta.append("time0", times);
                 }
-                noticiaCompleta.append("marcasLen", marcas.length);
+                noticiaCompleta.append("marcasLen", marcas.length);  
                 //verificamos se foi selecionado alguma marca
                 if (marcas != 0) {
                     //se for, vamos dividir eles no json
@@ -263,7 +241,7 @@ function enviaNoticia(id) {
                 } else{
                     noticiaCompleta.append("marca0", marcas);
                 }
-
+        
                 noticiaCompleta.append("ligasLen", ligas.length);
                 //verificamos se foi selecionado alguma liga
                 if (ligas != 0) {
@@ -287,7 +265,8 @@ function enviaNoticia(id) {
          } else {
              noticiaCompleta = {...noticiaCompleta, "imagem0": 0};
          }*/
-        noticiaCompleta = { "id": id, "titulo": $("#tituloNoticia").val(), "subtitulo": $("#subtituloNoticia").val(), "conteudo": $("#conteudoNoticia").val(), "times": times, "marcas": marcas, "ligas": ligas, "imagens": "imgSelecionadas", "teste": null }
+        noticiaCompleta = { "id": id, "titulo": $("#tituloNoticia").val(), "subtitulo": $("#subtituloNoticia").val(), "conteudo": $("#conteudoNoticia").val(), "times": times, "marcas": marcas, "ligas": ligas, "imagens": imgSelecionadas }
+        console.log(noticiaCompleta);
         if (id == 0) {
             msg = "Notícia cadastrada com sucesso!!!";
         } else {
@@ -436,7 +415,7 @@ async function funcao(param) {
         }
         $("#formCorpo").append(`<button id="prosseguir" type="submit" class="btn btn-outline-light" style="margin-top:10px" onclick="${acao}('${categoria}')" >Prosseguir</button></div>
                     </form>`);
-        json = await buscaJson(categoria);
+        let json = await buscaJson(categoria);
         if (json != null) {
             if (categoria == "noticia") {
                 for (let i = 0; i < json.length; i++) {
@@ -446,7 +425,7 @@ async function funcao(param) {
             } else {
                 for (let i = 0; i < json.length; i++) {
                     $("#formCorpo select").append(`
-                        <option value="${json[i].id}">${json[i].nome}</option>`);
+                        <option value="${json[i].id}">${json[i].id} - ${json[i].nome}</option>`);
                 }
             }
         } else {
@@ -532,8 +511,8 @@ async function readImage() {
     }
 }
 //*************************************************************************************************
-async function excluir(param) {
-    var request = await $.ajax({
+function excluir(param) {
+    var request = $.ajax({
         url: "Excluir" + param.charAt(0).toUpperCase() + param.slice(1),
         type: 'POST',
         data: $("#opcSelectG option:selected").val(),
@@ -561,7 +540,7 @@ function verSenha() {
         $(".mostraolhinho").attr("type", "password");
     });
 
-    // para evitar o problema de arrastar a imagem e a senha continuar exposta,
+    // para evitar o problema de arrastar a imagem e a senha continuar exposta, 
     //citada pelo nosso amigo nos comentários
     $("#olho").mouseout(function () {
         $(".mostraolhinho").attr("type", "password");
@@ -592,37 +571,38 @@ function exibeNoticias(json) {
 //exibe na tela do index*************************************************************************************************
 async function completaIndex() {
     //pegamos os times cadastrados e colocamos no navbar**************************************************************************************
-    json = await buscaJson("time");
-   // json = [{ "id": 1, "nome": 'time 1' }, { "id": 2, "nome": 'time 2' }, { "id": 3, "nome": 'time 3' }, { "id": 4, "nome": 'time 4' }, { "id": 5, "nome": 'time 5' }, { "id": 1, "nome": 'time 1' }, { "id": 2, "nome": 'time 2' }, { "id": 3, "nome": 'time 3' }, { "id": 4, "nome": 'time 4' }, { "id": 5, "nome": 'time 5' }];
+    var json = await buscaJson("time");
+    //json = [{ "id": 1, "nome": 'time 1' }, { "id": 2, "nome": 'time 2' }, { "id": 3, "nome": 'time 3' }, { "id": 4, "nome": 'time 4' }, { "id": 5, "nome": 'time 5' }, { "id": 1, "nome": 'time 1' }, { "id": 2, "nome": 'time 2' }, { "id": 3, "nome": 'time 3' }, { "id": 4, "nome": 'time 4' }, { "id": 5, "nome": 'time 5' }];
     for (let i = 0; i < json.length; i++) {
         $("#dropTimes").append(`
-        <li class="dropdown-item" onclick="funcaoDrop('${json[i].id}', 'time', '${json[i].nome}')">${json[i].nome}</li>`);
+        <li class="dropdown-item" onclick="funcaoDrop(${json[i].id}, 'time')">${json[i].nome}</li>`);
     }
     //pegamos as marcas cadastrados e colocamos no navbar**************************************************************************************
     json = await buscaJson("marca");
     //json = [{ "id": 1, "nome": 'marca 1' }, { "id": 2, "nome": 'marca 2' }, { "id": 3, "nome": 'marca 3' }, { "id": 4, "nome": 'marca 4' }, { "id": 5, "nome": 'marca 5' }];
     for (let i = 0; i < json.length; i++) {
         $("#dropMarcas").append(`
-        <li class="dropdown-item" onclick="funcaoDrop('${json[i].id}', 'marca', '${json[i].nome}')">${json[i].nome}</li>`);
+        <li class="dropdown-item" onclick="funcaoDrop(${json[i].id}, 'time')">${json[i].nome}</li>`);
     }
     //pegamos as marcas cadastrados e colocamos no navbar**************************************************************************************
     json = await buscaJson("liga");
     //json = [{ "id": 1, "nome": 'liga 1' }, { "id": 2, "nome": 'liga 2' }, { "id": 3, "nome": 'liga 3' }, { "id": 4, "nome": 'liga 4' }, { "id": 5, "nome": 'liga 5' }];
     for (let i = 0; i < json.length; i++) {
         $("#dropLigas").append(`
-        <li class="dropdown-item" onclick="funcaoDrop('${json[i].id}', 'liga', '${json[i].nome}')">${json[i].nome}</li>`);
+        <li class="dropdown-item" onclick="funcaoDrop(${json[i].id}, 'liga')">${json[i].nome}</li>`);
     }
     //chamamos a função que irá exibir as notícias e passamos como parametro um json com todas as notícias a serem exibidas
     json = await buscaJson("noticia");
     exibeNoticias(json);
-    // exibeNoticias([{ "id": 1, "titulo": 'Corinthians relembra visitas e parabeniza Mauricio de Sousa', "subtitulo": "Cartunista criador da Turma da Mônica completa 86 anos nesta quarta-feira", "texto": "O Corinthians usou as redes sociais para parabenizar nesta quarta-feira o cartunista e empresário Mauricio de Sousa, criador da Turma da Mônica. Mauricio de Sousa, que já fez algumas visitas à sede e ao CT do Corinthians, completa 86 anos nesta quarta. Cascão, um dos personagens de maior sucesso do cartunista, é torcedor do Timão. Ele já apareceu em diferentes situações com a camisa do clube, inclusive após a conquista do título Mundial de 2012.", "hora": "22:37", "data": "27/10/2021", "imagem": "caminho da imagem" }, { "id": 2, "titulo": 'titulo 2 da notícia', "subtitulo": "Subtitulo da notícia", "texto": "texto da notícia", "hora": "22:37", "data": "27/10/2021", "imagem": "caminho da imagem" }, { "id": 3, "titulo": 'titulo 3 da notícia', "subtitulo": "Subtitulo da notícia", "texto": "texto da notícia", "hora": "22:37", "data": "27/10/2021", "imagem": "caminho da imagem" }, { "id": 4, "titulo": 'titulo 4 da notícia', "subtitulo": "Subtitulo da notícia", "texto": "texto da notícia", "hora": "22:37", "data": "27/10/2021", "imagem": "caminho da imagem" }, { "id": 5, "titulo": 'titulo 5 da notícia', "subtitulo": "Subtitulo da notícia", "texto": "texto da notícia", "hora": "22:37", "data": "27/10/2021", "imagem": "caminho da imagem" }, { "id": 6, "titulo": 'titulo 6 da notícia', "subtitulo": "Subtitulo da notícia", "texto": "texto da notícia", "hora": "22:37", "data": "27/10/2021", "imagem": "caminho da imagem" }, { "id": 7, "titulo": 'titulo 7 da notícia', "subtitulo": "Subtitulo da notícia", "texto": "texto da notícia", "hora": "22:37", "data": "27/10/2021", "imagem": "caminho da imagem" }, { "id": 8, "titulo": 'titulo 8 da notícia', "subtitulo": "Subtitulo da notícia", "texto": "texto da notícia", "hora": "22:37", "data": "27/10/2021", "imagem": "caminho da imagem" }, { "id": 9, "titulo": 'titulo 9 da notícia', "subtitulo": "Subtitulo da notícia", "texto": "texto da notícia", "hora": "22:37", "data": "27/10/2021", "imagem": "caminho da imagem" }, { "id": 10, "titulo": 'titulo 10 da notícia', "subtitulo": "Subtitulo da notícia", "texto": "texto da notícia", "hora": "22:37", "data": "27/10/2021", "imagem": "caminho da imagem" }, { "id": 11, "titulo": 'titulo 11 da notícia', "subtitulo": "Subtitulo da notícia", "texto": "texto da notícia", "hora": "22:37", "data": "27/10/2021", "imagem": "caminho da imagem" }])
+    //exibeNoticias([{ "id": 1, "titulo": 'Corinthians relembra visitas e parabeniza Mauricio de Sousa', "subtitulo": "Cartunista criador da Turma da Mônica completa 86 anos nesta quarta-feira", "texto": "O Corinthians usou as redes sociais para parabenizar nesta quarta-feira o cartunista e empresário Mauricio de Sousa, criador da Turma da Mônica. Mauricio de Sousa, que já fez algumas visitas à sede e ao CT do Corinthians, completa 86 anos nesta quarta. Cascão, um dos personagens de maior sucesso do cartunista, é torcedor do Timão. Ele já apareceu em diferentes situações com a camisa do clube, inclusive após a conquista do título Mundial de 2012.", "hora": "22:37", "data": "27/10/2021", "imagem": "caminho da imagem" }, { "id": 2, "titulo": 'titulo 2 da notícia', "subtitulo": "Subtitulo da notícia", "texto": "texto da notícia", "hora": "22:37", "data": "27/10/2021", "imagem": "caminho da imagem" }, { "id": 3, "titulo": 'titulo 3 da notícia', "subtitulo": "Subtitulo da notícia", "texto": "texto da notícia", "hora": "22:37", "data": "27/10/2021", "imagem": "caminho da imagem" }, { "id": 4, "titulo": 'titulo 4 da notícia', "subtitulo": "Subtitulo da notícia", "texto": "texto da notícia", "hora": "22:37", "data": "27/10/2021", "imagem": "caminho da imagem" }, { "id": 5, "titulo": 'titulo 5 da notícia', "subtitulo": "Subtitulo da notícia", "texto": "texto da notícia", "hora": "22:37", "data": "27/10/2021", "imagem": "caminho da imagem" }, { "id": 6, "titulo": 'titulo 6 da notícia', "subtitulo": "Subtitulo da notícia", "texto": "texto da notícia", "hora": "22:37", "data": "27/10/2021", "imagem": "caminho da imagem" }, { "id": 7, "titulo": 'titulo 7 da notícia', "subtitulo": "Subtitulo da notícia", "texto": "texto da notícia", "hora": "22:37", "data": "27/10/2021", "imagem": "caminho da imagem" }, { "id": 8, "titulo": 'titulo 8 da notícia', "subtitulo": "Subtitulo da notícia", "texto": "texto da notícia", "hora": "22:37", "data": "27/10/2021", "imagem": "caminho da imagem" }, { "id": 9, "titulo": 'titulo 9 da notícia', "subtitulo": "Subtitulo da notícia", "texto": "texto da notícia", "hora": "22:37", "data": "27/10/2021", "imagem": "caminho da imagem" }, { "id": 10, "titulo": 'titulo 10 da notícia', "subtitulo": "Subtitulo da notícia", "texto": "texto da notícia", "hora": "22:37", "data": "27/10/2021", "imagem": "caminho da imagem" }, { "id": 11, "titulo": 'titulo 11 da notícia', "subtitulo": "Subtitulo da notícia", "texto": "texto da notícia", "hora": "22:37", "data": "27/10/2021", "imagem": "caminho da imagem" }])
 
 }
 //abre a notícia clicada*****************************************************************************************************************
 async function expandeNoticia(id) {
     //vamos setar uma categoria para usar na função de busca
     categoria = "noticia";
-    json = await buscaJsonEx(id);
+    let json = await buscaJsonEx(id);
+    console.log(json)
 
     $("section").html(`<div class="container" style="margin: auto!important;">
             <div class="row">
@@ -645,21 +625,21 @@ async function expandeNoticia(id) {
               <div class="col-4">
                 <span>${json.imagem}</span>
               </div>
-
+              
             </div>
           </div>`);
 }
 //FUNÇÃO DE PESQUISA***************************************************************************************************************
 async function buscar() {
-    let string = $("#inputPesquisa").val();
+    var string = $("#inputPesquisa").val();
     if (string.trim() == "" || string == "") {
         $("#inputPesquisa").focus();
     } else {
-        noticias = await buscaJson("noticia");
-        //noticias = [{ "id": 1, "titulo": 'Corinthians relembra visitas e parabeniza Mauricio de Sousa', "subtitulo": "Cartunista criador da Turma da Mônica completa 86 anos nesta quarta-feira", "texto": "O Corinthians usou as redes sociais para parabenizar nesta quarta-feira o cartunista e empresário Mauricio de Sousa, criador da Turma da Mônica. Mauricio de Sousa, que já fez algumas visitas à sede e ao CT do Corinthians, completa 86 anos nesta quarta. Cascão, um dos personagens de maior sucesso do cartunista, é torcedor do Timão. Ele já apareceu em diferentes situações com a camisa do clube, inclusive após a conquista do título Mundial de 2012.", "hora": "22:37", "data": "27/10/2021", "imagem": "caminho da imagem" }, { "id": 2, "titulo": 'titulo 2 da notícia', "subtitulo": "Subtitulo da notícia", "texto": "texto da notícia", "hora": "22:37", "data": "27/10/2021", "imagem": "caminho da imagem" }, { "id": 3, "titulo": 'titulo 3 da notícia', "subtitulo": "Subtitulo da notícia", "texto": "texto da notícia", "hora": "22:37", "data": "27/10/2021", "imagem": "caminho da imagem" }, { "id": 4, "titulo": 'titulo 4 da notícia', "subtitulo": "Subtitulo da notícia", "texto": "texto da notícia", "hora": "22:37", "data": "27/10/2021", "imagem": "caminho da imagem" }, { "id": 5, "titulo": 'titulo 5 da notícia', "subtitulo": "Subtitulo da notícia", "texto": "texto da notícia", "hora": "22:37", "data": "27/10/2021", "imagem": "caminho da imagem" }, { "id": 6, "titulo": 'titulo 6 da notícia', "subtitulo": "Subtitulo da notícia", "texto": "texto da notícia", "hora": "22:37", "data": "27/10/2021", "imagem": "caminho da imagem" }, { "id": 7, "titulo": 'titulo 7 da notícia', "subtitulo": "Subtitulo da notícia", "texto": "texto da notícia", "hora": "22:37", "data": "27/10/2021", "imagem": "caminho da imagem" }, { "id": 8, "titulo": 'titulo 8 da notícia', "subtitulo": "Subtitulo da notícia", "texto": "texto da notícia", "hora": "22:37", "data": "27/10/2021", "imagem": "caminho da imagem" }, { "id": 9, "titulo": 'titulo 9 da notícia', "subtitulo": "Subtitulo da notícia", "texto": "texto da notícia", "hora": "22:37", "data": "27/10/2021", "imagem": "caminho da imagem" }, { "id": 10, "titulo": 'titulo 10 da notícia', "subtitulo": "Subtitulo da notícia", "texto": "texto da notícia", "hora": "22:37", "data": "27/10/2021", "imagem": "caminho da imagem" }, { "id": 11, "titulo": 'titulo 11 da notícia', "subtitulo": "Subtitulo da notícia", "texto": "texto da notícia", "hora": "22:37", "data": "27/10/2021", "imagem": "caminho da imagem" }];
-        noticiasPesquisadas = [];
+        //noticias = await buscaJson("noticia");
+        noticias = [{ "id": 1, "titulo": 'Corinthians relembra visitas e parabeniza Mauricio de Sousa', "subtitulo": "Cartunista criador da Turma da Mônica completa 86 anos nesta quarta-feira", "texto": "O Corinthians usou as redes sociais para parabenizar nesta quarta-feira o cartunista e empresário Mauricio de Sousa, criador da Turma da Mônica. Mauricio de Sousa, que já fez algumas visitas à sede e ao CT do Corinthians, completa 86 anos nesta quarta. Cascão, um dos personagens de maior sucesso do cartunista, é torcedor do Timão. Ele já apareceu em diferentes situações com a camisa do clube, inclusive após a conquista do título Mundial de 2012.", "hora": "22:37", "data": "27/10/2021", "imagem": "caminho da imagem" }, { "id": 2, "titulo": 'titulo 2 da notícia', "subtitulo": "Subtitulo da notícia", "texto": "texto da notícia", "hora": "22:37", "data": "27/10/2021", "imagem": "caminho da imagem" }, { "id": 3, "titulo": 'titulo 3 da notícia', "subtitulo": "Subtitulo da notícia", "texto": "texto da notícia", "hora": "22:37", "data": "27/10/2021", "imagem": "caminho da imagem" }, { "id": 4, "titulo": 'titulo 4 da notícia', "subtitulo": "Subtitulo da notícia", "texto": "texto da notícia", "hora": "22:37", "data": "27/10/2021", "imagem": "caminho da imagem" }, { "id": 5, "titulo": 'titulo 5 da notícia', "subtitulo": "Subtitulo da notícia", "texto": "texto da notícia", "hora": "22:37", "data": "27/10/2021", "imagem": "caminho da imagem" }, { "id": 6, "titulo": 'titulo 6 da notícia', "subtitulo": "Subtitulo da notícia", "texto": "texto da notícia", "hora": "22:37", "data": "27/10/2021", "imagem": "caminho da imagem" }, { "id": 7, "titulo": 'titulo 7 da notícia', "subtitulo": "Subtitulo da notícia", "texto": "texto da notícia", "hora": "22:37", "data": "27/10/2021", "imagem": "caminho da imagem" }, { "id": 8, "titulo": 'titulo 8 da notícia', "subtitulo": "Subtitulo da notícia", "texto": "texto da notícia", "hora": "22:37", "data": "27/10/2021", "imagem": "caminho da imagem" }, { "id": 9, "titulo": 'titulo 9 da notícia', "subtitulo": "Subtitulo da notícia", "texto": "texto da notícia", "hora": "22:37", "data": "27/10/2021", "imagem": "caminho da imagem" }, { "id": 10, "titulo": 'titulo 10 da notícia', "subtitulo": "Subtitulo da notícia", "texto": "texto da notícia", "hora": "22:37", "data": "27/10/2021", "imagem": "caminho da imagem" }, { "id": 11, "titulo": 'titulo 11 da notícia', "subtitulo": "Subtitulo da notícia", "texto": "texto da notícia", "hora": "22:37", "data": "27/10/2021", "imagem": "caminho da imagem" }];
+        var noticiasPesquisadas = [];
         for (let noticia of noticias) {
-            if (noticia.titulo.toUpperCase().includes(string.trim().toUpperCase()) || noticia.subtitulo.toUpperCase().includes(string.trim().toUpperCase()) || noticia.texto.toUpperCase().includes(string.trim().toUpperCase())) {
+            if (noticia.titulo.toUpperCase().includes(string.toUpperCase()) || noticia.subtitulo.toUpperCase().includes(string.toUpperCase()) || noticia.texto.toUpperCase().includes(string.toUpperCase())) {
                 noticiasPesquisadas.push({ "id": noticia.id, "titulo": noticia.titulo, "subtitulo": noticia.subtitulo, "texto": noticia.texto, "imagem": noticia.imagens, "horaC": noticia.horaC, "dataC": noticia.dataC });
             }
         }
@@ -668,47 +648,16 @@ async function buscar() {
         } else {
             $("section").text("");
             $("section").append(`
-                <br>
-                <div class="container">
-                <div class="row">
-                    <div class="col-sm result">
-                    <h3 style="text-align: center;">Não há resultados para a pesquisa:</h3>
-                    <h1>${string}</h1>
-                    <p>Tente pesquisar outra palavra</p>
-                </div>
-                </div>
-                </div>`);
-        }
-    }
-}
-//FUNÇÃO DE FILTRAGEM******************************************************************************************************
-async function funcaoDrop(id, param, nome) {
-    //chamamos a função que irá retornar os ids
-    //das notícias relacionadas o que for selecionado
-    let idsNot = await buscaRelacao(param, id);
-    console.log(idsNot)
-    if (idsNot == null) {
-        $("section").text("");
-        $("section").append(`
         <br>
         <div class="container">
           <div class="row">
             <div class="col-sm result">
-            <h3 style="text-align: center;">Não há notícias relacionadas com "${nome}".</h3>
+            <h3 style="text-align: center;">Não encontramos resultados para pesquisa:</h3>
+            <h1>${string}</h1>
+            <p>Tente pesquisar outra palavra</p>
           </div>
           </div>
         </div>`);
-    } else {
-        noticiasPesquisadas = [];
-        json = await buscaJson('noticia');
-        for (let i = 0; i < json.length; i++) {
-            for (let j = 0; j < idsNot.length; j++) {
-                if (json[i].id == idsNot[j]) {
-                    noticiasPesquisadas.push({ "id": json[i].id, "titulo": json[i].titulo, "subtitulo": json[i].subtitulo, "texto": json[i].texto, "imagem": json[i].imagens, "horaC": json[i].horaC, "dataC": json[i].dataC });
-                    break;
-                }
-            }
         }
-        exibeNoticias(noticiasPesquisadas);
     }
 }

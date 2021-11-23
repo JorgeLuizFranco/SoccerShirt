@@ -77,19 +77,4 @@ public class TimeDAO {
           throw new RuntimeException(e);
       }
     }
-    public ArrayList<Integer> filtraNoticias(int idTime){
-      String sql = "select idNoticia from timeNoticia where idTime=?";
-      ArrayList<Integer> ids= new ArrayList<Integer>();
-      try(Connection conn = ConnectionFactory.getConnection()) {
-          PreparedStatement ps = conn.prepareStatement(sql);
-          ps.setInt(1, idTime);
-          ResultSet rs = ps.executeQuery();
-          while(rs.next()){
-            ids.add(rs.getInt("idNoticia"));
-          }
-      } catch (SQLException e) {
-          throw new RuntimeException(e);
-      }
-      return ids;
-    }
 }
