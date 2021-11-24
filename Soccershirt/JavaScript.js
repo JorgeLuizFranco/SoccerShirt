@@ -4,7 +4,48 @@
 var acao = "";
 var categoria = "";
 var json;
-var imgSelecionadas = [];
+var imgSelecionadas = "";
+
+//ANIMAÇÕES COM O SCROLL*************************************************************
+// Lógica - https://github.com/origamid/publico/tree/main/animar-ao-scroll-com-javascript-puro/wildbeast-final
+// 1 - Selecionar elementos que devem ser animados
+// 2 - Definir a classe que é adicionada durante a animação
+// 3 - Criar função de animação
+// 3.1 - Verificar a distância entre a barra de scroll e o topo do site
+// 3.2 - Verificar se a distância do 3.1 + Offset é maior do que a distância entre o elemento e o Topo da Página.
+// 3.3 - Se verdadeiro adicionar classe de animação, remover se for falso.
+// 4 - Ativar a função de animação toda vez que o usuário utilizar o Scroll
+// 5 - Otimizar ativação
+// Debounce do Lodash
+const debounce = function (func, wait, immediate) {
+    let timeout;
+    return function (...args) {
+        const context = this;
+        const later = function () {
+            timeout = null;
+            if (!immediate) func.apply(context, args);
+        };
+        const callNow = immediate && !timeout;
+        clearTimeout(timeout);
+        timeout = setTimeout(later, wait);
+        if (callNow) func.apply(context, args);
+    };
+};
+
+var target;
+const animationClass = 'animate';
+
+function animeScroll() {
+    const windowTop = window.pageYOffset + ((window.innerHeight * 3) / 4);
+    target.forEach(function (element) {
+        if ((windowTop) > element.offsetTop) {
+            element.classList.add(animationClass);
+        } else {
+            element.classList.remove(animationClass);
+        }
+    })
+}
+
 //BUSCA DE DADOS ESPECIFICOS************************************************
 async function buscaJsonEx(id) {
     var ans = null
@@ -462,7 +503,7 @@ function getSelectValues(select) {
 }
 //quando o adm adicionar algumas foto irá adicionar um preview**********************************
 async function readImage() {
-    imgSelecionadas = [];
+    imgSelecionadas = "";
     let filenames = [];
     let files = this.files;
     if (files.length > 1) {
@@ -497,7 +538,12 @@ async function readImage() {
             } else {
                 imgSelecionadas += url;
             }*/
-            imgSelecionadas.push(e.target.result);
+            if (imgSelecionadas == "") {
+                imgSelecionadas += e.target.result;
+            } else {
+                imgSelecionadas += "gabriella2503jorge2505mauricio1106" + e.target.result;
+            }
+            //imgSelecionadas = `e.target.result`;
             //imgSelecionadas += url;
             /*if(i == 0){
                 imgSelecionadas += name;
@@ -543,21 +589,27 @@ function verSenha() {
 function exibeNoticias(json) {
     $("section").text("");
     cont = 0;
-    seg = 1;
+    seg = 0;
+    lista = ['top1', 'top2', 'top3'];
+
     for (let i = 0; i < json.length; i++) {
-        setTimeout(() => {
-            //montar como será exibido as notícias
+        //montar como será exibido as notícias
+
+        //setTimeout(() => {
             if (cont % 3 == 0) {
+                let windowTop = $(`.container:last-child .row .maezona .visivel img`).width();
+                console.log(`d${i} ` + windowTop);
                 $("section").append(`
                     <br>
                     <div class="container todosNoticias">
                     <div class="row"></div>
                     </div>`);
             }
+
             $(".container:last-child .row").append(`
-                <div class="col-sm maezona fadeIn" style="animation: up 3s ease-in-out" onclick="expandeNoticia('${json[i].id}')")">
+                <div class="col-sm maezona" data-anime="${lista[seg]}" onclick="expandeNoticia('${json[i].id}')")">
                     <div class="visivel">
-                        <img src="imgs/imagemTeste.jpg">
+                        <img id="d${i}" src="imgs/imagemTeste.jpg">
                         <h3 style="text-align: center;">${json[i].titulo}</h3>
                     </div>
                     <div class="invisivel">
@@ -565,9 +617,24 @@ function exibeNoticias(json) {
                     </div>
                 </div>`);
             cont++;
-            seg += 2;
-        }, 500*i);
+            seg ++;
+            if(seg == 3){
+                seg = 0;
+            }
+            if (cont % 3 == 0) {
+                let windowTop = $(`.container:last-child .row .maezona .visivel img`).width();
+                console.log(`d${i} ` + windowTop);
+            }
+        //}, 300 * 2); d${json[i].id}
+        
     }
+    target = document.querySelectorAll('[data-anime]');
+    if (target.length) {
+        window.addEventListener('scroll', debounce(function () {
+            animeScroll();
+        }, 200));
+    }
+    
 }
 //exibe na tela do index*************************************************************************************************
 async function completaIndex() {
@@ -598,7 +665,7 @@ async function completaIndex() {
     $(".containerIMG").html(`<h1>Não sei o que colocar aqui, o que eu posso colocar?</h1>`);
     //exibeNoticias(json);
     exibeNoticias([{ "id": 1, "titulo": 'Corinthians relembra visitas e parabeniza Mauricio de Sousa', "subtitulo": "Cartunista criador da Turma da Mônica completa 86 anos nesta quarta-feira", "texto": "O Corinthians usou as redes sociais para parabenizar nesta quarta-feira o cartunista e empresário Mauricio de Sousa, criador da Turma da Mônica. Mauricio de Sousa, que já fez algumas visitas à sede e ao CT do Corinthians, completa 86 anos nesta quarta. Cascão, um dos personagens de maior sucesso do cartunista, é torcedor do Timão. Ele já apareceu em diferentes situações com a camisa do clube, inclusive após a conquista do título Mundial de 2012.", "hora": "22:37", "data": "27/10/2021", "imagem": "caminho da imagem" }, { "id": 2, "titulo": 'titulo 2 da notícia', "subtitulo": "Subtitulo da notícia", "texto": "texto da notícia", "hora": "22:37", "data": "27/10/2021", "imagem": "caminho da imagem" }, { "id": 3, "titulo": 'titulo 3 da notícia', "subtitulo": "Subtitulo da notícia", "texto": "texto da notícia", "hora": "22:37", "data": "27/10/2021", "imagem": "caminho da imagem" }, { "id": 4, "titulo": 'titulo 4 da notícia', "subtitulo": "Subtitulo da notícia", "texto": "texto da notícia", "hora": "22:37", "data": "27/10/2021", "imagem": "caminho da imagem" }, { "id": 5, "titulo": 'titulo 5 da notícia', "subtitulo": "Subtitulo da notícia", "texto": "texto da notícia", "hora": "22:37", "data": "27/10/2021", "imagem": "caminho da imagem" }, { "id": 6, "titulo": 'titulo 6 da notícia', "subtitulo": "Subtitulo da notícia", "texto": "texto da notícia", "hora": "22:37", "data": "27/10/2021", "imagem": "caminho da imagem" }, { "id": 7, "titulo": 'titulo 7 da notícia', "subtitulo": "Subtitulo da notícia", "texto": "texto da notícia", "hora": "22:37", "data": "27/10/2021", "imagem": "caminho da imagem" }, { "id": 8, "titulo": 'titulo 8 da notícia', "subtitulo": "Subtitulo da notícia", "texto": "texto da notícia", "hora": "22:37", "data": "27/10/2021", "imagem": "caminho da imagem" }, { "id": 9, "titulo": 'titulo 9 da notícia', "subtitulo": "Subtitulo da notícia", "texto": "texto da notícia", "hora": "22:37", "data": "27/10/2021", "imagem": "caminho da imagem" }, { "id": 10, "titulo": 'titulo 10 da notícia', "subtitulo": "Subtitulo da notícia", "texto": "texto da notícia", "hora": "22:37", "data": "27/10/2021", "imagem": "caminho da imagem" }, { "id": 11, "titulo": 'titulo 11 da notícia', "subtitulo": "Subtitulo da notícia", "texto": "texto da notícia", "hora": "22:37", "data": "27/10/2021", "imagem": "caminho da imagem" }])
-
+    animeScroll();
 }
 //abre a notícia clicada*****************************************************************************************************************
 async function expandeNoticia(id) {
