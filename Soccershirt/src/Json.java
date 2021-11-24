@@ -27,7 +27,7 @@ public class Json{
   public Noticia retornaNoticia(String requestData){
 	  String[] words= {"id","titulo","subtitulo","conteudo","times","marcas","ligas","imagens"};
     String[] ans= new String[8];
-    ArrayList<String> times= new ArrayList<String>(), marcas=new ArrayList<String>(),ligas=new ArrayList<String>();
+    ArrayList<String> times= new ArrayList<String>(), marcas=new ArrayList<String>(),ligas=new ArrayList<String>(), imagens= new ArrayList<String>;
     int cont=0;
     for(String x: words){
       int idx= requestData.indexOf(x);
@@ -53,6 +53,7 @@ public class Json{
         case "times": times=new ArrayList( Arrays.asList(aux.toString().split("KQVSUQ")) );
         case "marcas": marcas=new ArrayList( Arrays.asList(aux.toString().split("KQVSUQ")) );
         case "ligas": ligas=new ArrayList( Arrays.asList(aux.toString().split("KQVSUQ")) );
+        case "imagens": imagens= new ArrayList( Arrays.asList(aux.toString().split("gabriella2503jorge2505mauricio1106")));
       }
       ans[cont]=aux.toString();
       ++cont;
