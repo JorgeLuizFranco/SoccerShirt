@@ -54,6 +54,18 @@ public class NoticiaDAO {
             }
           }
         }
+        Array<String> imagens=Imagens.salvar(noticia.getImagens(),idNoticia);
+        for(String imagem: imagens){
+          sql="insert into imagens values(?,?);";
+          try(Connection conn = ConnectionFactory.getConnection()) {
+              PreparedStatement ps = conn.prepareStatement(sql);
+              ps.setInt(1, idNoticia);
+              ps.setString(2, imagem);
+              ps.executeUpdate();
+          } catch (SQLException e) {
+              throw new RuntimeException(e);
+          }
+        }
    }
     public List<Noticia> getNoticias() {
         String sql = "select * from noticia";

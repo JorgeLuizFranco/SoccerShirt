@@ -67,6 +67,7 @@ public class Json{
     noticia.setTimes(times);
     noticia.setLigas(ligas);
     noticia.setMarcas(marcas);
+    noticia.setImagens(imagens);
     return noticia;
   }
 

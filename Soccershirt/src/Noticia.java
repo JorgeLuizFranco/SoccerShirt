@@ -19,6 +19,7 @@ import java.time.LocalTime;
       private ArrayList<Integer> times;
       private ArrayList<Integer> marcas;
       private ArrayList<Integer> ligas;
+      private ArrayList<String> imagens;
       //public File foto;
       //construtor
       public Noticia( String titulo, String subtitulo, String texto){
@@ -92,6 +93,17 @@ import java.time.LocalTime;
         this.marcas.add(Integer.valueOf(x));
       }
     }
+
+    public void setImagens(ArrayList<String> imagens){
+      for(String x: imagens){
+        this.imagens.add(x);
+      }
+    }
+
+    public ArrayList<String> getImagens(){
+      return this.imagens;
+    }
+
     public ArrayList<Integer> getMarcas(){
       return this.marcas;
     }
