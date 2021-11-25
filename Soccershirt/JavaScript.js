@@ -274,7 +274,56 @@ function enviaNoticia(id) {
         let ligas = getSelectValues(slcLigas);
         let marcas = getSelectValues(slcMarcas);
 
-        let noticiaCompleta = { "id": id, "titulo": $("#tituloNoticia").val(), "subtitulo": $("#subtituloNoticia").val(), "conteudo": $("#conteudoNoticia").val(), "times": times, "marcas": marcas, "ligas": ligas, "imagens": imgSelecionadas }
+        let noticiaCompleta = "";
+        /*
+                //iniciamos noticiaComleta com os dados que sempre vai ter
+                noticiaCompleta = { "id": id, "titulo": $("#tituloNoticia").val(), "subtitulo": $("#subtituloNoticia").val(), "conteudo": $("#conteudoNoticia").val(), "timesLen": times.length };
+                //verificamos se foi selecionado algum time
+                if (times != 0) {
+                    //se for, vamos dividir eles no json
+                    for (let i = 0; i < times.length; i++) {
+                        let name = "time" + i;
+                        noticiaCompleta.append(name, times[i]);
+                    }
+                } else{
+                    noticiaCompleta.append("time0", times);
+                }
+                noticiaCompleta.append("marcasLen", marcas.length);
+                //verificamos se foi selecionado alguma marca
+                if (marcas != 0) {
+                    //se for, vamos dividir eles no json
+                    for (let i = 0; i < marcas.length; i++) {
+                        let name = "marca" + i;
+                        noticiaCompleta.append(name, marcas[i]);
+                    }
+                } else{
+                    noticiaCompleta.append("marca0", marcas);
+                }
+
+                noticiaCompleta.append("ligasLen", ligas.length);
+                //verificamos se foi selecionado alguma liga
+                if (ligas != 0) {
+                    //se for, vamos dividir eles no json
+                    for (let i = 0; i < ligas.length; i++) {
+                        let name = "liga" + i;
+                        noticiaCompleta.append(name, ligas[i]);
+                    }
+                } else{
+                    noticiaCompleta.append("liga0", ligas);
+                }
+                */
+        //noticiaCompleta = { "id": id, "titulo": $("#tituloNoticia").val(), "subtitulo": $("#subtituloNoticia").val(), "conteudo": $("#conteudoNoticia").val(), "times": times, "marcas": marcas, "ligas": ligas }
+        //verificamos se foi selecionado alguma imagem
+        /* if (imgSelecionadas.length > 0) {
+             //se for, vamos dividir elas no json
+             for (let i = 0; i < imgSelecionadas.length; i++) {
+                 let name = "imagem" + i;
+                 noticiaCompleta = {...noticiaCompleta, name : imgSelecionadas[i]};
+             }
+         } else {
+             noticiaCompleta = {...noticiaCompleta, "imagem0": 0};
+         }*/
+        noticiaCompleta = { "id": id, "titulo": $("#tituloNoticia").val(), "subtitulo": $("#subtituloNoticia").val(), "conteudo": $("#conteudoNoticia").val(), "times": times, "marcas": marcas, "ligas": ligas, "imagens": imgSelecionadas, "teste":null};
 
         var request = $.ajax({
             url: "CadastrarNoticia",
@@ -530,7 +579,7 @@ function verSenha() {
         $(".mostraolhinho").attr("type", "password");
     });
 
-    // para evitar o problema de arrastar a imagem e a senha continuar exposta, 
+    // para evitar o problema de arrastar a imagem e a senha continuar exposta,
     //citada pelo nosso amigo nos comentários
     $("#olho").mouseout(function () {
         $(".mostraolhinho").attr("type", "password");
@@ -553,11 +602,9 @@ function exibeNoticias(json) {
                     <div class="row"></div>
                     </div>`);
         }
-        
-        //let n = `{ "id": ${json[i].id}, "titulo": "${json[i].titulo}", "subtitulo": "${json[i].subtitulo}", "texto": "${json[i].texto}", "imagem": "${json[i].imagens}", "horaC": "${json[i].horaC}", "dataC": "${json[i].dataC}" }`;
-        
+
         $(".container:last-child .row").append(`
-                <div class="col-sm maezona" data-anime="${lista[seg]}" onclick="expandeNoticia('${json[i].id}')">
+                <div class="col-sm maezona" data-anime="${lista[seg]}" onclick="expandeNoticia('${json[i].id}')")">
                     <div class="visivel">
                         <img id="d${i}" src="imgs/imagemTeste.jpg">
                         <h3 style="text-align: center;">${json[i].titulo}</h3>
@@ -569,13 +616,14 @@ function exibeNoticias(json) {
         cont++;
         seg++;
         if (seg == 3) {
-            /*console.log(`d${i} ` + $(`#d${i}`).width());
+            let windowTop = $(`#d${i}`).width();
+            console.log(`d${i} ` + $(`#d${i}`).width());
             console.log(`d${i-1} ` + $(`#d${i-1}`).width());
-            console.log(`d${i-2} ` + $(`#d${i-2}`).width());*/
+            console.log(`d${i-2} ` + $(`#d${i-2}`).width());
             seg = 0;
         }
+
     }
-    
     target = document.querySelectorAll('[data-anime]');
     if (target.length) {
         window.addEventListener('scroll', debounce(function () {
@@ -641,7 +689,7 @@ async function expandeNoticia(id) {
               <div class="col-4">
                 <span>${json.imagem}</span>
               </div>
-              
+
             </div>
           </div>`);
 }

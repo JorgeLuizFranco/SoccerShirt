@@ -27,7 +27,7 @@ public class Json{
   public Noticia retornaNoticia(String requestData){
 	  String[] words= {"id","titulo","subtitulo","conteudo","times","marcas","ligas","imagens"};
     String[] ans= new String[8];
-    ArrayList<String> times= new ArrayList<String>(), marcas=new ArrayList<String>(),ligas=new ArrayList<String>(), imagens= new ArrayList<String>;
+    ArrayList<String> times= new ArrayList<String>(), marcas=new ArrayList<String>(),ligas=new ArrayList<String>(), imagens= new ArrayList<String>();
     int cont=0;
     for(String x: words){
       int idx= requestData.indexOf(x);

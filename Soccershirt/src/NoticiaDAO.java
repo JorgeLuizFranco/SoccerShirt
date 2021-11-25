@@ -54,7 +54,7 @@ public class NoticiaDAO {
             }
           }
         }
-        Array<String> imagens=Imagens.salvar(noticia.getImagens(),idNoticia);
+        ArrayList<String> imagens=Imagens.salvar(noticia.getImagens(),idNoticia);
         for(String imagem: imagens){
           sql="insert into imagens values(?,?);";
           try(Connection conn = ConnectionFactory.getConnection()) {
@@ -114,7 +114,39 @@ public class NoticiaDAO {
 // opa git 2
 
     public void removerNoticia(int id) {
-        String sql = "delete from noticia where idUnica=?";
+      String sql ="delete from timeNoticia where idNoticia=?;";
+      try(Connection conn = ConnectionFactory.getConnection()) {
+          PreparedStatement ps = conn.prepareStatement(sql);
+          ps.setInt(1, id);
+          ps.executeUpdate();
+      } catch (SQLException e) {
+          throw new RuntimeException(e);
+      }
+      sql ="delete from marcaNoticia where idNoticia=?;";
+      try(Connection conn = ConnectionFactory.getConnection()) {
+          PreparedStatement ps = conn.prepareStatement(sql);
+          ps.setInt(1, id);
+          ps.executeUpdate();
+      } catch (SQLException e) {
+          throw new RuntimeException(e);
+      }
+      sql ="delete from ligaNoticia where idNoticia=?;";
+      try(Connection conn = ConnectionFactory.getConnection()) {
+          PreparedStatement ps = conn.prepareStatement(sql);
+          ps.setInt(1, id);
+          ps.executeUpdate();
+      } catch (SQLException e) {
+          throw new RuntimeException(e);
+      }
+      sql ="delete from imagens where idNoticia=?;";
+      try(Connection conn = ConnectionFactory.getConnection()) {
+          PreparedStatement ps = conn.prepareStatement(sql);
+          ps.setInt(1, id);
+          ps.executeUpdate();
+      } catch (SQLException e) {
+          throw new RuntimeException(e);
+      }
+      sql = "delete from noticia where idUnica=?";
         try(Connection conn = ConnectionFactory.getConnection()) {
             PreparedStatement ps = conn.prepareStatement(sql);
             ps.setInt(1, id);

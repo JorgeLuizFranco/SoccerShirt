@@ -31,6 +31,7 @@ import java.time.LocalTime;
         this.times= new ArrayList<Integer>();
         this.marcas= new ArrayList<Integer>();
         this.ligas= new ArrayList<Integer>();
+        this.imagens= new ArrayList<String>();
       }
     // métodos get e set para id, nome, email, endereço e dataNascimento
     public void setId(int novo){

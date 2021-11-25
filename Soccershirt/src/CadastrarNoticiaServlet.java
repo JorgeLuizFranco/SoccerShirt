@@ -9,8 +9,8 @@ public class CadastrarNoticiaServlet extends HttpServlet {
             response.setContentType("text/html");
             PrintWriter pw=response.getWriter();//get the stream to write the data
             String requestData = request.getReader().lines().collect(Collectors.joining());
-            pw.print(requestData);
-            pw.close();
+            /*pw.print(requestData);
+            pw.close();*/
             Json js= new Json();
             Noticia noticia= js.retornaNoticia(requestData);
             pw.print(""+noticia.getTitulo()+" "+noticia.getSubtitulo()+" "+noticia.getTexto()+" ");
@@ -24,6 +24,10 @@ public class CadastrarNoticiaServlet extends HttpServlet {
             }
             pw.print("ligas ");
             for(int i: noticia.getLigas()){
+                pw.print(i+" ");
+            }
+            pw.print("imagens ");
+            for(String i: noticia.getImagens()){
                 pw.print(i+" ");
             }
             pw.close();//closing the stream
