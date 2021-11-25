@@ -571,27 +571,27 @@ function exibeNoticias(json) {
 //exibe na tela do index*************************************************************************************************
 async function completaIndex() {
     $(".containerIMG").text("");
-    $(".containerIMG").html(`<h1>Não sei o que colocar aqui, o que eu posso colocar?</h1>`);
+    $(".containerIMG").html(`<h1>SoccerShirt</h1>`);
     //pegamos os times cadastrados e colocamos no navbar**************************************************************************************
     var json = await buscaJson("time");
     //json = [{ "id": 1, "nome": 'time 1' }, { "id": 2, "nome": 'time 2' }, { "id": 3, "nome": 'time 3' }, { "id": 4, "nome": 'time 4' }, { "id": 5, "nome": 'time 5' }, { "id": 1, "nome": 'time 1' }, { "id": 2, "nome": 'time 2' }, { "id": 3, "nome": 'time 3' }, { "id": 4, "nome": 'time 4' }, { "id": 5, "nome": 'time 5' }];
     for (let i = 0; i < json.length; i++) {
         $("#dropTimes").append(`
-        <li class="dropdown-item" onclick="funcaoDrop('${json[i].id}', 'time')">${json[i].nome}</li>`);
+        <li class="dropdown-item" onclick="funcaoDrop('${json[i].id}', 'time', '${json[i].nome}')">${json[i].nome}</li>`);
     }
     //pegamos as marcas cadastrados e colocamos no navbar**************************************************************************************
     json = await buscaJson("marca");
     //json = [{ "id": 1, "nome": 'marca 1' }, { "id": 2, "nome": 'marca 2' }, { "id": 3, "nome": 'marca 3' }, { "id": 4, "nome": 'marca 4' }, { "id": 5, "nome": 'marca 5' }];
     for (let i = 0; i < json.length; i++) {
         $("#dropMarcas").append(`
-        <li class="dropdown-item" onclick="funcaoDrop('${json[i].id}', 'time')">${json[i].nome}</li>`);
+        <li class="dropdown-item" onclick="funcaoDrop('${json[i].id}', 'marca', '${json[i].nome}')">${json[i].nome}</li>`);
     }
     //pegamos as marcas cadastrados e colocamos no navbar**************************************************************************************
     json = await buscaJson("liga");
     //json = [{ "id": 1, "nome": 'liga 1' }, { "id": 2, "nome": 'liga 2' }, { "id": 3, "nome": 'liga 3' }, { "id": 4, "nome": 'liga 4' }, { "id": 5, "nome": 'liga 5' }];
     for (let i = 0; i < json.length; i++) {
         $("#dropLigas").append(`
-        <li class="dropdown-item" onclick="funcaoDrop('${json[i].id}', 'liga')">${json[i].nome}</li>`);
+        <li class="dropdown-item" onclick="funcaoDrop('${json[i].id}', 'liga', '${json[i].nome}')">${json[i].nome}</li>`);
     }
     //chamamos a função que irá exibir as notícias e passamos como parametro um json com todas as notícias a serem exibidas
     json = await buscaJson("noticia");
