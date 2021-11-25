@@ -545,7 +545,7 @@ function exibeNoticias(json) {
         let n = ` "id": ${json[i].id}, "titulo": "${json[i].titulo}", "subtitulo": "${json[i].subtitulo}", "texto": "${json[i].texto}", "imagem": "${json[i].imagens}", "horaC": "${json[i].horaC}", "dataC": "${json[i].dataC}" `;
 
         $(".container:last-child .row").append(`
-                <div class="col-sm maezona" data-anime="${lista[seg]}" onclick="expandeNoticia(${json[i].id})">
+                <div class="col-sm maezona" data-anime="${lista[seg]}" onclick="expandeNoticia('${json[i].id}')">
                     <div class="visivel" id="visivel${json[i].id}">
                         <img id="d${i}" src="imgs/fundoIndex.jpg">
                         <h2>${json[i].titulo}</h2>
