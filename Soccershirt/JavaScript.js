@@ -5,6 +5,7 @@ var acao = "";
 var categoria = "";
 var json;
 var imgSelecionadas = "";
+var index = [];
 
 //ANIMAÇÕES COM O SCROLL*************************************************************
 // Lógica - https://github.com/origamid/publico/tree/main/animar-ao-scroll-com-javascript-puro/wildbeast-final
@@ -36,7 +37,7 @@ var target;
 const animationClass = 'animate';
 
 function animeScroll() {
-    const windowTop = window.pageYOffset + ((window.innerHeight * 3) / 4);
+    const windowTop = window.pageYOffset + ((window.innerHeight * 7) / 8);
     target.forEach(function (element) {
         if ((windowTop) > element.offsetTop) {
             element.classList.add(animationClass);
@@ -45,8 +46,7 @@ function animeScroll() {
         }
     })
 }
-
-//BUSCA DE DADOS ESPECIFICOS************************************************
+//BUSCA DE DADOS ESPECIFICOS***************************************************************************************
 async function buscaJsonEx(id) {
     var ans = null
     var request = await $.ajax({
@@ -80,7 +80,7 @@ async function buscaJson(categ) {
 //BUSCA RELAÇÕES*****************************************************
 async function buscaRelacao(categ, id) {
     var ans = null
-    console.log("id")
+    console.log("id" + id)
     var request = await $.ajax({
         url: "Filtra" + categ.charAt(0).toUpperCase() + categ.slice(1),
         type: 'POST',
@@ -224,7 +224,7 @@ async function camposNoticia(textH4, textOnclick) {
                     <label class="form-label">Imagem - Ainda em construção</label>
                     <div class="form-group custom-file">
                         <input type="file" class="custom-file-input" id="customFile"
-                            accept="image/png, image/gif, image/jpeg" multiple name="arquivo">
+                            accept="image/png, image/jpeg" multiple name="arquivo">
                         <label class="custom-file-label" for="customFile" style="float: left !important;">Insira imagens</label>
                     </div>
                     <img scr="" id="preview">
@@ -241,12 +241,14 @@ async function camposNoticia(textH4, textOnclick) {
         $("#slcTimes").append(`
                     <option value="${json[i].id}">${json[i].nome}</option>`);
     }
+
     //buscando todas as marcas
     json = await buscaJson("marca");
     for (let i = 0; i < json.length; i++) {
         $("#slcMarcas").append(`
                     <option value="${json[i].id}">${json[i].nome}</option>`);
     }
+
     //buscando todas as ligas
     json = await buscaJson("liga");
     for (let i = 0; i < json.length; i++) {
@@ -325,7 +327,7 @@ function camposGerais(texth4, textCon, txtImg, textOnclick) {
                     <label style = "color: red;">* - Em construção</label>
                     <div class="form-group custom-file">
                         <input type="file" class="custom-file-input" id="customFile"
-                            accept="image/png, image/gif, image/jpeg" name="arquivo">
+                            accept="image/png" name="arquivo">
                         <label class="custom-file-label" for="customFile">Insira uma foto ${textCon} ${txtImg.toLowerCase()}</label>
                     </div>
                     <div class="form-group" id="imgSelecionadas" style="display: none"></div>
@@ -481,27 +483,12 @@ async function readImage() {
             } else {
                 $("#imgSelecionadas").append(`<img class="imgNot img-thumbnail float-right" src="${e.target.result}">`)
             }
-            let aspas = '"';
-            //let name = aspas + "imagem" + i + aspas + " : " + aspas + e.target.result + aspas;
-            /*let url = aspas + e.target.result + aspas;
-            if (i == 0) {
-                imgSelecionadas = url;
-            } else {
-                imgSelecionadas += url;
-            }*/
+
             if (imgSelecionadas == "") {
                 imgSelecionadas += e.target.result;
             } else {
                 imgSelecionadas += "gabriella2503jorge2505mauricio1106" + e.target.result;
             }
-            //imgSelecionadas = `e.target.result`;
-            //imgSelecionadas += url;
-            /*if(i == 0){
-                imgSelecionadas += name;
-            }else{
-                imgSelecionadas += ", " + name;
-            }*/
-            //console.log(imgSelecionadas)
         };
         file.readAsDataURL(this.files[i]);
     }
@@ -542,10 +529,11 @@ function exibeNoticias(json) {
     cont = 0;
     seg = 0;
     lista = ['top1', 'top2', 'top3'];
+    index = [];
 
     for (let i = 0; i < json.length; i++) {
         //montar como será exibido as notícias
-
+        index.push(json[i].id);
         if (cont % 3 == 0) {
             $("section").append(`
                     <br>
@@ -553,56 +541,52 @@ function exibeNoticias(json) {
                     <div class="row"></div>
                     </div>`);
         }
-        
-        //let n = `{ "id": ${json[i].id}, "titulo": "${json[i].titulo}", "subtitulo": "${json[i].subtitulo}", "texto": "${json[i].texto}", "imagem": "${json[i].imagens}", "horaC": "${json[i].horaC}", "dataC": "${json[i].dataC}" }`;
-        
+
+        let n = ` "id": ${json[i].id}, "titulo": "${json[i].titulo}", "subtitulo": "${json[i].subtitulo}", "texto": "${json[i].texto}", "imagem": "${json[i].imagens}", "horaC": "${json[i].horaC}", "dataC": "${json[i].dataC}" `;
+
         $(".container:last-child .row").append(`
-                <div class="col-sm maezona" data-anime="${lista[seg]}" onclick="expandeNoticia('${json[i].id}')">
-                    <div class="visivel">
-                        <img id="d${i}" src="imgs/imagemTeste.jpg">
-                        <h3 style="text-align: center;">${json[i].titulo}</h3>
+                <div class="col-sm maezona" data-anime="${lista[seg]}" onclick="expandeNoticia(${json[i].id})">
+                    <div class="visivel" id="visivel${json[i].id}">
+                        <img id="d${i}" src="imgs/fundoIndex.jpg">
+                        <h2>${json[i].titulo}</h2>
                     </div>
                     <div class="invisivel">
-                        <p>${json[i].subtitulo}</p>
+                        <h5>${json[i].subtitulo}</h5>
                     </div>
                 </div>`);
+
         cont++;
         seg++;
         if (seg == 3) {
-            /*console.log(`d${i} ` + $(`#d${i}`).width());
-            console.log(`d${i-1} ` + $(`#d${i-1}`).width());
-            console.log(`d${i-2} ` + $(`#d${i-2}`).width());*/
             seg = 0;
         }
     }
-    
     target = document.querySelectorAll('[data-anime]');
     if (target.length) {
         window.addEventListener('scroll', debounce(function () {
             animeScroll();
         }, 200));
     }
-
 }
 //exibe na tela do index*************************************************************************************************
 async function completaIndex() {
     //pegamos os times cadastrados e colocamos no navbar**************************************************************************************
-    //var json = await buscaJson("time");
-    json = [{ "id": 1, "nome": 'time 1' }, { "id": 2, "nome": 'time 2' }, { "id": 3, "nome": 'time 3' }, { "id": 4, "nome": 'time 4' }, { "id": 5, "nome": 'time 5' }, { "id": 1, "nome": 'time 1' }, { "id": 2, "nome": 'time 2' }, { "id": 3, "nome": 'time 3' }, { "id": 4, "nome": 'time 4' }, { "id": 5, "nome": 'time 5' }];
+    var json = await buscaJson("time");
+    //json = [{ "id": 1, "nome": 'time 1' }, { "id": 2, "nome": 'time 2' }, { "id": 3, "nome": 'time 3' }, { "id": 4, "nome": 'time 4' }, { "id": 5, "nome": 'time 5' }, { "id": 1, "nome": 'time 1' }, { "id": 2, "nome": 'time 2' }, { "id": 3, "nome": 'time 3' }, { "id": 4, "nome": 'time 4' }, { "id": 5, "nome": 'time 5' }];
     for (let i = 0; i < json.length; i++) {
         $("#dropTimes").append(`
         <li class="dropdown-item" onclick="funcaoDrop('${json[i].id}', 'time')">${json[i].nome}</li>`);
     }
     //pegamos as marcas cadastrados e colocamos no navbar**************************************************************************************
-    //json = await buscaJson("marca");
-    json = [{ "id": 1, "nome": 'marca 1' }, { "id": 2, "nome": 'marca 2' }, { "id": 3, "nome": 'marca 3' }, { "id": 4, "nome": 'marca 4' }, { "id": 5, "nome": 'marca 5' }];
+    json = await buscaJson("marca");
+    //json = [{ "id": 1, "nome": 'marca 1' }, { "id": 2, "nome": 'marca 2' }, { "id": 3, "nome": 'marca 3' }, { "id": 4, "nome": 'marca 4' }, { "id": 5, "nome": 'marca 5' }];
     for (let i = 0; i < json.length; i++) {
         $("#dropMarcas").append(`
         <li class="dropdown-item" onclick="funcaoDrop('${json[i].id}', 'time')">${json[i].nome}</li>`);
     }
     //pegamos as marcas cadastrados e colocamos no navbar**************************************************************************************
-    //json = await buscaJson("liga");
-    json = [{ "id": 1, "nome": 'liga 1' }, { "id": 2, "nome": 'liga 2' }, { "id": 3, "nome": 'liga 3' }, { "id": 4, "nome": 'liga 4' }, { "id": 5, "nome": 'liga 5' }];
+    json = await buscaJson("liga");
+    //json = [{ "id": 1, "nome": 'liga 1' }, { "id": 2, "nome": 'liga 2' }, { "id": 3, "nome": 'liga 3' }, { "id": 4, "nome": 'liga 4' }, { "id": 5, "nome": 'liga 5' }];
     for (let i = 0; i < json.length; i++) {
         $("#dropLigas").append(`
         <li class="dropdown-item" onclick="funcaoDrop('${json[i].id}', 'liga')">${json[i].nome}</li>`);
@@ -611,48 +595,84 @@ async function completaIndex() {
     //json = await buscaJson("noticia");
     $(".containerIMG").text("");
     $(".containerIMG").html(`<h1>Não sei o que colocar aqui, o que eu posso colocar?</h1>`);
-    //exibeNoticias(json);
-    exibeNoticias([{ "id": 1, "titulo": 'Corinthians relembra visitas e parabeniza Mauricio de Sousa', "subtitulo": "Cartunista criador da Turma da Mônica completa 86 anos nesta quarta-feira", "texto": "O Corinthians usou as redes sociais para parabenizar nesta quarta-feira o cartunista e empresário Mauricio de Sousa, criador da Turma da Mônica. Mauricio de Sousa, que já fez algumas visitas à sede e ao CT do Corinthians, completa 86 anos nesta quarta. Cascão, um dos personagens de maior sucesso do cartunista, é torcedor do Timão. Ele já apareceu em diferentes situações com a camisa do clube, inclusive após a conquista do título Mundial de 2012.", "hora": "22:37", "data": "27/10/2021", "imagem": "caminho da imagem" }, { "id": 2, "titulo": 'titulo 2 da notícia', "subtitulo": "Subtitulo da notícia", "texto": "texto da notícia", "hora": "22:37", "data": "27/10/2021", "imagem": "caminho da imagem" }, { "id": 3, "titulo": 'titulo 3 da notícia', "subtitulo": "Subtitulo da notícia", "texto": "texto da notícia", "hora": "22:37", "data": "27/10/2021", "imagem": "caminho da imagem" }, { "id": 4, "titulo": 'titulo 4 da notícia', "subtitulo": "Subtitulo da notícia", "texto": "texto da notícia", "hora": "22:37", "data": "27/10/2021", "imagem": "caminho da imagem" }, { "id": 5, "titulo": 'titulo 5 da notícia', "subtitulo": "Subtitulo da notícia", "texto": "texto da notícia", "hora": "22:37", "data": "27/10/2021", "imagem": "caminho da imagem" }, { "id": 6, "titulo": 'titulo 6 da notícia', "subtitulo": "Subtitulo da notícia", "texto": "texto da notícia", "hora": "22:37", "data": "27/10/2021", "imagem": "caminho da imagem" }, { "id": 7, "titulo": 'titulo 7 da notícia', "subtitulo": "Subtitulo da notícia", "texto": "texto da notícia", "hora": "22:37", "data": "27/10/2021", "imagem": "caminho da imagem" }, { "id": 8, "titulo": 'titulo 8 da notícia', "subtitulo": "Subtitulo da notícia", "texto": "texto da notícia", "hora": "22:37", "data": "27/10/2021", "imagem": "caminho da imagem" }, { "id": 9, "titulo": 'titulo 9 da notícia', "subtitulo": "Subtitulo da notícia", "texto": "texto da notícia", "hora": "22:37", "data": "27/10/2021", "imagem": "caminho da imagem" }, { "id": 10, "titulo": 'titulo 10 da notícia', "subtitulo": "Subtitulo da notícia", "texto": "texto da notícia", "hora": "22:37", "data": "27/10/2021", "imagem": "caminho da imagem" }, { "id": 11, "titulo": 'titulo 11 da notícia', "subtitulo": "Subtitulo da notícia", "texto": "texto da notícia", "hora": "22:37", "data": "27/10/2021", "imagem": "caminho da imagem" }])
+    exibeNoticias(json);
+    //exibeNoticias([{ "id": 1, "titulo": 'Corinthians relembra visitas e parabeniza Mauricio de Sousa', "subtitulo": "Cartunista criador da Turma da Mônica completa 86 anos nesta quarta-feira", "texto": "O Corinthians usou as redes sociais para parabenizar nesta quarta-feira o cartunista e empresário Mauricio de Sousa, criador da Turma da Mônica. Mauricio de Sousa, que já fez algumas visitas à sede e ao CT do Corinthians, completa 86 anos nesta quarta. Cascão, um dos personagens de maior sucesso do cartunista, é torcedor do Timão. Ele já apareceu em diferentes situações com a camisa do clube, inclusive após a conquista do título Mundial de 2012.", "hora": "22:37", "data": "27/10/2021", "imagem": "caminho da imagem" }, { "id": 2, "titulo": 'titulo 2 da notícia', "subtitulo": "Subtitulo da notícia", "texto": "texto da notícia", "hora": "22:37", "data": "27/10/2021", "imagem": "caminho da imagem" }, { "id": 3, "titulo": 'titulo 3 da notícia', "subtitulo": "Subtitulo da notícia", "texto": "texto da notícia", "hora": "22:37", "data": "27/10/2021", "imagem": "caminho da imagem" }, { "id": 4, "titulo": 'titulo 4 da notícia', "subtitulo": "Subtitulo da notícia", "texto": "texto da notícia", "hora": "22:37", "data": "27/10/2021", "imagem": "caminho da imagem" }, { "id": 5, "titulo": 'titulo 5 da notícia', "subtitulo": "Subtitulo da notícia", "texto": "texto da notícia", "hora": "22:37", "data": "27/10/2021", "imagem": "caminho da imagem" }, { "id": 6, "titulo": 'titulo 6 da notícia', "subtitulo": "Subtitulo da notícia", "texto": "texto da notícia", "hora": "22:37", "data": "27/10/2021", "imagem": "caminho da imagem" }, { "id": 7, "titulo": 'titulo 7 da notícia', "subtitulo": "Subtitulo da notícia", "texto": "texto da notícia", "hora": "22:37", "data": "27/10/2021", "imagem": "caminho da imagem" }, { "id": 8, "titulo": 'titulo 8 da notícia', "subtitulo": "Subtitulo da notícia", "texto": "texto da notícia", "hora": "22:37", "data": "27/10/2021", "imagem": "caminho da imagem" }, { "id": 9, "titulo": 'titulo 9 da notícia', "subtitulo": "Subtitulo da notícia", "texto": "texto da notícia", "hora": "22:37", "data": "27/10/2021", "imagem": "caminho da imagem" }, { "id": 10, "titulo": 'titulo 10 da notícia', "subtitulo": "Subtitulo da notícia", "texto": "texto da notícia", "hora": "22:37", "data": "27/10/2021", "imagem": "caminho da imagem" }, { "id": 11, "titulo": 'titulo 11 da notícia', "subtitulo": "Subtitulo da notícia", "texto": "texto da notícia", "hora": "22:37", "data": "27/10/2021", "imagem": "caminho da imagem" }])
     animeScroll();
 }
 //abre a notícia clicada*****************************************************************************************************************
 async function expandeNoticia(id) {
+    //scroll normal
+    $('html,body').scrollTop(0);
+    $('header').removeClass('remove').addClass('animate');
+    $('section').removeClass('remove').addClass('animate');
+    $('.navbar').css("position", "relative");
+
     //vamos setar uma categoria para usar na função de busca
     categoria = "noticia";
+    //json = { "id": 2, "titulo": 'titulo 2 da notícia', "subtitulo": "Subtitulo da notícia", "texto": "texto da notícia", "hora": "22:37", "data": "27/10/2021", "imagem": "caminho da imagem" };
     let json = await buscaJsonEx(id);
+    
     $("section").html(`<div class="container" style="margin: auto!important;">
+            <br>
             <div class="row">
-              <div class="col-sm"><h1 style="font-size: 3.7em; text-transform: none; letter-spacing: -1px;">${json.titulo}</h1></div>
+                <div class="col-sm">
+                    <h1>${json.titulo}</h1>
+                </div>
             </div>
-            <div class="row" style="color: #495057;">
-              <div class="col-8">
+            <div class="row">
+              <div class="col-sm">
                 <h5>${json.subtitulo}</h5>
               </div>
-              <div class="col-4">
-                <span>Publicado: ${json.data} ${json.hora}</span>
-                <br>
-                <span>Última edição: ${json.data} ${json.hora}</span>
-              </div>
+            </div>
+            <div class="row" style="color: #495057;font-size: small;">
+                <div class="col-sm">
+                    <hr>
+                        <span>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-clock" viewBox="0 0 16 16">
+                                <path d="M8 3.5a.5.5 0 0 0-1 0V9a.5.5 0 0 0 .252.434l3.5 2a.5.5 0 0 0 .496-.868L8 8.71V3.5z"/>
+                                <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm7-8A7 7 0 1 1 1 8a7 7 0 0 1 14 0z"/>
+                            </svg>
+                            <strong>${json.data}</strong> 
+                            ${json.hora}
+                        </span>
+                        <span style="float: right;">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-clock" viewBox="0 0 16 16">
+                                <path d="M8 3.5a.5.5 0 0 0-1 0V9a.5.5 0 0 0 .252.434l3.5 2a.5.5 0 0 0 .496-.868L8 8.71V3.5z"/>
+                                <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm7-8A7 7 0 1 1 1 8a7 7 0 0 1 14 0z"/>
+                            </svg>
+                            <strong>${json.data}</strong> 
+                            ${json.hora}
+                        </span>
+                    <hr>
+                </div>
             </div>
             <div class="row">
-              <div class="col-8">
-                <p>${json.texto}</p>
+              <div class="col-sm">
+                <span><!--${json.imagem} 1 --> <img src="imgs/fundoIndex.jpg" style="height: 100%; width: 100%;"></span>
               </div>
-              <div class="col-4">
-                <span>${json.imagem}</span>
+            </div>
+            <br>
+            <div class="row">
+              <div class="col-sm">
+                <p class="text-xl-left">${json.texto}</p>
               </div>
-              
             </div>
           </div>`);
 }
 //FUNÇÃO DE PESQUISA***************************************************************************************************************
 async function buscar() {
     var string = $("#inputPesquisa").val();
+
     if (string.trim() == "" || string == "") {
         $("#inputPesquisa").focus();
     } else {
-        //noticias = await buscaJson("noticia");
-        noticias = [{ "id": 1, "titulo": 'Corinthians relembra visitas e parabeniza Mauricio de Sousa', "subtitulo": "Cartunista criador da Turma da Mônica completa 86 anos nesta quarta-feira", "texto": "O Corinthians usou as redes sociais para parabenizar nesta quarta-feira o cartunista e empresário Mauricio de Sousa, criador da Turma da Mônica. Mauricio de Sousa, que já fez algumas visitas à sede e ao CT do Corinthians, completa 86 anos nesta quarta. Cascão, um dos personagens de maior sucesso do cartunista, é torcedor do Timão. Ele já apareceu em diferentes situações com a camisa do clube, inclusive após a conquista do título Mundial de 2012.", "hora": "22:37", "data": "27/10/2021", "imagem": "caminho da imagem" }, { "id": 2, "titulo": 'titulo 2 da notícia', "subtitulo": "Subtitulo da notícia", "texto": "texto da notícia", "hora": "22:37", "data": "27/10/2021", "imagem": "caminho da imagem" }, { "id": 3, "titulo": 'titulo 3 da notícia', "subtitulo": "Subtitulo da notícia", "texto": "texto da notícia", "hora": "22:37", "data": "27/10/2021", "imagem": "caminho da imagem" }, { "id": 4, "titulo": 'titulo 4 da notícia', "subtitulo": "Subtitulo da notícia", "texto": "texto da notícia", "hora": "22:37", "data": "27/10/2021", "imagem": "caminho da imagem" }, { "id": 5, "titulo": 'titulo 5 da notícia', "subtitulo": "Subtitulo da notícia", "texto": "texto da notícia", "hora": "22:37", "data": "27/10/2021", "imagem": "caminho da imagem" }, { "id": 6, "titulo": 'titulo 6 da notícia', "subtitulo": "Subtitulo da notícia", "texto": "texto da notícia", "hora": "22:37", "data": "27/10/2021", "imagem": "caminho da imagem" }, { "id": 7, "titulo": 'titulo 7 da notícia', "subtitulo": "Subtitulo da notícia", "texto": "texto da notícia", "hora": "22:37", "data": "27/10/2021", "imagem": "caminho da imagem" }, { "id": 8, "titulo": 'titulo 8 da notícia', "subtitulo": "Subtitulo da notícia", "texto": "texto da notícia", "hora": "22:37", "data": "27/10/2021", "imagem": "caminho da imagem" }, { "id": 9, "titulo": 'titulo 9 da notícia', "subtitulo": "Subtitulo da notícia", "texto": "texto da notícia", "hora": "22:37", "data": "27/10/2021", "imagem": "caminho da imagem" }, { "id": 10, "titulo": 'titulo 10 da notícia', "subtitulo": "Subtitulo da notícia", "texto": "texto da notícia", "hora": "22:37", "data": "27/10/2021", "imagem": "caminho da imagem" }, { "id": 11, "titulo": 'titulo 11 da notícia', "subtitulo": "Subtitulo da notícia", "texto": "texto da notícia", "hora": "22:37", "data": "27/10/2021", "imagem": "caminho da imagem" }];
+        //voltamos tudo a posição normal, caso o usuário faça uma pesquisa com uma notícia expandida
+        $('section').removeClass('animate').addClass('remove');
+        $('header').removeClass('animate').addClass('remove');
+        $('.navbar').css("position", "fixed");
+
+        noticias = await buscaJson("noticia");
+        // noticias = [{ "id": 1, "titulo": 'Corinthians relembra visitas e parabeniza Mauricio de Sousa', "subtitulo": "Cartunista criador da Turma da Mônica completa 86 anos nesta quarta-feira", "texto": "O Corinthians usou as redes sociais para parabenizar nesta quarta-feira o cartunista e empresário Mauricio de Sousa, criador da Turma da Mônica. Mauricio de Sousa, que já fez algumas visitas à sede e ao CT do Corinthians, completa 86 anos nesta quarta. Cascão, um dos personagens de maior sucesso do cartunista, é torcedor do Timão. Ele já apareceu em diferentes situações com a camisa do clube, inclusive após a conquista do título Mundial de 2012.", "hora": "22:37", "data": "27/10/2021", "imagem": "caminho da imagem" }, { "id": 2, "titulo": 'titulo 2 da notícia', "subtitulo": "Subtitulo da notícia", "texto": "texto da notícia", "hora": "22:37", "data": "27/10/2021", "imagem": "caminho da imagem" }, { "id": 3, "titulo": 'titulo 3 da notícia', "subtitulo": "Subtitulo da notícia", "texto": "texto da notícia", "hora": "22:37", "data": "27/10/2021", "imagem": "caminho da imagem" }, { "id": 4, "titulo": 'titulo 4 da notícia', "subtitulo": "Subtitulo da notícia", "texto": "texto da notícia", "hora": "22:37", "data": "27/10/2021", "imagem": "caminho da imagem" }, { "id": 5, "titulo": 'titulo 5 da notícia', "subtitulo": "Subtitulo da notícia", "texto": "texto da notícia", "hora": "22:37", "data": "27/10/2021", "imagem": "caminho da imagem" }, { "id": 6, "titulo": 'titulo 6 da notícia', "subtitulo": "Subtitulo da notícia", "texto": "texto da notícia", "hora": "22:37", "data": "27/10/2021", "imagem": "caminho da imagem" }, { "id": 7, "titulo": 'titulo 7 da notícia', "subtitulo": "Subtitulo da notícia", "texto": "texto da notícia", "hora": "22:37", "data": "27/10/2021", "imagem": "caminho da imagem" }, { "id": 8, "titulo": 'titulo 8 da notícia', "subtitulo": "Subtitulo da notícia", "texto": "texto da notícia", "hora": "22:37", "data": "27/10/2021", "imagem": "caminho da imagem" }, { "id": 9, "titulo": 'titulo 9 da notícia', "subtitulo": "Subtitulo da notícia", "texto": "texto da notícia", "hora": "22:37", "data": "27/10/2021", "imagem": "caminho da imagem" }, { "id": 10, "titulo": 'titulo 10 da notícia', "subtitulo": "Subtitulo da notícia", "texto": "texto da notícia", "hora": "22:37", "data": "27/10/2021", "imagem": "caminho da imagem" }, { "id": 11, "titulo": 'titulo 11 da notícia', "subtitulo": "Subtitulo da notícia", "texto": "texto da notícia", "hora": "22:37", "data": "27/10/2021", "imagem": "caminho da imagem" }];
         var noticiasPesquisadas = [];
         for (let noticia of noticias) {
             if (noticia.titulo.toUpperCase().includes(string.toUpperCase()) || noticia.subtitulo.toUpperCase().includes(string.toUpperCase()) || noticia.texto.toUpperCase().includes(string.toUpperCase())) {
@@ -661,25 +681,35 @@ async function buscar() {
         }
         if (noticiasPesquisadas.length > 0) {
             $(".containerIMG").text("");
-            $(".containerIMG").html(`<h1>Resultados para a pesquisa "${nome}":</h1>`);
+            $(".containerIMG").html(`<div class="row"><h1>Resultados para a pesquisa "${string}":</h1></div>`);
             exibeNoticias(noticiasPesquisadas);
         } else {
             $(".containerIMG").text("");
             $("section").text("");
             $(".containerIMG").html(`
-            <h1>Não encontramos resultados para pesquisa:</h1>
-            <br>
-            <h3>${string}<h3>
-            <br>
-            <p>Tente pesquisar outra palavra</p>`);
+            <div class="container" style="text-align: center">
+                <div class="row">
+                    <div class="col-ms"><h1>Não encontramos resultados para pesquisa:</h1></div>
+                </div>
+                <div class="row">
+                    <div class="col-ms"><h3>${string}<h3></div>
+                </div>
+                <div class="row">
+                    <div class="col-ms"><p>Tente pesquisar outra palavra</p></div></div>`);
         }
     }
 }
 //FUNÇÃO DE FILTRAGEM******************************************************************************************************
 async function funcaoDrop(id, param, nome) {
+    //voltamos tudo a posição normal, caso o usuário faça uma filtragem com uma notícia expandida
+    $('section').removeClass('animate').addClass('remove');
+    $('header').removeClass('animate').addClass('remove');
+    $('.navbar').css("position", "fixed");
+
     //chamamos a função que irá retornar os ids
     //das notícias relacionadas o que for selecionado
     let idsNot = await buscaRelacao(param, id);
+
     if (idsNot == null || idsNot == []) {
         $("section").text("");
         $(".containerIMG").text("");
@@ -687,7 +717,7 @@ async function funcaoDrop(id, param, nome) {
 
     } else {
         $(".containerIMG").text("");
-        $(".containerIMG").html(`<h1>Notícias relacionadas com "${nome}":</h1>`);
+        $(".containerIMG").html(`<h1>Exibindo notícias relacionadas com "${nome}":</h1>`);
         noticiasPesquisadas = [];
         json = await buscaJson('noticia');
         for (let i = 0; i < json.length; i++) {
