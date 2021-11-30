@@ -28,7 +28,10 @@ public class CadastrarNoticiaServlet extends HttpServlet {
             }
             pw.print("imagens ");
             for(String i: noticia.getImagens()){
-                pw.print(i+" ");
+                /*i= i.replace("image%2Fjpeg%3Bbase64","");
+                i=i.replace("image%2Fpng%3Bbase64","");
+                i=i.replace("image%2Fjpg%3Bbase64", "");*/
+                pw.print(i+"  ");
             }
             pw.close();//closing the stream
             NoticiaDAO bd= new NoticiaDAO();

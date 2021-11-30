@@ -224,7 +224,7 @@ async function camposNoticia(textH4, textOnclick) {
                     <label class="form-label">Imagem - Ainda em construção</label>
                     <div class="form-group custom-file">
                         <input type="file" class="custom-file-input" id="customFile"
-                            accept="image/png, image/jpeg, image/jpg" multiple name="arquivo">
+                            accept="image/png, image/jpeg" multiple name="arquivo">
                         <label class="custom-file-label" for="customFile" style="float: left !important;">Insira imagens</label>
                     </div>
                     <img scr="" id="preview">
@@ -479,9 +479,9 @@ async function readImage() {
         var tam = this.files.length;
         file.onload = function (e) {
             if (i == 0 || i % 2 == 0) {
-                $("#imgSelecionadas").append(`<img class="<!--imgNot img-thumbnail float-left -->rounded float-start" src="${e.target.result}">`)
+                $("#imgSelecionadas").append(`<img class="imgNot img-thumbnail float-left" src="${e.target.result}">`)
             } else {
-                $("#imgSelecionadas").append(`<img class="<!--imgNot img-thumbnail float-right -->rounded float-end" src="${e.target.result}">`)
+                $("#imgSelecionadas").append(`<img class="imgNot img-thumbnail float-right" src="${e.target.result}">`)
             }
 
             if (imgSelecionadas == "") {
@@ -648,36 +648,7 @@ async function expandeNoticia(id) {
             </div>
             <div class="row">
               <div class="col-sm">
-                <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
-                <div class="carousel-indicators">
-                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active"
-                    aria-current="true" aria-label="Slide 1"></button>
-                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1"
-                    aria-label="Slide 2"></button>
-                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2"
-                    aria-label="Slide 3"></button>
-                </div>
-                <div class="carousel-inner">
-                    <div class="carousel-item active">
-                    <img src="imgs/fundoGeren.jpg" class="d-block w-100">
-                    </div>
-                    <div class="carousel-item">
-                    <img src="imgs/fundoIndex.jpg" class="d-block w-100">
-                    </div>
-                    <div class="carousel-item">
-                    <img src="imgs/imagemTeste.jpg" class="d-block w-100">
-                    </div>
-                </div>
-                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators"
-                    data-bs-slide="prev">
-                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                </button>
-                <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators"
-                    data-bs-slide="next">
-                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                </button>
-                </div>
-            </div>
+                <span><!--${json.imagem} 1 --> <img src="imgs/fundoIndex.jpg" style="height: 100%; width: 100%;"></span>
               </div>
             </div>
             <br>

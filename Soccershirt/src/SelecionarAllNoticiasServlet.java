@@ -16,7 +16,8 @@ public class SelecionarAllNoticiasServlet extends HttpServlet {
         pw.print("[");
         int cont=0;
         for(Noticia noticia: noticias){
-          pw.print(js.enviaNoticia(noticia));
+          List<String> imagens=ImagensDAO.getImagens(noticia.getId());
+          pw.print(js.enviaNoticia(noticia,imagens));
           if(cont==noticias.size()-1) continue;
           pw.print(",");
           ++cont;

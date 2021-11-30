@@ -54,7 +54,8 @@ public class NoticiaDAO {
             }
           }
         }
-        ArrayList<String> imagens=Imagens.salvar(noticia.getImagens(),idNoticia);
+        //ArrayList<String> imagens=Imagens.salvar(noticia.getImagens(),idNoticia);
+        ArrayList<String> imagens= noticia.getImagens();
         for(String imagem: imagens){
           sql="insert into imagens values(?,?);";
           try(Connection conn = ConnectionFactory.getConnection()) {
@@ -75,7 +76,7 @@ public class NoticiaDAO {
             List<Noticia> noticias = new ArrayList<Noticia>();
             while(rs.next()) {
               Noticia noticia = new Noticia(rs.getString("titulo"),rs.getString("subtitulo"),rs.getString("texto"));
-              noticia.setId(rs.getInt("idUnica"));
+              noticia.setId(rs.getInt("idUnica")); 
               /*noticia.setTexto(rs.getString("texto"));
               noticia.setSubtitulo(rs.getString("subtitulo"));
               noticia.setTitulo(rs.getString("titulo"));*/

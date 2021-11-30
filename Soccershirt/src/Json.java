@@ -1,11 +1,21 @@
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Arrays;
 public class Json{
   char aspas = '"';
   String strJson;
 
-  public String enviaNoticia(Noticia noticia){
-    strJson = "{" + aspas + "id" + aspas + ":" + aspas + Integer.toString(noticia.getId()) + aspas + ", " + aspas + "titulo" + aspas + " : " + aspas + noticia.getTitulo() + aspas + ", " + aspas + "subtitulo" +aspas+" : " + aspas + noticia.getSubtitulo() + aspas + ", " + aspas + "texto" + aspas + " : " + aspas + noticia.getTexto() + aspas + ", " + aspas + "hora" + aspas + ":" + aspas + noticia.getHora().toString() + aspas + "," + aspas + "date" + aspas + ":" + aspas + noticia.getDate().toString() + aspas + "}";
+  public String enviaNoticia(Noticia noticia, List<String> imagens){
+    StringBuilder strImagens = new StringBuilder("[");
+    int cont=0;
+    for(String imagem: imagens){
+      strImagens.append(imagem);
+      if(cont==imagens.size()-1) continue;
+      strImagens.append(",");
+      ++cont;
+    }
+    strImagens.append("]");
+    strJson = "{" + aspas + "id" + aspas + ":" + aspas + Integer.toString(noticia.getId()) + aspas + ", " + aspas + "titulo" + aspas + " : " + aspas + noticia.getTitulo() + aspas + ", " + aspas + "subtitulo" +aspas+" : " + aspas + noticia.getSubtitulo() + aspas + ", " + aspas + "texto" + aspas + " : " + aspas + noticia.getTexto() + aspas + ", " + aspas + "hora" + aspas + ":" + aspas + noticia.getHora().toString() + aspas + ", " + aspas + "data" + aspas + ":" + aspas + noticia.getDate().toString() + aspas + ", " + aspas + "imagens" + aspas + ":" + aspas + strImagens.toString()+aspas+"}";
     return strJson;
   }
 

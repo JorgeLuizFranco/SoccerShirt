@@ -15,7 +15,9 @@ public class Imagens{
     for(String imagem: imagens){
       BufferedImage image = null;
       byte[] imageByte;
-      imagem= imagem.replace("image%2Fjpeg%3Bbase64","");
+      imagem= imagem.replace("data%3Aimage%2Fjpeg%3Bbase64","");
+      imagem=imagem.replace("data%3Aimage%2Fpng%3Bbase64","");
+      imagem=imagem.replace("data%3Aimage%2Fjpg%3Bbase64", "");
       try {
           Base64.Decoder decoder = Base64.getMimeDecoder();
           String imageBase64 = imagem;

@@ -4,6 +4,8 @@ import javax.servlet.http.*;
 import java.util.stream.Collectors;
 import java.util.Map;
 import java.util.HashMap;
+import java.util.List;
+import java.util.ArrayList;
 
 public class SelecionarNoticiaServlet extends HttpServlet {
   //@Consumes(MediaType.APPLICATION_JSON)
@@ -15,7 +17,8 @@ public class SelecionarNoticiaServlet extends HttpServlet {
             NoticiaDAO bd= new NoticiaDAO();
             Noticia noticia=bd.getNoticia(id);
             Json js= new Json();
-            pw.print(js.enviaNoticia(noticia));
-          pw.close(); 
+            List<String> imagens=ImagensDAO.getImagens(noticia.getId());
+            pw.print(js.enviaNoticia(noticia,imagens));
+          pw.close();
       }
 }
