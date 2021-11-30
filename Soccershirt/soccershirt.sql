@@ -23,9 +23,9 @@ create table imagens(
 
 	idNoticia int,
 
-	imagem varchar(700),
+	imagem LONGTEXT not null,
 
-	primary key(idNoticia, imagem),
+	primary key(idNoticia),
 
 	foreign key(idNoticia) references noticia(idUnica)
 
@@ -35,7 +35,7 @@ create table time(
 
 	idUnica int AUTO_INCREMENT,
 
-	camiseta varchar(700),
+	camiseta LONGTEXT,
 
 	nome varchar(1000),
 
@@ -63,7 +63,7 @@ create table liga(
 
 	idUnica int AUTO_INCREMENT,
 
-	simbolo varchar(700),
+	simbolo LONGTEXT,
 
 	paisOrigem varchar(500),
 
@@ -77,7 +77,7 @@ create table marca(
 
 	idUnica int AUTO_INCREMENT,
 
-	logo varchar(700),
+	logo LONGTEXT,
 
 	nome varchar(500),
 
