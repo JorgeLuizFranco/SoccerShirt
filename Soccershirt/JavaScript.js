@@ -55,12 +55,8 @@ async function buscaJsonEx(id) {
         data: id,
         async: true,
         success: function (json) {
-            console.log("antes de converter")
             ans = decodeURIComponent(json);
-            console.log(ans)
             ans = JSON.parse(ans);
-            console.log("convertido")
-            console.log(ans)
         }
     });
     return ans;
@@ -74,12 +70,8 @@ async function buscaJson(categ) {
         type: 'POST',
         async: true,
         success: function (json) {
-            console.log("antes de converter")
             ans = decodeURIComponent(json);
-            console.log(ans)
             ans = JSON.parse(ans);
-            console.log("convertido")
-            console.log(ans)
         }
     });
     return ans;
@@ -497,6 +489,8 @@ async function readImage() {
             } else {
                 imgSelecionadas += "gabriella2503jorge2505mauricio1106" + e.target.result;
             }
+            console.log("o que eu mando: " + e.target.result)
+
         };
         file.readAsDataURL(this.files[i]);
     }
@@ -555,14 +549,14 @@ function exibeNoticias(json) {
         $(".container:last-child .row").append(`
                 <div class="col-sm maezona" data-anime="${lista[seg]}" onclick="expandeNoticia('${json[i].id}')">
                     <div class="visivel" id="visivel${json[i].id}">
-                        <img id="d${i}" src="imgs/fundoIndex.jpg">
+                        <img id="d${i}" src="${json[i].imagens[0]}">
                         <h2>${json[i].titulo}</h2>
                     </div>
                     <div class="invisivel">
                         <h5>${json[i].subtitulo}</h5>
                     </div>
                 </div>`);
-
+        console.log("o que recebo: " + json[i].imagens[0])
         cont++;
         seg++;
         if (seg == 3) {
