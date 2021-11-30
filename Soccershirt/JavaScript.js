@@ -519,7 +519,7 @@ function verSenha() {
         $(".mostraolhinho").attr("type", "password");
     });
 
-    // para evitar o problema de arrastar a imagem e a senha continuar exposta, 
+    // para evitar o problema de arrastar a imagem e a senha continuar exposta,
     //citada pelo nosso amigo nos comentários
     $("#olho").mouseout(function () {
         $(".mostraolhinho").attr("type", "password");
@@ -532,11 +532,13 @@ function exibeNoticias(json) {
     seg = 0;
     lista = ['top1', 'top2', 'top3'];
     index = [];
-    
+
     for (let i = 0; i < json.length; i++) {
         //montar como será exibido as notícias
         index.push(json[i].id);
-        imagens = json[i].imagens.split('gabriella2503jorge2505mauricio1106');
+        console.log(json[i].imagens);
+        let imagens = json[i].imagens.split('gabriella2503jorge2505mauricio1106');
+        console.log("Essas são as imagens",imagens);
         if (cont % 3 == 0) {
             $("section").append(`
                     <br>
@@ -614,7 +616,7 @@ async function expandeNoticia(id) {
     categoria = "noticia";
     //json = { "id": 2, "titulo": 'titulo 2 da notícia', "subtitulo": "Subtitulo da notícia", "texto": "texto da notícia", "hora": "22:37", "data": "27/10/2021", "imagem": "caminho da imagem" };
     let json = await buscaJsonEx(id);
-    
+
     $("section").html(`<div class="container" style="margin: auto!important;">
             <br>
             <div class="row">
@@ -635,7 +637,7 @@ async function expandeNoticia(id) {
                                 <path d="M8 3.5a.5.5 0 0 0-1 0V9a.5.5 0 0 0 .252.434l3.5 2a.5.5 0 0 0 .496-.868L8 8.71V3.5z"/>
                                 <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm7-8A7 7 0 1 1 1 8a7 7 0 0 1 14 0z"/>
                             </svg>
-                            <strong>${json.data}</strong> 
+                            <strong>${json.data}</strong>
                             ${json.hora}
                         </span>
                         <span style="float: right;">
@@ -643,7 +645,7 @@ async function expandeNoticia(id) {
                                 <path d="M8 3.5a.5.5 0 0 0-1 0V9a.5.5 0 0 0 .252.434l3.5 2a.5.5 0 0 0 .496-.868L8 8.71V3.5z"/>
                                 <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm7-8A7 7 0 1 1 1 8a7 7 0 0 1 14 0z"/>
                             </svg>
-                            <strong>${json.data}</strong> 
+                            <strong>${json.data}</strong>
                             ${json.hora}
                         </span>
                     <hr>

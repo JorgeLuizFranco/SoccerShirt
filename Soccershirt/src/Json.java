@@ -6,7 +6,7 @@ public class Json{
   String strJson;
 
   public String enviaNoticia(Noticia noticia, List<String> imagens){
-    StringBuilder strImagens = new StringBuilder("[");
+    StringBuilder strImagens = new StringBuilder();
     int cont=0;
     for(String imagem: imagens){
       strImagens.append(imagem);
@@ -14,7 +14,6 @@ public class Json{
       strImagens.append("gabriella2503jorge2505mauricio1106");
       ++cont;
     }
-    strImagens.append("]");
     strJson = "{" + aspas + "id" + aspas + ":" + aspas + Integer.toString(noticia.getId()) + aspas + ", " + aspas + "titulo" + aspas + " : " + aspas + noticia.getTitulo() + aspas + ", " + aspas + "subtitulo" +aspas+" : " + aspas + noticia.getSubtitulo() + aspas + ", " + aspas + "texto" + aspas + " : " + aspas + noticia.getTexto() + aspas + ", " + aspas + "hora" + aspas + ":" + aspas + noticia.getHora().toString() + aspas + ", " + aspas + "data" + aspas + ":" + aspas + noticia.getDate().toString() + aspas + ", " + aspas + "imagens" + aspas + ":" + aspas + strImagens.toString()+aspas+"}";
     return strJson;
   }
