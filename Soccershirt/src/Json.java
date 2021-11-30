@@ -11,7 +11,7 @@ public class Json{
     for(String imagem: imagens){
       strImagens.append(imagem);
       if(cont==imagens.size()-1) continue;
-      strImagens.append(",");
+      strImagens.append("gabriella2503jorge2505mauricio1106");
       ++cont;
     }
     strImagens.append("]");
