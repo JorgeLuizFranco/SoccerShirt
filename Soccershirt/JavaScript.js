@@ -536,9 +536,9 @@ function exibeNoticias(json) {
     for (let i = 0; i < json.length; i++) {
         //montar como será exibido as notícias
         index.push(json[i].id);
-        console.log(json[i].imagens);
+
         let imagens = json[i].imagens.split('gabriella2503jorge2505mauricio1106');
-        console.log("Essas são as imagens",imagens);
+
         if (cont % 3 == 0) {
             $("section").append(`
                     <br>
@@ -559,7 +559,6 @@ function exibeNoticias(json) {
                         <h5>${json[i].subtitulo}</h5>
                     </div>
                 </div>`);
-        console.log("o que recebo: " + json[i].imagens[0])
         cont++;
         seg++;
         if (seg == 3) {
@@ -616,6 +615,7 @@ async function expandeNoticia(id) {
     categoria = "noticia";
     //json = { "id": 2, "titulo": 'titulo 2 da notícia', "subtitulo": "Subtitulo da notícia", "texto": "texto da notícia", "hora": "22:37", "data": "27/10/2021", "imagem": "caminho da imagem" };
     let json = await buscaJsonEx(id);
+    let imagens = json.imagens.split('gabriella2503jorge2505mauricio1106');
 
     $("section").html(`<div class="container" style="margin: auto!important;">
             <br>
@@ -652,9 +652,18 @@ async function expandeNoticia(id) {
                 </div>
             </div>
             <div class="row">
-              <div class="col-sm">
-                <span><!--${json.imagem} 1 --> <img src="imgs/fundoIndex.jpg" style="height: 100%; width: 100%;"></span>
-              </div>
+                <div class="col-sm divCarrossel">
+                    <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel" style="height: 100%; width: 100%;">
+                        <ol class="carousel-indicators"></ol>
+                        <div class="carousel-inner"></div>
+                        <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        </a>
+                        <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        </a>
+                    </div>
+                </div>
             </div>
             <br>
             <div class="row">
@@ -663,6 +672,21 @@ async function expandeNoticia(id) {
               </div>
             </div>
           </div>`);
+
+    for (let i = 0; i < imagens.length; i++) {
+        if (i == 0) {
+            $(".carousel-indicators").append(`<li data-target="#carouselExampleIndicators" data-slide-to="${i}" class="active"></li>`)
+            $(".carousel-inner").append(`<div class="carousel-item active">
+                <img class="d-block img-fluid" src="${imagens[i]}">
+              </div>`);
+        } else {
+            $(".carousel-indicators").append(`<li data-target="#carouselExampleIndicators" data-slide-to="${i}"></li>`)
+            $(".carousel-inner").append(`<div class="carousel-item">
+                <img class="d-block img-fluid" src="${imagens[i]}">
+              </div>`);
+        }
+    }
+
 }
 //FUNÇÃO DE PESQUISA***************************************************************************************************************
 async function buscar() {
