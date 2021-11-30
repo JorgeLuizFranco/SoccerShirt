@@ -13,8 +13,8 @@ public class ImagensDAO {
         String sql = "select imagem from imagens where idNoticia=?";
         try(Connection conn = ConnectionFactory.getConnection()) {
             PreparedStatement ps = conn.prepareStatement(sql);
-            ResultSet rs = ps.executeQuery();
             ps.setInt(1,idNoticia);
+            ResultSet rs = ps.executeQuery();
             List<String> imagens = new ArrayList<String>();
             while(rs.next()) {
               imagens.add(rs.getString("imagem"));
