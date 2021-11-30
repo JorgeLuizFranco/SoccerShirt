@@ -224,7 +224,7 @@ async function camposNoticia(textH4, textOnclick) {
                     <label class="form-label">Imagem - Ainda em construção</label>
                     <div class="form-group custom-file">
                         <input type="file" class="custom-file-input" id="customFile"
-                            accept="image/png, image/jpeg" multiple name="arquivo">
+                            accept="image/jpeg" multiple name="arquivo">
                         <label class="custom-file-label" for="customFile" style="float: left !important;">Insira imagens</label>
                     </div>
                     <img scr="" id="preview">
@@ -672,8 +672,9 @@ async function expandeNoticia(id) {
               </div>
             </div>
           </div>`);
-
+console.log("imagens : " + imagens)
     for (let i = 0; i < imagens.length; i++) {
+        console.log("imagens " + i + ": " + imagens[i])
         if (i == 0) {
             $(".carousel-indicators").append(`<li data-target="#carouselExampleIndicators" data-slide-to="${i}" class="active"></li>`)
             $(".carousel-inner").append(`<div class="carousel-item active">
