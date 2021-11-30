@@ -53,9 +53,9 @@ create table timeNoticia(
 
 	primary key(idNoticia, idTime),
 
-	foreign key(idNoticia) references noticia(idUnica),
+	foreign key(idTime) references time(idUnica),
 
-	foreign key(idTime) references time(idUnica)
+	foreign key(idNoticia) references noticia(idUnica)
 
 );
 
