@@ -532,10 +532,11 @@ function exibeNoticias(json) {
     seg = 0;
     lista = ['top1', 'top2', 'top3'];
     index = [];
-
+    
     for (let i = 0; i < json.length; i++) {
         //montar como será exibido as notícias
         index.push(json[i].id);
+        imagens = json[i].imagens.split('gabriella2503jorge2505mauricio1106');
         if (cont % 3 == 0) {
             $("section").append(`
                     <br>
@@ -549,7 +550,7 @@ function exibeNoticias(json) {
         $(".container:last-child .row").append(`
                 <div class="col-sm maezona" data-anime="${lista[seg]}" onclick="expandeNoticia('${json[i].id}')">
                     <div class="visivel" id="visivel${json[i].id}">
-                        <img id="d${i}" src="${json[i].imagens[0]}">
+                        <img id="d${i}" src="${imagens[0]}">
                         <h2>${json[i].titulo}</h2>
                     </div>
                     <div class="invisivel">
