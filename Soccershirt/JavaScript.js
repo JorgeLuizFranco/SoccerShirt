@@ -55,8 +55,12 @@ async function buscaJsonEx(id) {
         data: id,
         async: true,
         success: function (json) {
+            console.log("antes de converter")
             ans = decodeURIComponent(json);
+            console.log(ans)
             ans = JSON.parse(ans);
+            console.log("convertido")
+            console.log(ans)
         }
     });
     return ans;
@@ -70,8 +74,12 @@ async function buscaJson(categ) {
         type: 'POST',
         async: true,
         success: function (json) {
+            console.log("antes de converter")
             ans = decodeURIComponent(json);
+            console.log(ans)
             ans = JSON.parse(ans);
+            console.log("convertido")
+            console.log(ans)
         }
     });
     return ans;
