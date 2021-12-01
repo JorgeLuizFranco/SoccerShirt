@@ -615,6 +615,7 @@ async function expandeNoticia(id) {
     categoria = "noticia";
     //json = { "id": 2, "titulo": 'titulo 2 da notícia', "subtitulo": "Subtitulo da notícia", "texto": "texto da notícia", "hora": "22:37", "data": "27/10/2021", "imagem": "caminho da imagem" };
     let json = await buscaJsonEx(id);
+    console.log(json.imagens);
     let imagens = json.imagens.split('gabriella2503jorge2505mauricio1106');
 
     $("section").html(`<div class="container" style="margin: auto!important;">
@@ -673,8 +674,9 @@ async function expandeNoticia(id) {
             </div>
           </div>`);
 console.log("imagens : " + imagens)
+  console.log(imagens.length);
     for (let i = 0; i < imagens.length; i++) {
-        console.log("imagens " + i + ": " + imagens[i])
+        console.log("imagens " + i + ": " + imagens[i]);
         if (i == 0) {
             $(".carousel-indicators").append(`<li data-target="#carouselExampleIndicators" data-slide-to="${i}" class="active"></li>`)
             $(".carousel-inner").append(`<div class="carousel-item active">
