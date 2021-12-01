@@ -69,7 +69,7 @@ public class NoticiaDAO {
         }
    }
     public List<Noticia> getNoticias() {
-        String sql = "select * from noticia ORDER BY idUnica DESC";
+        String sql = "select * from noticia";
         try(Connection conn = ConnectionFactory.getConnection()) {
             PreparedStatement ps = conn.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();

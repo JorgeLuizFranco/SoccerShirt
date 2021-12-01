@@ -551,8 +551,8 @@ function exibeNoticias(json) {
 
         $(".container:last-child .row").append(`
                 <div class="col-sm maezona" data-anime="${lista[seg]}" onclick="expandeNoticia('${json[i].id}')">
-                    <div class="visivel" id="visivel${json[i].id}"><!--${imagens[0]}-->
-                        <img id="d${i}" src="imgs/fundoGeren.jpg">
+                    <div class="visivel" id="visivel${json[i].id}">
+                        <img id="d${i}" src="${imagens[0]}">
                         <h2>${json[i].titulo}</h2>
                     </div>
                     <div class="invisivel">
@@ -615,7 +615,6 @@ async function expandeNoticia(id) {
     categoria = "noticia";
     //json = { "id": 2, "titulo": 'titulo 2 da notícia', "subtitulo": "Subtitulo da notícia", "texto": "texto da notícia", "hora": "22:37", "data": "27/10/2021", "imagem": "caminho da imagem" };
     let json = await buscaJsonEx(id);
-    console.log(json.imagens);
     let imagens = json.imagens.split('gabriella2503jorge2505mauricio1106');
 
     $("section").html(`<div class="container" style="margin: auto!important;">
@@ -653,8 +652,7 @@ async function expandeNoticia(id) {
                 </div>
             </div>
             <div class="row">
-                <span><img src="imgs/fundoIndex.jpg" style="height: 100%; width: 100%;"></span>
-                <!--<div class="col-sm divCarrossel">
+                <div class="col-sm divCarrossel">
                     <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel" style="height: 100%; width: 100%;">
                         <ol class="carousel-indicators"></ol>
                         <div class="carousel-inner"></div>
@@ -665,7 +663,7 @@ async function expandeNoticia(id) {
                         <span class="carousel-control-next-icon" aria-hidden="true"></span>
                         </a>
                     </div>
-                </div>-->
+                </div>
             </div>
             <br>
             <div class="row">
@@ -674,8 +672,9 @@ async function expandeNoticia(id) {
               </div>
             </div>
           </div>`);
-    /*for (let i = 0; i < imagens.length; i++) {
-        console.log("imagens " + i + ": " + imagens[i]);
+console.log("imagens : " + imagens)
+    for (let i = 0; i < imagens.length; i++) {
+        console.log("imagens " + i + ": " + imagens[i])
         if (i == 0) {
             $(".carousel-indicators").append(`<li data-target="#carouselExampleIndicators" data-slide-to="${i}" class="active"></li>`)
             $(".carousel-inner").append(`<div class="carousel-item active">
@@ -687,7 +686,7 @@ async function expandeNoticia(id) {
                 <img class="d-block img-fluid" src="${imagens[i]}">
               </div>`);
         }
-    }*/
+    }
 
 }
 //FUNÇÃO DE PESQUISA***************************************************************************************************************
