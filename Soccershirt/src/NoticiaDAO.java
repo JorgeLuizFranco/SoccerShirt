@@ -158,6 +158,77 @@ public class NoticiaDAO {
     }
 
     public void editaNoticia(int id, Noticia noticia){
+        String sql ="delete from timeNoticia where idNoticia=?;";
+      try(Connection conn = ConnectionFactory.getConnection()) {
+          PreparedStatement ps = conn.prepareStatement(sql);
+          ps.setInt(1, id);
+          ps.executeUpdate();
+      } catch (SQLException e) {
+          throw new RuntimeException(e);
+      }
+      sql ="delete from marcaNoticia where idNoticia=?;";
+      try(Connection conn = ConnectionFactory.getConnection()) {
+          PreparedStatement ps = conn.prepareStatement(sql);
+          ps.setInt(1, id);
+          ps.executeUpdate();
+      } catch (SQLException e) {
+          throw new RuntimeException(e);
+      }
+      sql ="delete from ligaNoticia where idNoticia=?;";
+      try(Connection conn = ConnectionFactory.getConnection()) {
+          PreparedStatement ps = conn.prepareStatement(sql);
+          ps.setInt(1, id);
+          ps.executeUpdate();
+      } catch (SQLException e) {
+          throw new RuntimeException(e);
+      }
+      sql ="delete from imagens where idNoticia=?;";
+      try(Connection conn = ConnectionFactory.getConnection()) {
+          PreparedStatement ps = conn.prepareStatement(sql);
+          ps.setInt(1, id);
+          ps.executeUpdate();
+      } catch (SQLException e) {
+          throw new RuntimeException(e);
+      }
+      sql = "delete from noticia where idUnica=?";
+        try(Connection conn = ConnectionFactory.getConnection()) {
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setInt(1, id);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        String[] ents= {"time","marca","liga"};
+        for(String x: ents){
+          ArrayList<Integer> ids;
+          if(x=="time") ids=noticia.getTimes();
+          else ids= (x=="marca"? noticia.getMarcas(): noticia.getLigas());
+          for(int id: ids){
+            sql = "insert into "+x+"Noticia values(?,?);";
+            try(Connection conn = ConnectionFactory.getConnection()) {
+                PreparedStatement ps = conn.prepareStatement(sql);
+                ps.setInt(1, idNoticia);
+                ps.setInt(2, id);
+                ps.executeUpdate();
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+          }
+        }
+        //ArrayList<String> imagens=Imagens.salvar(noticia.getImagens(),idNoticia);
+        ArrayList<String> imagens= noticia.getImagens();
+        for(String imagem: imagens){
+          sql="insert into imagens values(?,?);";
+          try(Connection conn = ConnectionFactory.getConnection()) {
+              PreparedStatement ps = conn.prepareStatement(sql);
+              ps.setInt(1, idNoticia);
+              ps.setString(2, imagem);
+              ps.executeUpdate();
+          } catch (SQLException e) {
+              throw new RuntimeException(e);
+          }
+        }
+
       String sql="update noticia set titulo=? , subtitulo=? , texto=? where idUnica=?";
       try(Connection conn = ConnectionFactory.getConnection()) {
           PreparedStatement ps = conn.prepareStatement(sql);
