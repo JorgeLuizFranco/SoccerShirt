@@ -1,0 +1,19 @@
+Gabriella de Castro Rodrigues - SC190129X
+Jorge Luiz Franco - SC3012212
+Lucas Gustavo Martinez - SC1901346
+
+ - Descrição geral do ambiente de desenvolvimento e execução (Qual Banco de dados usado? Qual IDE / ambiente 
+ de desenvolvimento e execução? Quais serviços precisam ser instalados na máquina e quais scripts precisam ser executados antes?
+
+O nosso ambiente de desenvolvimento consistiu em usar o VS Code para codificar o FrontEnd( HTML, CSS e Javascript/JQuery) e, no Backend, utilizamos o SGBD MySQL, Tomcat para o servidor Java, prompt de comando (terminal) para compilar o java e os códigos Java e SQL foram produzidos no editor Atom.
+
+Os serviços que devem ser instalados são o Tomcat versão 9.0, MySQL 9.0 (com suporte para Java e junto com o connector Java-SQL: 'mysql-connector-java-8.0.26', o qual deve ser colocado dentro da pasta lib em WEB-INF no projeto). 
+Além do compilador java (para dar o comando javac), o qual normalmente já vem instalado no computador.
+
+ - Passo a passo para a execução do projeto, incluindo a criação dos bancos de dados, formas de compilação e deploy do projeto, etc.
+
+Para a execução do projeto é necessário na pasta principal soccershirt ir até o arquivo "soccershirt.sql", copiar o código e rodar no seu terminal MySQL.
+Posteriormente, deve abrir o terminal e ir até a pasta src no projeto e executar o seguinte comando para compilar as classes java:
+	"javac -d ../WEB-INF/classes -cp %CATALINA_HOME%/lib/servlet-api.jar;../WEB-INF/lib/mysql-connector-java-8.0.26.jar *.java"
+
+Então, execute o Tomcat e abra o seu navegador com o endereço: http://localhost:8080/Grupo_9/index.html, para a página principal, e http://localhost:8080/Grupo_9/Gerenciamento.html, para a página de gerenciamento.
